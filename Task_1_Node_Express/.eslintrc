@@ -109,12 +109,6 @@
       "no-new-wrappers": 2,
       "no-octal": 2,
       "no-octal-escape": 2,
-      "no-param-reassign": [
-          2,
-          {
-              "props": true
-          }
-      ],
       "no-proto": 2,
       "no-redeclare": 2,
       "no-script-url": 2,
@@ -156,10 +150,6 @@
       "prefer-const": 2,
       "prefer-spread": 2,
       "prefer-template": 2,
-      "strict": [
-          2,
-          "never"
-      ],
       "no-catch-shadow": 2,
       "no-delete-var": 2,
       "no-label-var": 2,
@@ -265,10 +255,6 @@
           2,
           "always"
       ],
-      "one-var": [
-          2,
-          "always"
-      ],
       "padded-blocks": [
           2,
           "never"
@@ -324,7 +310,6 @@
               ]
           }
       ],
-
       "max-depth": [
           0,
           4
