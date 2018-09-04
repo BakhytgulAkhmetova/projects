@@ -1,11 +1,11 @@
 const Student = require('../DataBase/Model');
 
-const remove = (req, res) => {
-    Student.findByIdAndRemove(req.params.id)
-        .then(result => {
+const getById = (req, res) => {
+    Student.findById(req.params.id)
+        .then(student => {
             res.status(200).json({
-                message: 'deleted succesfully',
-                result
+                message: 'GET student by id completed succesfully',
+                student
             });
         })
         .catch(() => {
@@ -15,4 +15,4 @@ const remove = (req, res) => {
         });
 };
 
-module.exports = remove;
+module.exports = getById;
