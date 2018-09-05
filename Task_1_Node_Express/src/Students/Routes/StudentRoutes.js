@@ -6,8 +6,13 @@ const remove = require('../Handlers/Delete');
 const getById = require('../Handlers/GetById');
 const update = require('../Handlers/Update');
 const removeAll = require('../Handlers/DeleteAll');
+const getBestStudent = require('../Handlers/GetBestStudent');
 
 const routes = express.Router();
+
+routes.get('/best', (req, res) => {
+    getBestStudent(res);
+});
 
 routes.get('/:id', (req, res) => {
     getById(req, res);
