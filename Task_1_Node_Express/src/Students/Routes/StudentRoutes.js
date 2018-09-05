@@ -5,6 +5,7 @@ const getAll = require('../Handlers/GetAll');
 const remove = require('../Handlers/Delete');
 const getById = require('../Handlers/GetById');
 const update = require('../Handlers/Update');
+const removeAll = require('../Handlers/DeleteAll');
 
 const routes = express.Router();
 
@@ -26,6 +27,10 @@ routes.patch('/:id', (req, res) => {
 
 routes.delete('/:id', (req, res) => {
     remove(req, res);
+});
+
+routes.delete('/', (req, res) => {
+    removeAll(req, res);
 });
 
 module.exports = routes;

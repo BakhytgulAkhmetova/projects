@@ -6,17 +6,15 @@ const mongoose = require('mongoose');
 
 const app = express();
 
-mongoose.connect('mongodb+srv://node-students:node-students@node-api-students-9wkug.mongodb.net/test?retryWrites=true',
-    {
-        useMongoClient: true
-    });
+mongoose.connect('mongodb+srv://node-students:node-students@node-api-students-9wkug.mongodb.net/test?retryWrites=true', {
+    useMongoClient: true
+});
 
 app.use(morgan('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/students', routes);
 app.use((req, res, next) => {
-    const error = new Error('Not found!');
+    const error = new Error('Not found this query!');
 
     res.status = 404;
     next(error);

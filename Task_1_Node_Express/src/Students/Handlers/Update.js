@@ -8,16 +8,13 @@ const update = (req, res) => {
 
     Student.findByIdAndUpdate(req.params.id, student)
         .then(result => {
-            console.log(result);
             res.status(200).json({
-                message: 'updated succesfully',
-                result
+                message: `Updated student with ID ${result.id} succesfully`
             });
         })
-        .catch((error) => {
-            console.log(error);
+        .catch(() => {
             res.status(500).json({
-                message: 'Error in updating'
+                message: 'Oparation updating completed unsuccesfully'
             });
         });
 };

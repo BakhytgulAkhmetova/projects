@@ -4,7 +4,7 @@ const getById = (req, res) => {
     Student.findById(req.params.id)
         .then(student => {
             res.status(200).json({
-                message: 'GET student by id completed succesfully',
+                message: `Student with ID ${student.id} found succesfully`,
                 student
             });
         })

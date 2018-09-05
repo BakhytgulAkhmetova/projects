@@ -1,15 +1,15 @@
 const Student = require('../DataBase/Model');
 
 const remove = (req, res) => {
-    Student.findByIdAndRemove(req.params.id)
-        .then(result => {
+    Student.deleteMany({})
+        .then(() => {
             res.status(200).json({
-                message: `Deleted student ${result.name} succesfully`
+                message: 'Deleted all successfully '
             });
         })
         .catch(() => {
             res.status(500).json({
-                message: `Not found student with ID :${req.params.id}`
+                message: 'Operation deleted completed unsuccessfully'
             });
         });
 };
