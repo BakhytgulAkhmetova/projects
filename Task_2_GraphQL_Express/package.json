@@ -1,0 +1,25 @@
+{
+  "name": "Task_2_GraphQL_Express",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint ./src/**/*.js",
+    "start": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-eslint": "9.0.0",
+    "eslint": "5.5.0",
+    "express": "4.16.3",
+    "express-graphql": "0.6.12",
+    "graphql": "14.0.2",
+    "mongoose": "5.2.12"
+  },
+  "devDependencies": {
+    "morgan": "1.9.0",
+    "nodemon": "1.18.4"
+  }
+}
