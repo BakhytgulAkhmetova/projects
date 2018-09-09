@@ -1,13 +1,17 @@
-const Student = require('../DataBase/Model');
+const Student = require('../../MongoDB/Model');
 
-const getAll = (req, res) => {
-    Student.find()
-        .then((students) => {
-            res.status(200).json({
-                message: 'Operation get students completed succesfully',
-                students
-            });
-        });
+const getAll = () => {
+    const students = Student.find();
+
+    return students;
+    // if(){
+
+    // }
+    // students !== null ?
+    //     res = {
+    //         message: 'Operation get students completed succesfully',
+    //         students
+    //     }
 };
 
 module.exports = getAll;

@@ -1,22 +1,22 @@
-const Student = require('../DataBase/Model');
+const Student = require('../../MongoDB/Model');
 
-const update = (req, res) => {
+const update = (args) => {
     const student = new Student({
-        name: req.body.name,
-        marks: req.body.marks
+        name: args.name,
+        marks: args.marks
     });
 
-    Student.findByIdAndUpdate(req.params.id, student)
-        .then(result => {
-            res.status(200).json({
-                message: `Updated student with ID ${result.id} succesfully`
-            });
-        })
-        .catch(() => {
-            res.status(500).json({
-                message: 'Oparation updating completed unsuccesfully'
-            });
-        });
+    return Student.findByIdAndUpdate(args.id, student);
+    // .then(result => {
+    //     res.status(200).json({
+    //         message: `Updated student with ID ${result.id} succesfully`
+    //     });
+    // })
+    // .catch(() => {
+    //     res.status(500).json({
+    //         message: 'Oparation updating completed unsuccesfully'
+    //     });
+    // });
 };
 
 module.exports = update;
