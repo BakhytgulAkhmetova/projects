@@ -1,21 +1,16 @@
-const Student = require('../DataBase/Model');
+const Student = require('../../MongoDB/Model');
 const getBestStudent = require('../Utils/getBestStudent');
 
 
-const bestStudent = (res) => {
-    Student.find()
+const bestStudent = () => {
+    return Student.find()
         .then((students) => {
             const best = getBestStudent(students);
 
             if ((best !== null) && (best !== undefined)) {
-                res.status(200).json({
-                    best
-                });
-            } else {
-                res.status(404).json({
-                    message: 'There is not student with high mark'
-                });
+                return best;
             }
+            return 'There is not student with high mark';
         });
 };
 

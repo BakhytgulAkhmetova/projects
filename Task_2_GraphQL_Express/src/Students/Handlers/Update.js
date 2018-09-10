@@ -6,17 +6,13 @@ const update = (args) => {
         marks: args.marks
     });
 
-    return Student.findByIdAndUpdate(args.id, student);
-    // .then(result => {
-    //     res.status(200).json({
-    //         message: `Updated student with ID ${result.id} succesfully`
-    //     });
-    // })
-    // .catch(() => {
-    //     res.status(500).json({
-    //         message: 'Oparation updating completed unsuccesfully'
-    //     });
-    // });
+    return Student.findByIdAndUpdate(args.id, student, { new: true })
+        .then((updated) => {
+            return updated;
+        })
+        .catch((error) => {
+            return error;
+        });
 };
 
 module.exports = update;

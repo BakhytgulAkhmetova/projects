@@ -7,17 +7,11 @@ const {
     GraphQLInt } = graphql;
 
 const StudentType = new GraphQLObjectType({
-    name: 'Student',
+    name: 'StudentType',
     fields: () => ({
-        name:{
-            type: GraphQLString
-        },
-        id: {
-            type: GraphQLString
-        },
-        marks: {
-            type: GraphQLList(GraphQLInt)
-        }
+        name:{ type: GraphQLString },
+        id: { type: GraphQLString },
+        marks: { type: GraphQLList(GraphQLInt) }
     })
 });
 

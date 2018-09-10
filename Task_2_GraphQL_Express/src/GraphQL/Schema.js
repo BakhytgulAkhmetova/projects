@@ -7,6 +7,7 @@ const add = require('../Students/Handlers/Add');
 const update = require('../Students/Handlers/Update');
 const deleteAll = require('../Students/Handlers/DeleteAll');
 const remove = require('../Students/Handlers/Delete');
+const bestStudent = require('../Students/Handlers/GetBestStudent');
 
 const {
     GraphQLObjectType,
@@ -15,8 +16,8 @@ const {
     GraphQLString,
     GraphQLInt } = graphql;
 
-const Mutations = new GraphQLObjectType({
-    name: 'Mutations',
+const Mutation = new GraphQLObjectType({
+    name: 'Mutation',
     fields: {
         add: {
             type: StudentType,
@@ -41,24 +42,18 @@ const Mutations = new GraphQLObjectType({
             }
         },
         deleteAll: {
-            type: new GraphQLList(StudentType),
+            type: GraphQLString,
             resolve() {
-                const del = deleteAll();
-
-                console.log(del);
-                return del;
+                return deleteAll;
             }
         },
         delete: {
-            type: GraphQLString,
+            type: StudentType,
             args: {
                 id: { type: GraphQLString }
             },
             resolve(parent, args) {
-                const del = remove(args);
-
-                console.log(del);
-                return del;
+                return remove(args);
             }
         }
     }
@@ -76,12 +71,16 @@ const Query = new GraphQLObjectType({
         student: {
             type: StudentType,
             args: {
-                id: {
-                    type: GraphQLString
-                }
+                id: { type: GraphQLString }
             },
             resolve(parent, args) {
                 return getById(args.id);
+            }
+        },
+        best: {
+            type: StudentType,
+            resolve() {
+                return bestStudent();
             }
         }
     }
@@ -89,5 +88,5 @@ const Query = new GraphQLObjectType({
 
 module.exports = new GraphQLSchema({
     query: Query,
-    mutation: Mutations
+    mutation: Mutation
 });

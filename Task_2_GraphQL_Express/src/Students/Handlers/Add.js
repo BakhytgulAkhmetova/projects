@@ -9,17 +9,13 @@ const add = (args) => {
         marks: args.marks || []
     });
 
-    return student.save();
-    // .then(() => {
-    //     res.status(200).json({
-    //         message: `Student ${ student.name } added successfully`
-    //     });
-    // })
-    // .catch((error) => {
-    //     res.status(500).json({
-    //         message: `Operation adding completed unsuccessfully (${  error})`
-    //     });
-    // });
+    return student.save()
+        .then((doc) => {
+            return doc;
+        })
+        .catch((error) => {
+            return error;
+        });
 };
 
 module.exports = add;
