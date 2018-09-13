@@ -1,0 +1,20 @@
+{
+  "name": "Task_3_List_Of_Patients",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "client": "cd client && yarn start",
+    "start": "nodemon server.js",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
+  },
+  "dependencies": {
+    "express": "4.16.2",
+    "mongoose": "5.2.14",
+    "nodemon": "1.18.4",
+    "prop-types": "^15.6.2"
+  },
+  "devDependencies": {
+    "concurrently": "3.5.0"
+  }
+}
