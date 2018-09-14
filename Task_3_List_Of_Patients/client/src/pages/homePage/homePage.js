@@ -1,13 +1,14 @@
 import React from 'react';
 
-import { Button } from '../../components/button';
-
-import './homePage.scss';
+import { Header } from './components/header';
+import { Content } from './components/content';
+// import { Footer } from './components/footer';
 
 export const HomePage = () => {
     return (
-        <Button
-            className='btn-add'
-            title='Add' />
+        <div>
+            <Header />
+            <Content />
+        </div>
     );
 };

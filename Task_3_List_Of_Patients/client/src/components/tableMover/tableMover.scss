@@ -1,0 +1,17 @@
+$table-mover-width: 400px;
+
+.table-mover {
+    width: $table-mover-width;
+    height: 60px;
+    padding: 30px 0 30px 0;
+    margin: auto;
+}
+
+.table-mover__btn {
+    height: 100%;
+    width: $table-mover-width/7;
+    color: #0079D3;
+    border-radius: 5px;
+    font-size: 20px;
+    background-color: #FFFFFF;
+}
