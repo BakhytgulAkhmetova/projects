@@ -1,11 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { PatientRow } from '../patientRow';
 
 import './grid.scss';
 
 export class Grid extends React.Component {
+    static propTypes = {
+        patientList: PropTypes.array
+    }
+
     render() {
+        const { patientList } = this.props;
+
         return (
             <table
                 cellSpacing='0'
@@ -22,18 +29,19 @@ export class Grid extends React.Component {
                     </tr>
                 </thead>
                 <tbody className='table-info-tbody'>
-                    <PatientRow
-                        rowStyle='table-info__row'
-                        cellStyle='table-info__row__cell'
-                        linkStyle='table-info__row__cell__link'/>
-                    <PatientRow
-                        rowStyle='table-info__row'
-                        cellStyle='table-info__row__cell'
-                        linkStyle='table-info__row__cell__link'/>
-                    <PatientRow
-                        rowStyle='table-info__row'
-                        cellStyle='table-info__row__cell'
-                        linkStyle='table-info__row__cell__link'/>
+                    {patientList.map((patient) =>
+                        (<PatientRow
+                            key={patient.id}
+                            firstName={patient.firstName}
+                            lastName={patient.lastName}
+                            gender={patient.gender}
+                            age={patient.age}
+                            phoneNumber={patient.phoneNumber}
+                            emailAdress={patient.emailAdress}
+                            rowStyle='table-info__row'
+                            cellStyle='table-info__row__cell'
+                            linkStyle='table-info__row__cell__link' />)
+                    )}
                 </tbody>
                 <tfoot />
             </table>

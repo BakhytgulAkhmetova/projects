@@ -11,8 +11,8 @@
   "dependencies": {
     "express": "4.16.2",
     "graphql-phone-type": "0.0.2",
-    "graphql-tools-type-email": "^1.0.0",
-    "graphql-type-datetime": "^0.2.2",
+    "graphql-tools-type-email": "1.0.0",
+    "graphql-type-datetime": "0.2.2",
     "mongoose": "5.2.14",
     "nodemon": "1.18.4",
     "prop-types": "15.6.2"
