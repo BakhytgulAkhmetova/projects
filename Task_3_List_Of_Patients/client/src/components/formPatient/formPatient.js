@@ -1,15 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './formFilling.scss';
+import './formPatient.scss';
 
-export const FormFilling = ({ nameAction }) => {
+export const FormPatient = ({ firstName, lastName, birthDate, genderList, phoneNumber, email }) => {
     return (
-        <form className='form'>
-            <div className='form__field'>
-                <h3 className='form__title'>{nameAction}</h3>
-                <span className='close'>&times;</span>
-            </div>
+        <form>
             <div className='form__field'>
                 <label
                     htmlFor='firstName'
@@ -18,6 +14,7 @@ export const FormFilling = ({ nameAction }) => {
                 </label>
                 <input
                     id='firstName'
+                    value={firstName}
                     placeholder='Enter your first name'
                     className='field__input' />
             </div>
@@ -29,6 +26,7 @@ export const FormFilling = ({ nameAction }) => {
                 </label>
                 <input
                     id='lastName'
+                    value={lastName}
                     placeholder='Enter your last name'
                     className='field__input' />
             </div>
@@ -40,6 +38,7 @@ export const FormFilling = ({ nameAction }) => {
                 </label>
                 <input
                     id='birthDate'
+                    value={birthDate}
                     placeholder='Choose your birth date'
                     className='field__input' />
             </div>
@@ -52,15 +51,17 @@ export const FormFilling = ({ nameAction }) => {
                 <select
                     id='gender'
                     className='field__select'>
-                    <option>Male</option>
-                    <option>Female</option>
+                    {genderList.map((gender) =>
+                        (<option key={gender.id}>
+                            {gender.value}
+                        </option>))}
                 </select>
             </div>
             <div className='form__field'>
                 <label
                     htmlFor='phoneNumber'
                     className='field__label'>
-                    Phone
+                    {phoneNumber}
                 </label>
                 <input
                     id='phoneNumber'
@@ -71,7 +72,7 @@ export const FormFilling = ({ nameAction }) => {
                 <label
                     htmlFor='email'
                     className='field__label'>
-                    Email
+                    {email}
                 </label>
                 <input
                     id='email'
@@ -83,6 +84,12 @@ export const FormFilling = ({ nameAction }) => {
     );
 };
 
-FormFilling.propTypes = {
-    nameAction: PropTypes.string
+FormPatient.propTypes = {
+    nameAction: PropTypes.string,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    birthDate: PropTypes.object,
+    genderList: PropTypes.array,
+    phoneNumber: PropTypes.string,
+    email: PropTypes.string
 };

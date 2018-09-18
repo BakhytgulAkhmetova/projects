@@ -1,0 +1,24 @@
+.form__field {
+    margin-left: 30px;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.field__label {
+    width: 40%;
+}
+
+.field__input,
+.field__select {
+    font-size: 16px;
+    width: 80%;
+    height: 40px;
+    border: 2px solid #000000;
+}
+
+.form__button {
+    padding: 8px 26px;
+    margin: 10px 5px 10px 340px;
+}

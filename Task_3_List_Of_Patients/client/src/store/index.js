@@ -1,5 +1,2 @@
-import { patientList } from './patientList';
-
-export const store = {
-    patientList
-};
+export { default as patientStore } from './patientStore';
+export { default as modalStore } from './modalStore';
