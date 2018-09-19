@@ -6,18 +6,23 @@ export const PatientRow = ({
     firstName,
     lastName,
     age,
+    id,
     gender,
     phoneNumber,
     emailAdress,
     rowStyle,
     cellStyle,
-    linkStyle }) => {
+    linkStyle,
+    handleOpenEditModal }) => {
     return (
         <tr className={rowStyle}>
             <td className={cellStyle}>
                 <Link
-                    className={linkStyle}
-                    to='/edit'>Edit
+                    onClick={handleOpenEditModal}
+                    id = {id}
+                    to= '/'
+                    className={linkStyle}>
+                    Edit
                 </Link>
             </td>
             <td className={cellStyle}>{firstName}</td>
@@ -38,6 +43,8 @@ PatientRow.propTypes = {
     lastName: PropTypes.string,
     gender: PropTypes.string,
     age: PropTypes.number,
+    id: PropTypes.number,
     phoneNumber: PropTypes.string,
-    emailAdress: PropTypes.string
+    emailAdress: PropTypes.string,
+    handleOpenEditModal: PropTypes.func
 };

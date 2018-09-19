@@ -1,9 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { observer } from 'mobx-react';
 
 import './formPatient.scss';
 
-export const FormPatient = ({ firstName, lastName, birthDate, genderList, phoneNumber, email }) => {
+const genders = { // export
+    male: 'Male',
+    female: 'Female'
+};
+
+const genderList = [genders.male, genders.female];
+
+export const FormPatient = observer(({ patient, handleOnChange }) => {
     return (
         <form>
             <div className='form__field'>
@@ -13,8 +21,9 @@ export const FormPatient = ({ firstName, lastName, birthDate, genderList, phoneN
                     First Name
                 </label>
                 <input
+                    value={patient.firstName}
+                    onChange={handleOnChange}
                     id='firstName'
-                    value={firstName}
                     placeholder='Enter your first name'
                     className='field__input' />
             </div>
@@ -25,8 +34,9 @@ export const FormPatient = ({ firstName, lastName, birthDate, genderList, phoneN
                     Last Name
                 </label>
                 <input
+                    value={patient.lastName}
+                    onChange={handleOnChange}
                     id='lastName'
-                    value={lastName}
                     placeholder='Enter your last name'
                     className='field__input' />
             </div>
@@ -37,8 +47,9 @@ export const FormPatient = ({ firstName, lastName, birthDate, genderList, phoneN
                     Birth Date
                 </label>
                 <input
+                    value={patient.birthDate}
+                    onChange={handleOnChange}
                     id='birthDate'
-                    value={birthDate}
                     placeholder='Choose your birth date'
                     className='field__input' />
             </div>
@@ -49,21 +60,23 @@ export const FormPatient = ({ firstName, lastName, birthDate, genderList, phoneN
                     Gender
                 </label>
                 <select
+                    onChange={handleOnChange}
                     id='gender'
-                    className='field__select'>
-                    {genderList.map((gender) =>
-                        (<option key={gender.id}>
-                            {gender.value}
-                        </option>))}
+                    className='field__select'
+                    value={patient.gender}>
+                    {genderList.map(g =>
+                        (<option key={g}>{g}</option>))}
                 </select>
             </div>
             <div className='form__field'>
                 <label
                     htmlFor='phoneNumber'
                     className='field__label'>
-                    {phoneNumber}
+                    Pnone
                 </label>
                 <input
+                    value={patient.phoneNumber}
+                    onChange={handleOnChange}
                     id='phoneNumber'
                     placeholder='Enter your phone number'
                     className='field__input' />
@@ -72,17 +85,18 @@ export const FormPatient = ({ firstName, lastName, birthDate, genderList, phoneN
                 <label
                     htmlFor='email'
                     className='field__label'>
-                    {email}
+                    Email
                 </label>
                 <input
+                    value={patient.email}
+                    onChange={handleOnChange}
                     id='email'
                     placeholder='Enter your email'
                     className='field__input' />
             </div>
-            <button className='form__button'>Save</button>
         </form>
     );
-};
+});
 
 FormPatient.propTypes = {
     nameAction: PropTypes.string,
@@ -91,5 +105,8 @@ FormPatient.propTypes = {
     birthDate: PropTypes.object,
     genderList: PropTypes.array,
     phoneNumber: PropTypes.string,
-    email: PropTypes.string
+    email: PropTypes.string,
+    handleOnChange: PropTypes.func,
+    patient: PropTypes.object,
+    gender: PropTypes.oneOf([genders.female, genders.male])
 };

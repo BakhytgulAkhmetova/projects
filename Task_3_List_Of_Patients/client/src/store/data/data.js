@@ -7,7 +7,7 @@ export const data = {
             age: 22,
             gender: 'female',
             phoneNumber: '89991824445',
-            emailAdress: 'rere@mail.ru',
+            email: 'rere@mail.ru',
             id: 1
         },
         {
@@ -17,7 +17,7 @@ export const data = {
             age: 22,
             gender: 'female',
             phoneNumber: '89991824445',
-            emailAdress: 'rere@mail.ru',
+            email: 'rere@mail.ru',
             id: 2
         },
         {
@@ -27,7 +27,7 @@ export const data = {
             age: 22,
             gender: 'female',
             phoneNumber: '89991824445',
-            emailAdress: 'rere@mail.ru',
+            email: 'rere@mail.ru',
             id: 3
         },
         {
@@ -37,7 +37,7 @@ export const data = {
             age: 22,
             gender: 'female',
             phoneNumber: '89991824445',
-            emailAdress: 'rere@mail.ru',
+            email: 'rere@mail.ru',
             id: 4
         }
     ]
