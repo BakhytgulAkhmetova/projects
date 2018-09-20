@@ -5,12 +5,14 @@ import { observer } from 'mobx-react';
 import { FormPatient } from '../../components/formPatient';
 import { patientStore } from '../../store';
 
-export const AddModal = observer(({ handleChange }) => {
+export const AddModal = observer(({ handleChange, handleOnChangeDate }) => {
     return (<FormPatient
         patient={patientStore.patient}
-        handleOnChange={handleChange} />);
+        handleOnChange={handleChange}
+        handleOnChangeDate={handleOnChangeDate} />);
 });
 
 AddModal.propTypes = {
-    handleChange: PropTypes.func
+    handleChange: PropTypes.func,
+    handleOnChangeDate: PropTypes.func
 };

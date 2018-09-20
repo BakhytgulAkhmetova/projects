@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const Button = ({ title, className, handleOnClick }) => {
+export const Button = ({ title, className, handleOnClick, id }) => {
     return (
         <button
+            id={id}
             onClick={handleOnClick}
             className={className} >
             {title}
@@ -14,5 +15,6 @@ export const Button = ({ title, className, handleOnClick }) => {
 Button.propTypes = {
     title: PropTypes.string,
     className: PropTypes.string,
-    handleOnClick: PropTypes.func
+    handleOnClick: PropTypes.func,
+    id: PropTypes.number
 };

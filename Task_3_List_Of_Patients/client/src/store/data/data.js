@@ -1,11 +1,24 @@
+import { genders } from '../../constants';
+
+export const emptyPatient = {
+    firstName: '',
+    id: -1,
+    age: 0,
+    lastName: '',
+    birthDate: new Date(),
+    gender: genders.male,
+    phoneNumber: '',
+    email: ''
+};
+
 export const data = {
-    patientList:[
+    patientList: [
         {
             firstName: 'Elena',
             lastName: 'Sorokina',
             birthDate: new Date(1996, 3, 12),
-            age: 22,
-            gender: 'female',
+            age: 0,
+            gender: 'Female',
             phoneNumber: '89991824445',
             email: 'rere@mail.ru',
             id: 1
@@ -15,7 +28,7 @@ export const data = {
             lastName: 'Sorokina',
             birthDate: new Date(1934, 3, 12),
             age: 22,
-            gender: 'female',
+            gender: 'Female',
             phoneNumber: '89991824445',
             email: 'rere@mail.ru',
             id: 2
@@ -25,7 +38,7 @@ export const data = {
             lastName: 'Sorokina',
             birthDate: new Date(1967, 3, 12),
             age: 22,
-            gender: 'female',
+            gender: 'Female',
             phoneNumber: '89991824445',
             email: 'rere@mail.ru',
             id: 3
@@ -35,7 +48,7 @@ export const data = {
             lastName: 'Sorokina',
             birthDate: new Date(1934, 3, 12),
             age: 22,
-            gender: 'female',
+            gender: 'Female',
             phoneNumber: '89991824445',
             email: 'rere@mail.ru',
             id: 4

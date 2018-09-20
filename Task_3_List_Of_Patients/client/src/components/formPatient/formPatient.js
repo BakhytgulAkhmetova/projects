@@ -1,17 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import DatePicker from 'react-date-picker';
 import { observer } from 'mobx-react';
+
+import { genders } from '../../constants';
 
 import './formPatient.scss';
 
-const genders = { // export
-    male: 'Male',
-    female: 'Female'
-};
-
 const genderList = [genders.male, genders.female];
 
-export const FormPatient = observer(({ patient, handleOnChange }) => {
+export const FormPatient = observer(({ patient, handleOnChange, handleOnChangeDate }) => {
     return (
         <form>
             <div className='form__field'>
@@ -41,17 +39,15 @@ export const FormPatient = observer(({ patient, handleOnChange }) => {
                     className='field__input' />
             </div>
             <div className='form__field'>
-                <label
-                    htmlFor='birthDate'
+                <span
                     className='field__label'>
                     Birth Date
-                </label>
-                <input
-                    value={patient.birthDate}
-                    onChange={handleOnChange}
-                    id='birthDate'
-                    placeholder='Choose your birth date'
-                    className='field__input' />
+                </span>
+                <div className='field__date'>
+                    <DatePicker
+                        value={patient.birthDate}
+                        onChange={handleOnChangeDate}/>
+                </div>
             </div>
             <div className='form__field'>
                 <label

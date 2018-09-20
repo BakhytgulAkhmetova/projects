@@ -8,7 +8,7 @@ import { AddModal } from '../../components/addModal';
 import { EditModal } from '../../components/editModal';
 import { Grid } from '../../components/grid';
 import { TableMover } from '../../components/tableMover';
-import { patientStore, modalStore } from '../../store';
+import { patientStore, modalStore, buttonStore } from '../../store';
 
 import './homePage.scss';
 
@@ -20,13 +20,18 @@ export class HomePage extends React.Component {
 
     componentDidMount() {
         patientStore.getAll();
+        patientStore.setPatientListView();
+        buttonStore.setButtonsViewList(patientStore.patientList.length);
     }
 
     onHandleOpenModalAdd = (e) => {
         e.preventDefault();
+        patientStore.cleanPatientFields();
         modalStore.open({
             title: 'Add patient',
-            content: <AddModal handleChange={this.onHandleChange} />,
+            content: <AddModal
+                handleChange={this.onHandleChange}
+                handleOnChangeDate={this.onHandleChangeDate} />,
             buttons: [<Button
                 key={1}
                 title='Add'
@@ -37,10 +42,13 @@ export class HomePage extends React.Component {
 
     onHandleOpenModalEdit = (e) => {
         e.preventDefault();
+        console.log(e.currentTarget.id);
         patientStore.get(e.currentTarget.id);
         modalStore.open({
             title: 'Edit patient',
-            content: <EditModal handleChange={this.onHandleChange} />,
+            content: <EditModal
+                handleChange={this.onHandleChange}
+                handleOnChangeDate={this.onHandleChangeDate} />,
             buttons: [<Button
                 key={1}
                 title='Edit'
@@ -55,16 +63,45 @@ export class HomePage extends React.Component {
         console.log(e.target.id, e.target.value);
     }
 
+
+    onHandleChangeDate(date) {
+        patientStore.changePatientField('birthDate', date);
+    }
+
     onHandleAddPatient = (e) => {
         e.preventDefault();
         modalStore.close();
+        patientStore.setAge();
         patientStore.addPatient();
+        buttonStore.setButtonsViewList(patientStore.patientList.length);
+
+        patientStore.setViewValues(patientStore.currentPage);
+        patientStore.setPatientListView();
     }
 
     onHandleEditPatient = (e) => {
         e.preventDefault();
         modalStore.close();
+        patientStore.setAge();
         patientStore.editPatient();
+    }
+
+    onHandleOpenPageTable = (e) => {
+        e.preventDefault();
+        patientStore.setViewValues(e.target.id);
+        patientStore.setPatientListView();
+    }
+
+    onHandleMoveButtonsBack = (e) => {
+        e.preventDefault();
+        buttonStore.setMove(e.target.id);
+        buttonStore.changeViewButtons();
+    }
+
+    onHandleMoveButtonsForward = (e) => {
+        e.preventDefault();
+        buttonStore.setMove(e.target.id);
+        buttonStore.changeViewButtons();
     }
 
     render() {
@@ -78,9 +115,12 @@ export class HomePage extends React.Component {
                         title='Add' />
                     <ModalView />
                     <Grid
-                        patientList={patientStore.patientList}
+                        patientList={patientStore.patientListView}
                         handleOpenEditModal={this.onHandleOpenModalEdit} />
-                    <TableMover />
+                    <TableMover
+                        handleMoveButtonsBack={this.onHandleMoveButtonsBack}
+                        handleMoveButtonsForward={this.onHandleMoveButtonsForward}
+                        handleOnClick={this.onHandleOpenPageTable} />
                 </div>
             </div >
         );

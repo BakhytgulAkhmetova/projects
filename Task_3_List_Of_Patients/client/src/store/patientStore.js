@@ -1,30 +1,63 @@
 import { observable, action } from 'mobx';
+import uniqid from 'uniqid';
 
-import { data } from './data';
-
-const genders = {
-    male: 'Male',
-    female: 'Female'
-};
+import { setPatientAge } from '../utils';
+import { data, emptyPatient } from './data';
 
 class PatientStore {
-    @observable patientList = [];
+    constructor() {
+        this.fixViewCount = 4;
+    }
+    @observable patientList = [];// fakeDB
 
-    @observable patient = {
-        firstName: '',
-        id: -1,
-        lastName: '',
-        birthDate: new Date(0, 0, 0).toLocaleDateString,
-        gender: genders.male,
-        phoneNumber: '',
-        email: ''
+    @observable patientListView = []
+
+    @observable viewStart = 0
+
+    @observable viewEnd = 4
+
+    @observable currentPage = 1
+
+
+    @observable patient = emptyPatient
+
+    @action
+    cleanPatientFields() {
+        this.patient = emptyPatient;
+    }
+
+    @action
+    setAge() {
+        this.patient.age = setPatientAge(this.patient.birthDate);
+    }
+
+    @action
+    setViewValues(number) {
+        this.viewStart = number * this.fixViewCount - this.fixViewCount;
+        this.currentPage = number;
+        this.viewEnd = this.viewStart + this.fixViewCount;
+        if (this.viewEnd > this.patientList.length) {
+            this.viewEnd = this.patientList.length;
+        }
+
+        console.log(this.viewStart);
+        console.log(this.viewEnd);
+    }
+
+    @action
+    setPatientListView() {
+        this.patientListView = [];
+
+
+        for (let i = this.viewStart; i < this.viewEnd; i++) {
+            this.patientListView.push(this.patientList[i]);
+        }
     }
 
     @action
     get(id) {
-        console.log(id);
         this.patient = this.patientList.find(p => {
-            if (parseFloat(p.id)  === parseFloat(id)) {
+            if (p.id === id) {
                 return p;
             }
             return null;
@@ -33,6 +66,7 @@ class PatientStore {
 
     @action
     addPatient() {
+        this.patient.id = uniqid();
         this.patientList.push(this.patient);
     }
 
