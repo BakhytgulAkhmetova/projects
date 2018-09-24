@@ -1,9 +1,10 @@
 import { observable, action, runInAction } from 'mobx';
 
 import { setPatientAge } from '../utils';
-import { emptyPatient } from './data';
+import { emptyPatient, config, types } from './data';
 import { buttonStore } from '../store';
 import { add, getPage, edit, getById } from './queries';
+import { Validator } from '../utils';
 
 import ApolloClient from 'apollo-boost';
 
@@ -12,6 +13,10 @@ const client = new ApolloClient({
 });
 
 class PatientStore {
+    constructor() {
+        this.validator = new Validator({ types, config });
+    }
+
     @observable patientList = [];//
 
     @observable count = 0;
@@ -91,7 +96,12 @@ class PatientStore {
 
     @action
     changePatientField(key, value) {//
+        const field = {};
+
         this.patient[key] = value;
+        field[key] = value;
+        this.validator.validate(field);
+        console.log(this.validator.messages);
     }
 
     @action
