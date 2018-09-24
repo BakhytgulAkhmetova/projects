@@ -10,9 +10,7 @@ class ButtonStore {
 
     @observable count = 0
 
-    // @observable current = {
-    //     number: 1
-    // }
+    @observable current = 1
 
     @observable move = {
         back: true,

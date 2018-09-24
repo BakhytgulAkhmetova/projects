@@ -1,96 +1,136 @@
-import { observable, action } from 'mobx';
-import uniqid from 'uniqid';
+import { observable, action, runInAction } from 'mobx';
+import gql from 'graphql-tag';
 
 import { setPatientAge } from '../utils';
-import { data, emptyPatient } from './data';
+import { emptyPatient } from './data';
+import { buttonStore } from '../store';
+import { add, getAll, edit, getById } from './queries';
+
+import ApolloClient from 'apollo-boost';
+
+const client = new ApolloClient({
+    uri: 'http://localhost:4000/graphql'
+});
 
 class PatientStore {
-    constructor() {
-        this.fixViewCount = 4;
-    }
-    @observable patientList = [];// fakeDB
+    @observable patientList = [];//
 
-    @observable patientListView = []
+    @observable count = 0;
 
-    @observable viewStart = 0
-
-    @observable viewEnd = 4
-
-    @observable currentPage = 1
-
-
-    @observable patient = emptyPatient
+    @observable patient = emptyPatient//
 
     @action
     cleanPatientFields() {
-        this.patient = emptyPatient;
+        this.patient = emptyPatient;//
     }
 
     @action
     setAge() {
-        this.patient.age = setPatientAge(this.patient.birthDate);
+        this.patient.age = setPatientAge(this.patient.birthDate);//
     }
 
     @action
-    setViewValues(number) {
-        this.viewStart = number * this.fixViewCount - this.fixViewCount;
-        this.currentPage = number;
-        this.viewEnd = this.viewStart + this.fixViewCount;
-        if (this.viewEnd > this.patientList.length) {
-            this.viewEnd = this.patientList.length;
-        }
+    async get(id) {
+        try {
+            debugger;
+            const result = await client.query({
+                query: getById,
+                variables: { id },
+                fetchPolicy: 'no-cache'
+            });
 
-        console.log(this.viewStart);
-        console.log(this.viewEnd);
-    }
-
-    @action
-    setPatientListView() {
-        this.patientListView = [];
-
-
-        for (let i = this.viewStart; i < this.viewEnd; i++) {
-            this.patientListView.push(this.patientList[i]);
+            runInAction(() => {
+                console.log(result.data);
+                this.patient = result.data.getPatientById;
+            });
+        } catch (error) {
+            return error;
         }
     }
 
     @action
-    get(id) {
-        this.patient = this.patientList.find(p => {
-            if (p.id === id) {
-                return p;
-            }
-            return null;
-        });
+    async addPatient() {//
+        try {
+            return await client.mutate({
+                mutation: add,
+                variables: {
+                    firstName: this.patient.firstName,
+                    lastName: this.patient.lastName,
+                    birthDate: this.patient.birthDate.toDateString(),
+                    phoneNumber: this.patient.phoneNumber,
+                    email: this.patient.email,
+                    gender: this.patient.gender
+                },
+                fetchPolicy: 'no-cache'
+            });
+        } catch (error) {
+            return error;
+        }
     }
 
     @action
-    addPatient() {
-        this.patient.id = uniqid();
-        this.patientList.push(this.patient);
+    async editPatient() {//
+        try {
+            return await client.mutate({
+                mutation: edit,
+                variables: {
+                    firstName: this.patient.firstName,
+                    lastName: this.patient.lastName,
+                    birthDate: this.patient.birthDate.toDateString(),
+                    phoneNumber: this.patient.phoneNumber,
+                    email: this.patient.email,
+                    gender: this.patient.gender,
+                    id: this.patient.id
+                },
+                fetchPolicy: 'no-cache'
+            });
+        } catch (error) {
+            return error;
+        }
     }
 
     @action
-    editPatient() {
-        const index = this.patientList.findIndex(item => {
-            return item.id === this.patient.id;
-        });
-
-        this.patientList = [
-            ...this.patientList.slice(0, index),
-            this.patientList[index] = this.patient,
-            ...this.patientList.slice(index + 1)
-        ];
-    }
-
-    @action
-    changePatientField(key, value) {
+    changePatientField(key, value) {//
         this.patient[key] = value;
     }
 
     @action
-    getAll() {
-        this.patientList = data.patientList;
+    async setPatientCount() {
+        try {
+            const result = await client.query({
+                query: gql`
+                query{ getPatientCount }`,
+                fetchPolicy: 'no-cache'
+            });
+
+            runInAction(() => {
+                this.count = result.data.getPatientCount;
+                buttonStore.setButtonsViewList(this.count);
+            });
+        } catch (error) {
+            return error;
+        }
+    }
+
+    @action
+    async getAll() { //
+        try {
+            const skip = (buttonStore.current - 1) * 4;
+            const result = await client.query({
+                query: getAll,
+                variables: {
+                    skip,
+                    limit: 4
+                },
+                fetchPolicy: 'no-cache'
+            });
+
+            runInAction(() => {
+                this.patientList = result.data.getPatients;
+            });
+        } catch (error) {
+            return error;
+        }
     }
 }
 

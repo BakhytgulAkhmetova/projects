@@ -1,26 +1,52 @@
-/*creation graphql types*/ 
+/*creation graphql types*/
 
 const typeDefs = `
-    scalar DateTime
-    scalar Email
-
     type Patient {
         id: String!,
         firstName: String!,
-        lastName String!,
-        birthdate: DateTime!,
-        age: Int
+        lastName: String!,
+        birthDate: String!,
         gender: String!,
-        phoneNumber: ,
-        emailAddress: Email
+        phoneNumber: String! ,
+        email: String!
     }
 
     type Query {
-
+        getPatients (
+            skip: Int!,
+            limit: Int!
+        ): [Patient]
+        getPatientCount
+        : Int!
+        getPatientById(
+            id: String!
+        ): Patient
     }
 
     type Mutation {
-
+        addPatient(
+            firstName: String!,
+            lastName: String!,
+            birthDate: String!,
+            gender: String!,
+            phoneNumber: String! ,
+            email: String!
+        ): Patient
+        updatePatient(
+            firstName: String!,
+            lastName: String!,
+            birthDate: String!,
+            gender: String!,
+            phoneNumber: String! ,
+            email: String!,
+            id: String!
+        ): Patient
+        deleteAllPatients: Int!
+    }
+    
+    schema {
+        query: Query
+        mutation: Mutation
     }`;
 
 module.exports = typeDefs;

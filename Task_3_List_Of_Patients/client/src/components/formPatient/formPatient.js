@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import DatePicker from 'react-date-picker';
+// import DatePicker from 'react-date-picker';
 import { observer } from 'mobx-react';
 
 import { genders } from '../../constants';
@@ -43,11 +43,11 @@ export const FormPatient = observer(({ patient, handleOnChange, handleOnChangeDa
                     className='field__label'>
                     Birth Date
                 </span>
-                <div className='field__date'>
+                {/* <div className='field__date'>
                     <DatePicker
                         value={patient.birthDate}
                         onChange={handleOnChangeDate}/>
-                </div>
+                </div> */}
             </div>
             <div className='form__field'>
                 <label

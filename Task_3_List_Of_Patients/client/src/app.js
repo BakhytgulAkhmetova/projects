@@ -6,6 +6,7 @@ import { NotFound } from './pages/notFound';
 
 export const App = () => {
     return (
+        // <ApolloProvider client={client}>
         <BrowserRouter>
             <Switch>
                 <Route
@@ -16,6 +17,6 @@ export const App = () => {
                     component={NotFound} />
             </Switch>
         </BrowserRouter>
+        // </ApolloProvider>
     );
 };
-
