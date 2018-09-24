@@ -1,4 +1,4 @@
 export * from './addPatient';
-export * from './getAllPatients';
+export * from './getPage';
 export * from './editPatient';
 export * from './getPatientById';

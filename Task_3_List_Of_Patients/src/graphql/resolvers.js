@@ -1,9 +1,8 @@
 const {
     addPatient,
-    getPatients,
+    getPage,
     getPatientById,
     deleteAll,
-    getCount,
     updatePatient } = require('../api/patients');
 
 const resolvers = {
@@ -11,11 +10,8 @@ const resolvers = {
         getPatientById(parent, args) {
             return getPatientById(args.id);
         },
-        getPatientCount() {
-            return getCount();
-        },
-        getPatients(parent, args) {
-            return getPatients(args);
+        getPage(parent, args) {
+            return getPage(args);
         }
     },
     Mutation: {

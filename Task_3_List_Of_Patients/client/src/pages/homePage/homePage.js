@@ -19,8 +19,8 @@ export class HomePage extends React.Component {
     }
 
     componentDidMount() {
-        patientStore.getAll();
-        patientStore.setPatientCount();
+        patientStore.getPage();
+        // patientStore.setPatientCount();
     }
 
     onHandleOpenModalAdd = (e) => {
@@ -68,24 +68,21 @@ export class HomePage extends React.Component {
     onHandleAddPatient =(e) => {
         e.preventDefault();
         modalStore.close();
-        patientStore.setAge();
         patientStore.addPatient();
-        patientStore.getAll();
-        patientStore.setPatientCount();
+        patientStore.getPage();
     }
 
     onHandleEditPatient = (e) => {
         e.preventDefault();
         modalStore.close();
-        patientStore.setAge();
         patientStore.editPatient();
-        patientStore.getAll();
+        patientStore.getPage();
     }
 
     onHandleOpenPageTable = (e) => {
         e.preventDefault();
         buttonStore.current = e.target.id;
-        patientStore.getAll();
+        patientStore.getPage();
     }
 
     onHandleMoveButtonsBack = (e) => {

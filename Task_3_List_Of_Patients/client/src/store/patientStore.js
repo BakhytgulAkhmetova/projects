@@ -1,10 +1,9 @@
 import { observable, action, runInAction } from 'mobx';
-import gql from 'graphql-tag';
 
 import { setPatientAge } from '../utils';
 import { emptyPatient } from './data';
 import { buttonStore } from '../store';
-import { add, getAll, edit, getById } from './queries';
+import { add, getPage, edit, getById } from './queries';
 
 import ApolloClient from 'apollo-boost';
 
@@ -32,7 +31,6 @@ class PatientStore {
     @action
     async get(id) {
         try {
-            debugger;
             const result = await client.query({
                 query: getById,
                 variables: { id },
@@ -71,12 +69,12 @@ class PatientStore {
     @action
     async editPatient() {//
         try {
-            return await client.mutate({
+            await client.mutate({
                 mutation: edit,
                 variables: {
                     firstName: this.patient.firstName,
                     lastName: this.patient.lastName,
-                    birthDate: this.patient.birthDate.toDateString(),
+                    birthDate: this.patient.birthDate,
                     phoneNumber: this.patient.phoneNumber,
                     email: this.patient.email,
                     gender: this.patient.gender,
@@ -85,7 +83,9 @@ class PatientStore {
                 fetchPolicy: 'no-cache'
             });
         } catch (error) {
-            return error;
+            runInAction(() => {
+                return error;
+            });
         }
     }
 
@@ -95,29 +95,11 @@ class PatientStore {
     }
 
     @action
-    async setPatientCount() {
-        try {
-            const result = await client.query({
-                query: gql`
-                query{ getPatientCount }`,
-                fetchPolicy: 'no-cache'
-            });
-
-            runInAction(() => {
-                this.count = result.data.getPatientCount;
-                buttonStore.setButtonsViewList(this.count);
-            });
-        } catch (error) {
-            return error;
-        }
-    }
-
-    @action
-    async getAll() { //
+    async getPage() { //
         try {
             const skip = (buttonStore.current - 1) * 4;
             const result = await client.query({
-                query: getAll,
+                query: getPage,
                 variables: {
                     skip,
                     limit: 4
@@ -126,10 +108,14 @@ class PatientStore {
             });
 
             runInAction(() => {
-                this.patientList = result.data.getPatients;
+                this.patientList = result.data.getPage.items;
+                this.count = result.data.getPage.total;
+                buttonStore.setButtonsViewList(this.count);
             });
         } catch (error) {
-            return error;
+            runInAction(() => {
+                return error;
+            });
         }
     }
 }

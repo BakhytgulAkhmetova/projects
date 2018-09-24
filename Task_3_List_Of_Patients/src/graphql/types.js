@@ -11,16 +11,19 @@ const typeDefs = `
         email: String!
     }
 
+    type Page {
+        items: [Patient],
+        total: Int!
+    }
+
     type Query {
-        getPatients (
+        getPage (
             skip: Int!,
             limit: Int!
-        ): [Patient]
-        getPatientCount
-        : Int!
+        ): Page!
         getPatientById(
             id: String!
-        ): Patient
+        ): Patient!
     }
 
     type Mutation {
