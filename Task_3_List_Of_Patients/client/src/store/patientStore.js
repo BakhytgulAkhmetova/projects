@@ -1,6 +1,5 @@
 import { observable, action, runInAction } from 'mobx';
 
-import { setPatientAge } from '../utils';
 import { emptyPatient, config, types } from './data';
 import { buttonStore } from '../store';
 import { add, getPage, edit, getById } from './queries';
@@ -17,20 +16,15 @@ class PatientStore {
         this.validator = new Validator({ types, config });
     }
 
-    @observable patientList = [];//
+    @observable patientList = [];
 
     @observable count = 0;
 
-    @observable patient = emptyPatient//
+    @observable patient = emptyPatient
 
     @action
     cleanPatientFields() {
-        this.patient = emptyPatient;//
-    }
-
-    @action
-    setAge() {
-        this.patient.age = setPatientAge(this.patient.birthDate);//
+        this.patient = emptyPatient;
     }
 
     @action
@@ -43,46 +37,58 @@ class PatientStore {
             });
 
             runInAction(() => {
-                console.log(result.data);
                 this.patient = result.data.getPatientById;
+
+                // this.patient.firstName.value = patientFound.firstName;
+                // this.patient.lastName.value = patientFound.lastName;
+                // this.patient.birthDate.value = patientFound.birthDate;
+                // this.patient.phoneNumber = patientFound.phoneNumber;
+                // this.patient.email = patientFound.email;
+                // this.patient.id = patientFound.id;
+
+                console.log(this.patient);
             });
         } catch (error) {
-            return error;
+            runInAction(() => {
+                return error;
+            });
         }
     }
 
     @action
-    async addPatient() {//
+    async addPatient() {
         try {
             return await client.mutate({
                 mutation: add,
                 variables: {
-                    firstName: this.patient.firstName,
-                    lastName: this.patient.lastName,
-                    birthDate: this.patient.birthDate.toDateString(),
-                    phoneNumber: this.patient.phoneNumber,
-                    email: this.patient.email,
-                    gender: this.patient.gender
+                    firstName: this.patient.firstName.value,
+                    lastName: this.patient.lastName.value,
+                    birthDate: this.patient.birthDate.value,
+                    phoneNumber: this.patient.phoneNumber.value,
+                    email: this.patient.email.value,
+                    gender: this.patient.gender.value
                 },
                 fetchPolicy: 'no-cache'
             });
         } catch (error) {
-            return error;
+            runInAction(() => {
+                return error;
+            });
         }
     }
 
     @action
-    async editPatient() {//
+    async editPatient() {
         try {
             await client.mutate({
                 mutation: edit,
                 variables: {
-                    firstName: this.patient.firstName,
-                    lastName: this.patient.lastName,
-                    birthDate: this.patient.birthDate,
-                    phoneNumber: this.patient.phoneNumber,
-                    email: this.patient.email,
-                    gender: this.patient.gender,
+                    firstName: this.patient.firstName.value,
+                    lastName: this.patient.lastName.value,
+                    birthDate: this.patient.birthDate.value,
+                    phoneNumber: this.patient.phoneNumber.value,
+                    email: this.patient.email.value,
+                    gender: this.patient.gender.value,
                     id: this.patient.id
                 },
                 fetchPolicy: 'no-cache'
@@ -95,17 +101,17 @@ class PatientStore {
     }
 
     @action
-    changePatientField(key, value) {//
+    changePatientField(key, value) {
         const field = {};
 
-        this.patient[key] = value;
         field[key] = value;
         this.validator.validate(field);
-        console.log(this.validator.messages);
+        this.patient[key].errors = this.validator.messages;
+        this.patient[key].value = value;
     }
 
     @action
-    async getPage() { //
+    async getPage() {
         try {
             const skip = (buttonStore.current - 1) * 4;
             const result = await client.query({

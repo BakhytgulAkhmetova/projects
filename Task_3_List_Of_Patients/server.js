@@ -14,6 +14,4 @@ mongoose.connect(path, { useNewUrlParser: true });
 const app = express();
 server.applyMiddleware({ app });
 
-
-
 app.listen(4000);

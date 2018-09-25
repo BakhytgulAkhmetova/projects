@@ -1,6 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
+import { LinkOpenEditModal } from '../linkOpenEditModal';
 
 export const PatientRow = ({
     firstName,
@@ -17,13 +18,9 @@ export const PatientRow = ({
     return (
         <tr className={rowStyle}>
             <td className={cellStyle}>
-                <Link
-                    onClick={handleOpenEditModal}
-                    id = {id}
-                    to= '/'
-                    className={linkStyle}>
-                    Edit
-                </Link>
+                <LinkOpenEditModal
+                    id={id}
+                    linkStyle={linkStyle} />
             </td>
             <td className={cellStyle}>{firstName}</td>
             <td className={cellStyle}>{lastName}</td>

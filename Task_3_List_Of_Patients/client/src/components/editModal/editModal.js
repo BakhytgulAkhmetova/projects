@@ -6,10 +6,7 @@ import { FormPatient } from '../../components/formPatient';
 import { patientStore } from '../../store';
 
 export const EditModal = observer(({ handleChange, handleOnChangeDate }) => {
-    return (<FormPatient
-        patient={patientStore.patient}
-        handleOnChange={handleChange}
-        handleOnChangeDate={handleOnChangeDate} />);
+    return (<FormPatient patient={patientStore.patient}/>);
 });
 
 EditModal.propTypes = {

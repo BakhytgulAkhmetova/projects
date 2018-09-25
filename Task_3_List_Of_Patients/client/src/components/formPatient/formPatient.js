@@ -1,15 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import DatePicker from 'react-date-picker';
+import DatePicker from 'react-date-picker';
 import { observer } from 'mobx-react';
+import { withHandlers, compose } from 'recompose';
 
 import { genders } from '../../constants';
+import { ErrorMessage } from '../errorMessage';
+import { patientStore } from '../../store';
 
 import './formPatient.scss';
 
 const genderList = [genders.male, genders.female];
 
-export const FormPatient = observer(({ patient, handleOnChange, handleOnChangeDate }) => {
+const mapActionsToProps = {
+    handleChange: props => event => {
+        event.preventDefault();
+        patientStore.changePatientField(event.target.id, event.target.value);
+    },
+    handleOnChangeDate: props => date => {
+        patientStore.changePatientField('birthDate', date);
+    }
+};
+
+const Form = ({
+    patient,
+    handleChange,
+    handleOnChangeDate }) => {
     return (
         <form>
             <div className='form__field'>
@@ -19,11 +35,17 @@ export const FormPatient = observer(({ patient, handleOnChange, handleOnChangeDa
                     First Name
                 </label>
                 <input
-                    value={patient.firstName}
-                    onChange={handleOnChange}
+                    value={patient.firstName.value}
+                    onChange={handleChange}
                     id='firstName'
                     placeholder='Enter your first name'
                     className='field__input' />
+                {
+                    patient.firstName.errors ?
+                        <ErrorMessage msgs={patient.firstName.errors} /> :
+                        null
+                }
+
             </div>
             <div className='form__field'>
                 <label
@@ -32,22 +54,27 @@ export const FormPatient = observer(({ patient, handleOnChange, handleOnChangeDa
                     Last Name
                 </label>
                 <input
-                    value={patient.lastName}
-                    onChange={handleOnChange}
+                    value={patient.lastName.value}
+                    onChange={handleChange}
                     id='lastName'
                     placeholder='Enter your last name'
                     className='field__input' />
+                {
+                    patient.firstName.errors ?
+                        <ErrorMessage msgs={patient.lastName.errors} /> :
+                        null
+                }
             </div>
             <div className='form__field'>
                 <span
                     className='field__label'>
                     Birth Date
                 </span>
-                {/* <div className='field__date'>
+                <div className='field__date'>
                     <DatePicker
-                        value={patient.birthDate}
-                        onChange={handleOnChangeDate}/>
-                </div> */}
+                        value={patient.birthDate.value}
+                        onChange={handleOnChangeDate.bind(this)} />
+                </div>
             </div>
             <div className='form__field'>
                 <label
@@ -56,7 +83,7 @@ export const FormPatient = observer(({ patient, handleOnChange, handleOnChangeDa
                     Gender
                 </label>
                 <select
-                    onChange={handleOnChange}
+                    onChange={handleChange}
                     id='gender'
                     className='field__select'
                     value={patient.gender}>
@@ -71,11 +98,16 @@ export const FormPatient = observer(({ patient, handleOnChange, handleOnChangeDa
                     Pnone
                 </label>
                 <input
-                    value={patient.phoneNumber}
-                    onChange={handleOnChange}
+                    value={patient.phoneNumber.value}
+                    onChange={handleChange}
                     id='phoneNumber'
                     placeholder='Enter your phone number'
                     className='field__input' />
+                {
+                    patient.firstName.errors ?
+                        <ErrorMessage msgs={patient.phoneNumber.errors} /> :
+                        null
+                }
             </div>
             <div className='form__field'>
                 <label
@@ -84,17 +116,27 @@ export const FormPatient = observer(({ patient, handleOnChange, handleOnChangeDa
                     Email
                 </label>
                 <input
-                    value={patient.email}
-                    onChange={handleOnChange}
+                    value={patient.email.value}
+                    onChange={handleChange}
                     id='email'
                     placeholder='Enter your email'
                     className='field__input' />
+                {
+                    patient.firstName.errors ?
+                        <ErrorMessage msgs={patient.email.errors} /> :
+                        null
+                }
             </div>
         </form>
     );
-});
+};
 
-FormPatient.propTypes = {
+export const FormPatient = compose(
+    withHandlers(mapActionsToProps),
+    observer
+)(Form);
+
+Form.propTypes = {
     nameAction: PropTypes.string,
     firstName: PropTypes.string,
     lastName: PropTypes.string,
@@ -102,7 +144,8 @@ FormPatient.propTypes = {
     genderList: PropTypes.array,
     phoneNumber: PropTypes.string,
     email: PropTypes.string,
-    handleOnChange: PropTypes.func,
+    handleChange: PropTypes.func,
+    handleOnChangeDate: PropTypes.func,
     patient: PropTypes.object,
     gender: PropTypes.oneOf([genders.female, genders.male])
 };

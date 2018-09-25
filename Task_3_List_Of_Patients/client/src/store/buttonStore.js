@@ -36,6 +36,7 @@ class ButtonStore {
         } else {
             this.viewEnd = this.count;
         }
+
         for (let i = this.viewStart; i <= this.viewEnd; i++) {
             this.buttonListView.push({ number: i });
         }
@@ -71,7 +72,6 @@ class ButtonStore {
 
             case false:
                 if (this.viewStart > 1) {
-                    console.log(this.viewStart);
                     this.viewStart--;
                     this.viewEnd--;
                 }
@@ -81,7 +81,6 @@ class ButtonStore {
                 break;
         }
         this.buttonListView = [];
-
 
         for (let i = this.viewStart; i <= this.viewEnd; i++) {
             this.buttonListView.push({ number: i });

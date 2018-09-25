@@ -12,6 +12,7 @@ export const getPage = gql`
                                 phoneNumber
                                 email
                                 gender
+                                age
                           }
                           total
                         }

@@ -1,14 +1,32 @@
 import { genders } from '../../constants';
 
 export const emptyPatient = {
-    firstName: '',
+    firstName: {
+        value: '',
+        errors: []
+    },
     id: -1,
     age: 0,
-    lastName: '',
-    birthDate: new Date(),
-    gender: genders.male,
-    phoneNumber: '',
-    email: ''
+    lastName: {
+        value: '',
+        errors: []
+    },
+    birthDate: {
+        value: new Date(),
+        errors: []
+    },
+    gender: {
+        value:genders.male,
+        errors: []
+    },
+    phoneNumber: {
+        value: '',
+        errors: []
+    },
+    email: {
+        value: '',
+        errors: []
+    }
 };
 
 export const config = {
@@ -36,6 +54,7 @@ export const types = {
     isEmail: {
         validate: (value) => {
             return /^[-._a-z0-9]+@(?:[a-z0-9][-a-z0-9]+\.)+[a-z]{2,6}$/i.test(value);
-        }
+        },
+        instructions: 'Invalid Email. Please try again (ex. email2090@mail.ru)'
     }
 };

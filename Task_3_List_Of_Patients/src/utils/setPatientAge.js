@@ -1,4 +1,4 @@
-export const setPatientAge = (birthDate) => {
+const setPatientAge = (birthDate) => {
     const dataNow = new Date();
 
     let age = dataNow.getFullYear() - birthDate.getFullYear();
@@ -12,3 +12,5 @@ export const setPatientAge = (birthDate) => {
     }
     return age;
 };
+
+module.exports = setPatientAge;

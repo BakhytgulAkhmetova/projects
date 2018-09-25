@@ -2,13 +2,11 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 
-import { Button } from '../../components/button';
 import { ModalView } from '../../components/modalView';
-import { AddModal } from '../../components/addModal';
-import { EditModal } from '../../components/editModal';
+import { ButtonAdd } from '../../components/buttonOpenAddModal';
 import { Grid } from '../../components/grid';
-import { TableMover } from '../../components/tableMover';
-import { patientStore, modalStore, buttonStore } from '../../store';
+import { Pagination } from '../../components/pagination';
+import { patientStore } from '../../store';
 
 import './homePage.scss';
 
@@ -20,81 +18,6 @@ export class HomePage extends React.Component {
 
     componentDidMount() {
         patientStore.getPage();
-        // patientStore.setPatientCount();
-    }
-
-    onHandleOpenModalAdd = (e) => {
-        e.preventDefault();
-        patientStore.cleanPatientFields();
-        modalStore.open({
-            title: 'Add patient',
-            content: <AddModal
-                handleChange={this.onHandleChange}
-                handleOnChangeDate={this.onHandleChangeDate} />,
-            buttons: [<Button
-                key={1}
-                title='Add'
-                handleOnClick={this.onHandleAddPatient}
-                className='content__button' />]
-        });
-    }
-
-    onHandleOpenModalEdit = (e) => {
-        e.preventDefault();
-        patientStore.get(e.currentTarget.id);
-        modalStore.open({
-            title: 'Edit patient',
-            content: <EditModal
-                handleChange={this.onHandleChange}
-                handleOnChangeDate={this.onHandleChangeDate} />,
-            buttons: [<Button
-                key={1}
-                title='Edit'
-                handleOnClick={this.onHandleEditPatient}
-                className='content__button' />]
-        });
-    }
-
-    onHandleChange(e) {
-        e.preventDefault();
-        patientStore.changePatientField(e.target.id, e.target.value);
-    }
-
-
-    onHandleChangeDate(date) {
-        patientStore.changePatientField('birthDate', date);
-    }
-
-    onHandleAddPatient =(e) => {
-        e.preventDefault();
-        modalStore.close();
-        patientStore.addPatient();
-        patientStore.getPage();
-    }
-
-    onHandleEditPatient = (e) => {
-        e.preventDefault();
-        modalStore.close();
-        patientStore.editPatient();
-        patientStore.getPage();
-    }
-
-    onHandleOpenPageTable = (e) => {
-        e.preventDefault();
-        buttonStore.current = e.target.id;
-        patientStore.getPage();
-    }
-
-    onHandleMoveButtonsBack = (e) => {
-        e.preventDefault();
-        buttonStore.setMove(e.target.id);
-        buttonStore.changeViewButtons();
-    }
-
-    onHandleMoveButtonsForward = (e) => {
-        e.preventDefault();
-        buttonStore.setMove(e.target.id);
-        buttonStore.changeViewButtons();
     }
 
     render() {
@@ -102,18 +25,10 @@ export class HomePage extends React.Component {
             <div>
                 <header className='header'>Patients Info</header>
                 <div className='content-home-page'>
-                    <Button
-                        handleOnClick={this.onHandleOpenModalAdd}
-                        className='btn-add'
-                        title='Add' />
+                    <ButtonAdd />
+                    <Grid patientList={patientStore.patientList}/>
+                    <Pagination/>
                     <ModalView />
-                    <Grid
-                        patientList={patientStore.patientList}
-                        handleOpenEditModal={this.onHandleOpenModalEdit} />
-                    <TableMover
-                        handleMoveButtonsBack={this.onHandleMoveButtonsBack}
-                        handleMoveButtonsForward={this.onHandleMoveButtonsForward}
-                        handleOnClick={this.onHandleOpenPageTable} />
                 </div>
             </div >
         );

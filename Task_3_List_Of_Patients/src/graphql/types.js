@@ -1,14 +1,17 @@
 /*creation graphql types*/
 
 const typeDefs = `
+    scalar Date
+
     type Patient {
         id: String!,
         firstName: String!,
         lastName: String!,
-        birthDate: String!,
+        birthDate: Date!,
         gender: String!,
         phoneNumber: String! ,
-        email: String!
+        email: String!,
+        age: Int
     }
 
     type Page {

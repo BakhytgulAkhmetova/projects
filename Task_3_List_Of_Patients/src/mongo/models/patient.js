@@ -7,7 +7,7 @@ const schema = new Schema({
     _id: Schema.Types.ObjectId,
     firstName: String,
     lastName: String,
-    birthDate: String,
+    birthDate: Date,
     gender: String,
     phoneNumber: String,
     email: String
