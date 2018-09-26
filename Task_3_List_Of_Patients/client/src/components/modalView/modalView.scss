@@ -1,4 +1,21 @@
+@import 'src/styles/colors';
+@import 'src/styles/fonts';
+@import 'src/styles/variables';
+
 .modal {
+    &--display {
+        display: block;
+    }
+
+    &__content {
+        width: 450px;
+        margin: auto;
+        font-size: 20px;
+        background-color: rgba(196, 221, 174, 0.829);
+        border: 1px solid $black;
+        @extend %display-flex-row;
+    }
+
     display: none;
     position: fixed;
     background-color: rgb(0, 0, 0);
@@ -10,41 +27,27 @@
     right: 0;
 }
 
-.modal--display {
-    display: block;
-}
+.content {
+    &__title {
+        text-align: center;
+        width: 90%;
+    }
 
-.content__title {
-    text-align: center;
-    width: 90%;
-}
+    &__close {
+        width: 10%;
+        color: $white;
+        font-size: $font-size-middle;
+        font-weight: $font-weight-bold;
+    }
 
-.modal__content {
-    width: 450px;
-    margin: auto;
-    font-size: 20px;
-    background-color: rgba(196, 221, 174, 0.829);
-    border: 1px solid #000000;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
-.content__close {
-    width: 10%;
-    color: #FFFFFF;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.content__close:hover,
-.content__close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.content__button {
-    padding: 8px 26px;
-    margin: 10px 5px 10px 340px;
+    &__close:hover,
+    &__close:focus {
+        color: $black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    &__button {
+        padding: 8px 26px;
+        margin: 10px 5px 10px 340px;
+    }
 }

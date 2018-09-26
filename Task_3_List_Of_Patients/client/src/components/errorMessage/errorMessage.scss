@@ -1,6 +1,9 @@
+@import 'src/styles/_colors';
+@import 'src/styles/_fonts';
+
 .error {
-    color: #FF3C33;
-    font-size: 15px;
+    color: $red-orange;
+    font-size: $font-size-small;
     display: inline-block;
     width: 400px;
 }

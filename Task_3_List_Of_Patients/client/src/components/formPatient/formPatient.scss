@@ -1,24 +1,30 @@
-.form__field {
-    margin-left: 30px;
-    height: 100px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+@import 'src/styles/colors';
+@import 'src/styles/fonts';
+@import 'src/styles/variables';
+
+.form {
+    &__field {
+        margin-left: 30px;
+        height: 100px;
+        @extend %display-flex-row;
+    }
 }
 
-.field__label {
-    width: 40%;
-}
+.field {
+    &___label {
+        width: 40%;
+    }
 
-.field__input,
-.field__select {
-    font-size: 16px;
-    width: 90%;
-    height: 40px;
-    border: 1px solid #000000;
-}
+    &__input,
+    &__select {
+        font-size: $font-size-small-plus;
+        width: 90%;
+        height: 40px;
+        border: 1px solid $black;
+    }
 
-.field__date {
-    width: 90%;
-    height: 40px;
+    &__date {
+        width: 90%;
+        height: 40px;
+    }
 }
