@@ -1,3 +1,4 @@
+/* Definition class for checking object fields */
 export class Validator {
     constructor({ types, config }) {
         this.types = types;

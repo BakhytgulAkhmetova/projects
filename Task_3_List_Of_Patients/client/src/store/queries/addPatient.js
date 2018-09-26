@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
 
-export const add = gql` mutation (
+export const add = gql
+    ` mutation (
             $firstName: String! 
             $lastName: String!
             $birthDate: String!
