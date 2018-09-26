@@ -4,11 +4,11 @@ const mongoose = require('mongoose');
 const { ApolloServer } = require('apollo-server-express');
 
 
-const typeDefs = require('./src/graphql/types');
-const resolvers = require('./src/graphql/resolvers');
+const typeDefs = require('./graphql/types');
+const resolvers = require('./graphql/resolvers');
 const server = new ApolloServer({ typeDefs, resolvers });
 
-const path = require('./src/mongo/constants/constantsPatient');
+const path = require('./mongo/constants');
 mongoose.connect(path, { useNewUrlParser: true });
 
 const app = express();

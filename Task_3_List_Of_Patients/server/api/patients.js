@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const Patient = require('../mongo/models/patient');
 const setPatientAge = require('../utils/setPatientAge');
+
 /* asynchronous function to add new patient in storage */
 async function addPatient({
     firstName,
@@ -47,8 +48,7 @@ async function getPage({ skip, limit }) {
 
 async function deleteAll() {
     try {
-        await Patient.deleteMany();
-        return 0;
+       return await Patient.deleteMany();
     } catch (error) {
         return error;
     }

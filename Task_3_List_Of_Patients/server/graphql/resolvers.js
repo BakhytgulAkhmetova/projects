@@ -1,3 +1,6 @@
+const { GraphQLScalarType } = require('graphql');
+const { Kind } = require('graphql/language');
+
 const {
     addPatient,
     getPage,
@@ -5,10 +8,8 @@ const {
     deleteAll,
     updatePatient } = require('../api/patients');
 
-const { GraphQLScalarType } = require('graphql');
-const { Kind } = require('graphql/language');
-
 const resolvers = {
+    /* Definition resolve functions for getting data from mongoDB*/
     Query: {
         getPatientById(parent, args) {
             return getPatientById(args.id);
@@ -18,6 +19,7 @@ const resolvers = {
             return getPage(args);
         }
     },
+    /* Definition resolve functions for changing data in mongoDB*/
     Mutation: {
         addPatient(parent, args) {
             return addPatient(args);
@@ -30,6 +32,7 @@ const resolvers = {
         }
     },
 
+    /* Definition scalar type Date*/ 
     Date: new GraphQLScalarType({
         name: 'Date',
         description: 'Date custom scalar type',
