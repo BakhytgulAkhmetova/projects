@@ -21,6 +21,7 @@ export const ButtonListEditModal = compose(
         [<Button
             key={1}
             title='Edit'
+            isDisable = {patientStore.isValidPatient}
             handleOnClick={onHandleEditPatient}
             className='content__button' />]
     );
