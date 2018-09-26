@@ -1,4 +1,4 @@
-import { genders } from '../../constants';
+import { genders, regEmail, regPhoneNumber } from '../../constants';
 
 export const emptyPatient = {
     firstName: {
@@ -47,13 +47,13 @@ export const types = {
     },
     isPhoneNumber: {
         validate: (value) => {
-            return !isNaN(value) && /[0-9]{10}/.test(value);
+            return !isNaN(value) && regPhoneNumber.test(value);
         },
         instructions: 'The value can only be a valid phone number'
     },
     isEmail: {
         validate: (value) => {
-            return /^[-._a-z0-9]+@(?:[a-z0-9][-a-z0-9]+\.)+[a-z]{2,6}$/i.test(value);
+            return regEmail.test(value);
         },
         instructions: 'Invalid Email. Please try again (ex. email2090@mail.ru)'
     }
