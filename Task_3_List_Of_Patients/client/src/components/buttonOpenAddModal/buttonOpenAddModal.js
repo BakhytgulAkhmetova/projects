@@ -13,7 +13,7 @@ const mapActionsToProps = {
         patientStore.cleanPatientFields();
         modalStore.open({
             title: 'Add patient',
-            content: <AddModal />,
+            content: <AddModal/>,
             buttons: <ButtonListAddModal/>
         });
     }

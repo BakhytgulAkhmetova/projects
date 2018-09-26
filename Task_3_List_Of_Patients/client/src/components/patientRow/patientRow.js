@@ -13,8 +13,7 @@ export const PatientRow = ({
     emailAdress,
     rowStyle,
     cellStyle,
-    linkStyle,
-    handleOpenEditModal }) => {
+    linkStyle }) => {
     return (
         <tr className={rowStyle}>
             <td className={cellStyle}>
@@ -42,6 +41,5 @@ PatientRow.propTypes = {
     age: PropTypes.number,
     id: PropTypes.number,
     phoneNumber: PropTypes.string,
-    emailAdress: PropTypes.string,
-    handleOpenEditModal: PropTypes.func
+    emailAdress: PropTypes.string
 };

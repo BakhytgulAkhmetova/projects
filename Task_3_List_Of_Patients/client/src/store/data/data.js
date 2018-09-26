@@ -41,7 +41,7 @@ export const config = {
 export const types = {
     isNotEmpty: {
         validate: (value) => {
-            return value !== '';
+            return value !== '' && value !== null;
         },
         instructions: 'The value cannot be empty'
     },

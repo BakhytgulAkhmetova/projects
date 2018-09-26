@@ -20,11 +20,33 @@ class PatientStore {
 
     @observable count = 0;
 
+    @observable errorsPatient = [];
+
+    @observable isValidPatient = true;
+
     @observable patient = emptyPatient
 
     @action
     cleanPatientFields() {
         this.patient = emptyPatient;
+    }
+
+    @action
+    hasPatientFormError() {
+        for (const prop in this.patient) {
+            if (this.patient.hasOwnProperty(prop) && typeof this.patient[prop] === 'object') {
+                if (this.patient[prop].errors.length) {
+                    this.errorsPatient.push(this.patient[prop].errors);
+                }
+            }
+        }
+
+        if (this.errorsPatient.length) {
+            this.isValidPatient = true;
+        } else {
+            this.isValidPatient = false;
+        }
+        this.errorsPatient = [];
     }
 
     @action
@@ -37,16 +59,15 @@ class PatientStore {
             });
 
             runInAction(() => {
-                this.patient = result.data.getPatientById;
+                const patientFound = result.data.getPatientById;
 
-                // this.patient.firstName.value = patientFound.firstName;
-                // this.patient.lastName.value = patientFound.lastName;
-                // this.patient.birthDate.value = patientFound.birthDate;
-                // this.patient.phoneNumber = patientFound.phoneNumber;
-                // this.patient.email = patientFound.email;
-                // this.patient.id = patientFound.id;
-
-                console.log(this.patient);
+                this.patient.firstName.value = patientFound.firstName;
+                this.patient.lastName.value = patientFound.lastName;
+                this.patient.birthDate.value = new Date(patientFound.birthDate);
+                this.patient.phoneNumber.value = patientFound.phoneNumber;
+                this.patient.email.value = patientFound.email;
+                this.patient.gender.value = patientFound.gender;
+                this.patient.id = patientFound.id;
             });
         } catch (error) {
             runInAction(() => {
@@ -107,6 +128,7 @@ class PatientStore {
         field[key] = value;
         this.validator.validate(field);
         this.patient[key].errors = this.validator.messages;
+        this.hasPatientFormError();
         this.patient[key].value = value;
     }
 

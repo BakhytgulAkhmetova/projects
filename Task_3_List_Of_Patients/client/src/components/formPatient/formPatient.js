@@ -60,7 +60,7 @@ const Form = ({
                     placeholder='Enter your last name'
                     className='field__input' />
                 {
-                    patient.firstName.errors ?
+                    patient.lastName.errors ?
                         <ErrorMessage msgs={patient.lastName.errors} /> :
                         null
                 }
@@ -73,7 +73,12 @@ const Form = ({
                 <div className='field__date'>
                     <DatePicker
                         value={patient.birthDate.value}
-                        onChange={handleOnChangeDate.bind(this)} />
+                        onChange={handleOnChangeDate} />
+                    {
+                        patient.birthDate.errors ?
+                            <ErrorMessage msgs={patient.birthDate.errors} /> :
+                            null
+                    }
                 </div>
             </div>
             <div className='form__field'>
@@ -83,7 +88,7 @@ const Form = ({
                     Gender
                 </label>
                 <select
-                    onChange={handleChange}
+                    onSelect={handleChange}
                     id='gender'
                     className='field__select'
                     value={patient.gender}>
@@ -104,7 +109,7 @@ const Form = ({
                     placeholder='Enter your phone number'
                     className='field__input' />
                 {
-                    patient.firstName.errors ?
+                    patient.phoneNumber.errors ?
                         <ErrorMessage msgs={patient.phoneNumber.errors} /> :
                         null
                 }
@@ -122,7 +127,7 @@ const Form = ({
                     placeholder='Enter your email'
                     className='field__input' />
                 {
-                    patient.firstName.errors ?
+                    patient.email.errors ?
                         <ErrorMessage msgs={patient.email.errors} /> :
                         null
                 }
@@ -137,7 +142,6 @@ export const FormPatient = compose(
 )(Form);
 
 Form.propTypes = {
-    nameAction: PropTypes.string,
     firstName: PropTypes.string,
     lastName: PropTypes.string,
     birthDate: PropTypes.object,

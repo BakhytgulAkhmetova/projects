@@ -57,7 +57,7 @@ async function deleteAll() {
 /* asynchronous function to get one patient from storage by id */
 async function getPatientById(id) {
     try {
-        let patient = await Patient.findById(id);
+        return await Patient.findById(id);
     } catch (error) {
         return error;
     }
