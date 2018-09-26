@@ -3,26 +3,26 @@ import { observer } from 'mobx-react';
 import { withHandlers, compose } from 'recompose';
 
 import { Button } from '../button';
-import { buttonStore, patientStore } from '../../store';
+import { paginationStore, patientStore } from '../../store';
 
 import './pagination.scss';
 
 const mapActionsToProps = {
     onHandleOpenPageTable: props => event => {
         event.preventDefault();
-        buttonStore.current = event.target.id;
+        paginationStore.current = event.target.id;
         patientStore.getPage();
     },
     onHandleMoveButtonsBack: props => event => {
         event.preventDefault();
-        buttonStore.setMove(event.target.id);
-        buttonStore.changeViewButtons();
+        paginationStore.setMove(event.target.id);
+        paginationStore.changeViewButtons();
     },
 
     onHandleMoveButtonsForward: props => event => {
         event.preventDefault();
-        buttonStore.setMove(event.target.id);
-        buttonStore.changeViewButtons();
+        paginationStore.setMove(event.target.id);
+        paginationStore.changeViewButtons();
     }
 };
 
@@ -36,7 +36,7 @@ export const Pagination = compose(withHandlers(mapActionsToProps),
                 className='table-mover__btn'
                 title='«' />
             {
-                buttonStore.buttonListView.map(button => {
+                paginationStore.buttonListView.map(button => {
                     return (
                         <Button
                             handleOnClick={onHandleOpenPageTable}

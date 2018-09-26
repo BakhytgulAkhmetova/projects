@@ -1,14 +1,15 @@
 import { observable, action, runInAction } from 'mobx';
 
 import { emptyPatient, config, types } from './data';
-import { buttonStore } from '../store';
+import { paginationStore } from '../store';
 import { add, getPage, edit, getById } from './queries';
 import { Validator } from '../utils';
+import { baseUrl, port } from '../constants';
 
 import ApolloClient from 'apollo-boost';
 
 const client = new ApolloClient({
-    uri: 'http://localhost:4000/graphql'
+    uri: `${baseUrl + port  }/graphql`
 });
 
 class PatientStore {
@@ -135,7 +136,7 @@ class PatientStore {
     @action
     async getPage() {
         try {
-            const skip = (buttonStore.current - 1) * 4;
+            const skip = (paginationStore.current - 1) * 4;
             const result = await client.query({
                 query: getPage,
                 variables: {
@@ -148,7 +149,7 @@ class PatientStore {
             runInAction(() => {
                 this.patientList = result.data.getPage.items;
                 this.count = result.data.getPage.total;
-                buttonStore.setButtonsViewList(this.count);
+                paginationStore.setButtonsViewList(this.count);
             });
         } catch (error) {
             runInAction(() => {

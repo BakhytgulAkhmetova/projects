@@ -2,7 +2,7 @@ import { observable, action } from 'mobx';
 
 import { setButtonsCount } from '../utils';
 
-class ButtonStore {
+class PaginationStore {
     constructor() {
         this.fixView = 3;
     }
@@ -88,4 +88,4 @@ class ButtonStore {
     }
 }
 
-export default new ButtonStore();
+export default new PaginationStore();
