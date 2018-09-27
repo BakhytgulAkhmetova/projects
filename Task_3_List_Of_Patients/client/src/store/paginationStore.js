@@ -3,87 +3,70 @@ import { observable, action } from 'mobx';
 import { setButtonsCount } from '../utils';
 
 class PaginationStore {
-    constructor() {
-        this.fixView = 3;
-    }
-    @observable buttonListView = []
+    @observable maxCount = 0
 
-    @observable count = 0
+    @observable maxCountView = 0;
 
     @observable current = 1
 
-    @observable move = {
-        back: true,
-        forward: false
-    }
+    @observable interval = 0;
 
-    @observable viewStart = 1
+    @observable start = 0;
 
-    @observable viewEnd = 3
+    @observable end = 0;
 
     @action
-    setButtonsViewList(patientsCount) {
-        /* get count of all buttons*/
-        this.count = setButtonsCount(patientsCount, 4);
-
-        /* creation buttons for view */
-        this.buttonListView = [];
-
-        if (this.count > this.fixView) {
-            if (this.viewStart === 1) {
-                this.viewEnd = this.fixView;
-            }
+    setStartButton() {
+        if (this.current === 1) {
+            this.start = this.current;
         } else {
-            this.viewEnd = this.count;
-        }
-
-        for (let i = this.viewStart; i <= this.viewEnd; i++) {
-            this.buttonListView.push({ number: i });
+            this.start = this.current - this.interval;
         }
     }
 
     @action
-    setMove(id) {
-        switch (parseFloat(id) === 1) {
-            case true:
-                this.move.back = true;
-                this.move.forward = false;
-                break;
-
-            case false:
-                this.move.back = false;
-                this.move.forward = true;
-                break;
-
-            default:
-                break;
+    setEndButton() {
+        if (this.maxCountView >= this.maxCount) {
+            this.end = this.maxCount;
+        }
+        if (this.maxCountView < this.maxCount) {
+            if (this.current === this.maxCount) {
+                this.end = this.current;
+            } else {
+                this.end = this.current + this.interval;
+            }
+            if (this.current === this.start) {
+                this.end = this.maxCountView;
+            }
         }
     }
 
     @action
-    changeViewButtons() {
-        switch (this.move.forward) {
-            case true:
-                if (this.viewEnd < this.count) {
-                    this.viewEnd++;
-                    this.viewStart++;
-                }
-                break;
+    setMaxCount(maxCountView, patientsCount) {
+        this.maxCount = setButtonsCount(patientsCount, maxCountView);
+    }
 
-            case false:
-                if (this.viewStart > 1) {
-                    this.viewStart--;
-                    this.viewEnd--;
-                }
-                break;
+    @action
+    setBaseValues(maxCountView) {
+        this.maxCountView = maxCountView;
+        this.interval = (maxCountView - 1) / 2;
+    }
 
-            default:
-                break;
+    @action
+    setCurrent(current) {
+        this.current = parseInt(current, 10);
+    }
+
+    @action
+    moveLeft(current) {
+        if ((this.current - this.interval) > 1) {
+            this.current--;
         }
-        this.buttonListView = [];
-
-        for (let i = this.viewStart; i <= this.viewEnd; i++) {
-            this.buttonListView.push({ number: i });
+    }
+    @action
+    moveRight(current) {
+        if ((this.current + this.interval) < this.maxCount) {
+            this.current++;
         }
     }
 }

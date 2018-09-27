@@ -5,26 +5,24 @@
 .form {
     &__field {
         margin-left: 30px;
-        height: 100px;
-        @extend %display-flex-row;
+        padding: 10px 0;
     }
+    width: 100%;
 }
 
 .field {
-    &___label {
-        width: 40%;
-    }
-
     &__input,
     &__select {
         font-size: $font-size-small-plus;
-        width: 90%;
-        height: 40px;
         border: 1px solid $black;
     }
 
+    &__input,
+    &__select,
     &__date {
-        width: 90%;
+        width: 80%;
         height: 40px;
     }
+    padding-top: 15px;
+    width: 100%;
 }

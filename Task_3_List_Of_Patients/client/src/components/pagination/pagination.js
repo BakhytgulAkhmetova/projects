@@ -1,57 +1,86 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { withHandlers, compose } from 'recompose';
+import PropTypes from 'prop-types';
 
 import { Button } from '../button';
 import { paginationStore, patientStore } from '../../store';
 
 import './pagination.scss';
 
-const mapActionsToProps = {
-    onHandleOpenPageTable: props => event => {
-        event.preventDefault();
-        paginationStore.current = event.target.id;
-        patientStore.getPage();
-    },
-    onHandleMoveButtonsBack: props => event => {
-        event.preventDefault();
-        paginationStore.setMove(event.target.id);
-        paginationStore.changeViewButtons();
-    },
-
-    onHandleMoveButtonsForward: props => event => {
-        event.preventDefault();
-        paginationStore.setMove(event.target.id);
-        paginationStore.changeViewButtons();
+@observer
+export class Pagination extends React.Component {
+    static propTypes = {
+        maxViewBtns: PropTypes.number,
+        maxViewPatients: PropTypes.number
     }
-};
 
-export const Pagination = compose(withHandlers(mapActionsToProps),
-    observer)(({ onHandleOpenPageTable, onHandleMoveButtonsBack, onHandleMoveButtonsForward }) => {
-    return (
-        <div className='table-mover'>
-            <Button
-                id={1}
-                handleOnClick={onHandleMoveButtonsBack}
-                className='table-mover__btn'
-                title='«' />
-            {
-                paginationStore.buttonListView.map(button => {
-                    return (
-                        <Button
-                            handleOnClick={onHandleOpenPageTable}
-                            id={button.number}
-                            key={button.number}
-                            className='table-mover__btn'
-                            title={button.number} />
-                    );
-                })
-            }
-            <Button
-                id={2}
-                handleOnClick={onHandleMoveButtonsForward}
-                className='table-mover__btn'
-                title='»' />
-        </div>
-    );
-});
+    componentDidMount() {
+        paginationStore.setBaseValues(this.props.maxViewBtns);
+        paginationStore.setMaxCount(this.props.maxViewPatients, patientStore.count);
+        paginationStore.setStartButton();
+        paginationStore.setEndButton();
+    }
+
+    componentWillReceiveProps() {
+        paginationStore.setMaxCount(this.props.maxViewPatients, patientStore.count);
+        paginationStore.setStartButton();
+        paginationStore.setEndButton();
+    }
+
+    getButtons = () => {
+        const start = paginationStore.start;
+        const end = paginationStore.end;
+
+        const buttons = [];
+
+        for (let i = start; i <= end; i++) {
+            buttons.push(
+                <Button
+                    handleOnClick={this.onHandleOpenPageTable}
+                    id={i}
+                    key={i}
+                    className='pagination__btn'
+                    title={i} />);
+        }
+        return buttons;
+    };
+
+    onHandleOpenPageTable = event => {
+        event.preventDefault();
+        paginationStore.setCurrent(event.target.id);
+        paginationStore.setStartButton();
+        paginationStore.setEndButton();
+        patientStore.getPage();
+    }
+
+    onHandleMoveButtonsBack = event => {
+        event.preventDefault();
+        paginationStore.moveLeft();
+        paginationStore.setStartButton();
+        paginationStore.setEndButton();
+    }
+
+    onHandleMoveButtonsForward = event => {
+        event.preventDefault();
+        paginationStore.moveRight();
+        paginationStore.setStartButton();
+        paginationStore.setEndButton();
+    }
+
+    render() {
+        return (
+            <div className='pagination'>
+                <Button
+                    handleOnClick={this.onHandleMoveButtonsBack}
+                    className='pagination__btn'
+                    title='«' />
+
+                {this.getButtons()}
+                <Button
+                    handleOnClick={this.onHandleMoveButtonsForward}
+                    className='pagination__btn'
+                    title='»'/>
+            </div>
+        );
+    }
+}

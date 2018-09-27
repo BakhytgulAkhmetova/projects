@@ -9,7 +9,7 @@ import { baseUrl, port } from '../constants';
 import ApolloClient from 'apollo-boost';
 
 const client = new ApolloClient({
-    uri: `${baseUrl + port  }/graphql`
+    uri: `${baseUrl + port}/graphql`
 });
 
 class PatientStore {
@@ -149,7 +149,6 @@ class PatientStore {
             runInAction(() => {
                 this.patientList = result.data.getPage.items;
                 this.count = result.data.getPage.total;
-                paginationStore.setButtonsViewList(this.count);
             });
         } catch (error) {
             runInAction(() => {

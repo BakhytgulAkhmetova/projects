@@ -1,18 +1,17 @@
 @import 'src/styles/colors';
 @import 'src/styles/fonts';
+@import 'src/styles/variables';
 
-$table-mover-width: 400px;
-
-.table-mover {
+.pagination {
     &__btn {
         height: 60px;
-        width: $table-mover-width/7;
+        width: 55px;
         color: $lochmara;
         border-radius: 5px;
         font-size: $font-size-low-middle;
         background-color: $white;
     }
-    width: $table-mover-width;
     padding: 30px 0 30px 0;
-    margin: auto;
+    @extend %display-flex-row;
+    justify-content: center;
 }

@@ -5,5 +5,7 @@ import { FormPatient } from '../../components/formPatient';
 import { patientStore } from '../../store';
 
 export const AddModal = observer(() => {
-    return (<FormPatient patient={patientStore.patient} />);
+    return (<FormPatient
+        patient={patientStore.patient}
+        genderList={patientStore.genderList} />);
 });

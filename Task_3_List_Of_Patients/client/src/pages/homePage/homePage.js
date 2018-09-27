@@ -27,7 +27,9 @@ export class HomePage extends React.Component {
                 <div className='content-home-page'>
                     <ButtonAdd />
                     <Grid patientList={patientStore.patientList}/>
-                    <Pagination/>
+                    <Pagination
+                        maxViewBtns = {3}
+                        maxViewPatients = {4}/>
                     <ModalView />
                 </div>
             </div >

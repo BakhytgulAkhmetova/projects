@@ -1,9 +1,10 @@
-export const genders = {
-    male: 'Male',
-    female: 'Female'
-};
 export const baseUrl = 'http://localhost:';
 export const port = '4000';
+
+export const genders = {
+    male:'Male',
+    female:'Female'
+};
 
 export const regPhoneNumber = /^[0-9]{10}$/ig;
 

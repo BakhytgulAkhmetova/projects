@@ -16,7 +16,7 @@ export const emptyPatient = {
         errors: []
     },
     gender: {
-        value:genders.male,
+        value: genders.male,
         errors: []
     },
     phoneNumber: {

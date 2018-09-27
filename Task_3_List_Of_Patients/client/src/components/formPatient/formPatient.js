@@ -4,8 +4,8 @@ import DatePicker from 'react-date-picker';
 import { observer } from 'mobx-react';
 import { withHandlers, compose } from 'recompose';
 
-import { genders } from '../../constants';
 import { ErrorMessage } from '../errorMessage';
+import { genders } from '../../constants';
 import { patientStore } from '../../store';
 
 import './formPatient.scss';
@@ -27,38 +27,41 @@ const Form = ({
     handleChange,
     handleOnChangeDate }) => {
     return (
-        <form>
+        <form className='form'>
             <div className='form__field'>
                 <label
                     htmlFor='firstName'
                     className='field__label'>
                     First Name
+                    <div className='field'>
+                        <input
+                            value={patient.firstName.value}
+                            onChange={handleChange}
+                            id='firstName'
+                            placeholder='Enter your first name'
+                            className='field__input' />
+                    </div>
                 </label>
-                <input
-                    value={patient.firstName.value}
-                    onChange={handleChange}
-                    id='firstName'
-                    placeholder='Enter your first name'
-                    className='field__input' />
                 {
                     patient.firstName.errors ?
                         <ErrorMessage msgs={patient.firstName.errors} /> :
                         null
                 }
-
             </div>
             <div className='form__field'>
                 <label
                     htmlFor='lastName'
                     className='field__label'>
                     Last Name
+                    <div className='field'>
+                        <input
+                            value={patient.lastName.value}
+                            onChange={handleChange}
+                            id='lastName'
+                            placeholder='Enter your last name'
+                            className='field__input' />
+                    </div>
                 </label>
-                <input
-                    value={patient.lastName.value}
-                    onChange={handleChange}
-                    id='lastName'
-                    placeholder='Enter your last name'
-                    className='field__input' />
                 {
                     patient.lastName.errors ?
                         <ErrorMessage msgs={patient.lastName.errors} /> :
@@ -66,48 +69,57 @@ const Form = ({
                 }
             </div>
             <div className='form__field'>
-                <span
+                <label
                     className='field__label'>
                     Birth Date
-                </span>
-                <div className='field__date'>
-                    <DatePicker
-                        value={patient.birthDate.value}
-                        onChange={handleOnChangeDate} />
-                    {
-                        patient.birthDate.errors ?
-                            <ErrorMessage msgs={patient.birthDate.errors} /> :
-                            null
-                    }
-                </div>
+                    <div className='field__date'>
+                        <DatePicker
+                            maxDate={new Date()}
+                            minDate={new Date('1870-09-27T16:19:06.879Z')}
+                            className='field__date'
+                            value={patient.birthDate.value}
+                            onChange={handleOnChangeDate} />
+                    </div>
+                </label>
+                {
+                    patient.birthDate.errors ?
+                        <ErrorMessage msgs={patient.birthDate.errors} /> :
+                        null
+                }
             </div>
             <div className='form__field'>
                 <label
                     htmlFor='gender'
                     className='field__label'>
                     Gender
+                    <div className='field'>
+                        <select
+                            onChange={handleChange}
+                            id='gender'
+                            className='field__select'
+                            value={patient.gender.value}>
+                            {
+                                genderList.map(g =>
+                                    (<option key={g}>{g}</option>))
+                            }
+                        </select>
+                    </div>
                 </label>
-                <select
-                    onSelect={handleChange}
-                    id='gender'
-                    className='field__select'
-                    value={patient.gender}>
-                    {genderList.map(g =>
-                        (<option key={g}>{g}</option>))}
-                </select>
             </div>
             <div className='form__field'>
                 <label
                     htmlFor='phoneNumber'
                     className='field__label'>
                     Pnone
+                    <div className='field'>
+                        <input
+                            value={patient.phoneNumber.value}
+                            onChange={handleChange}
+                            id='phoneNumber'
+                            placeholder='Enter your phone number'
+                            className='field__input' />
+                    </div>
                 </label>
-                <input
-                    value={patient.phoneNumber.value}
-                    onChange={handleChange}
-                    id='phoneNumber'
-                    placeholder='Enter your phone number'
-                    className='field__input' />
                 {
                     patient.phoneNumber.errors ?
                         <ErrorMessage msgs={patient.phoneNumber.errors} /> :
@@ -119,13 +131,15 @@ const Form = ({
                     htmlFor='email'
                     className='field__label'>
                     Email
+                    <div className='field'>
+                        <input
+                            value={patient.email.value}
+                            onChange={handleChange}
+                            id='email'
+                            placeholder='Enter your email'
+                            className='field__input' />
+                    </div>
                 </label>
-                <input
-                    value={patient.email.value}
-                    onChange={handleChange}
-                    id='email'
-                    placeholder='Enter your email'
-                    className='field__input' />
                 {
                     patient.email.errors ?
                         <ErrorMessage msgs={patient.email.errors} /> :
@@ -151,5 +165,5 @@ Form.propTypes = {
     handleChange: PropTypes.func,
     handleOnChangeDate: PropTypes.func,
     patient: PropTypes.object,
-    gender: PropTypes.oneOf([genders.female, genders.male])
+    gender: PropTypes.object
 };

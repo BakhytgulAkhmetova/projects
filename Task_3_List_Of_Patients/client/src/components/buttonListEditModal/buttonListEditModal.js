@@ -11,6 +11,7 @@ const mapActionsToProps = {
         modalStore.close();
         patientStore.editPatient();
         patientStore.getPage();
+        patientStore.cleanPatientFields();
     }
 };
 
