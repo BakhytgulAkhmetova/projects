@@ -5,7 +5,7 @@ export const Button = ({ isDisable, title, className, handleOnClick, id }) => {
     return (
         <button
             id={id}
-            disabled = {isDisable}
+            disabled={isDisable}
             onClick={handleOnClick}
             className={className} >
             {title}
@@ -14,7 +14,7 @@ export const Button = ({ isDisable, title, className, handleOnClick, id }) => {
 };
 
 Button.propTypes = {
-    title: PropTypes.string,
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     className: PropTypes.string,
     handleOnClick: PropTypes.func,
     id: PropTypes.number,

@@ -25,5 +25,5 @@ export const ErrorMessage = ({ msgs }) => {
 };
 
 ErrorMessage.propTypes = {
-    msgs: PropTypes.string
+    msgs: PropTypes.arrayOf(PropTypes.string)
 };

@@ -3,7 +3,8 @@
 @import 'src/styles/variables';
 
 .pagination {
-    &__btn {
+    &__btn,
+    &__btn-move {
         height: 60px;
         width: 55px;
         color: $lochmara;
@@ -11,7 +12,14 @@
         font-size: $font-size-low-middle;
         background-color: $white;
     }
+    &__btn-move {
+        display: none;
+    }
     padding: 30px 0 30px 0;
     @extend %display-flex-row;
     justify-content: center;
+}
+
+.display {
+    display: block;
 }

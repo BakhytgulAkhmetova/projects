@@ -3,12 +3,14 @@ export class Validator {
     constructor({ types, config }) {
         this.types = types;
         this.config = config;
+        this.messages = [];
+        this.listErrors = [];
     }
 
     validate = (data) => {
-        this.messages = [];
         for (const i in data) {
             if (data.hasOwnProperty(i)) {
+                this.messages = [];
                 const typesForOne = this.config[i];
 
                 for (let j = 0; j < typesForOne.length; j++) {
@@ -23,8 +25,7 @@ export class Validator {
                         e.name = 'ValidationError';
                         throw e;
                     }
-
-                    const success = checker.validate(data[i]);
+                    const success = checker.validate(data[i].value);
 
                     if (!success) {
                         const msg = `Invalid value. ${checker.instructions}`;
@@ -33,11 +34,19 @@ export class Validator {
                     }
                 }
             }
+            this.listErrors.push({
+                prop: i,
+                msgs: this.messages
+            });
         }
         return this.hasErrors();
     }
 
     hasErrors = () => {
-        return this.messages.length !== 0;
+        return this.listErrors.length !== 0;
+    }
+
+    cleanListErrors = () => {
+        this.listErrors = [];
     }
 }

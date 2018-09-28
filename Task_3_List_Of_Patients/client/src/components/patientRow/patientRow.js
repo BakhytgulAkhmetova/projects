@@ -39,7 +39,7 @@ PatientRow.propTypes = {
     lastName: PropTypes.string,
     gender: PropTypes.string,
     age: PropTypes.number,
-    id: PropTypes.number,
+    id: PropTypes.string,
     phoneNumber: PropTypes.string,
     emailAdress: PropTypes.string
 };

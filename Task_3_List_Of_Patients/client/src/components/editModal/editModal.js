@@ -5,7 +5,5 @@ import { FormPatient } from '../../components/formPatient';
 import { patientStore } from '../../store';
 
 export const EditModal = observer(() => {
-    return (<FormPatient
-        patient={patientStore.patient}
-        genderList={patientStore.genderList} />);
+    return (<FormPatient patient={patientStore.patient}/>);
 });

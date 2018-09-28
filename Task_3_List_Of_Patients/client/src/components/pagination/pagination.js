@@ -1,6 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import { Button } from '../button';
 import { paginationStore, patientStore } from '../../store';
@@ -68,17 +69,24 @@ export class Pagination extends React.Component {
     }
 
     render() {
+        const buttons = this.getButtons();
+
+        const moveButtonsClass = classNames({
+            'pagination__btn-move': true,
+            'display': buttons.length !== 0
+        });
+
         return (
             <div className='pagination'>
                 <Button
                     handleOnClick={this.onHandleMoveButtonsBack}
-                    className='pagination__btn'
+                    className={moveButtonsClass}
                     title='«' />
 
-                {this.getButtons()}
+                {buttons}
                 <Button
                     handleOnClick={this.onHandleMoveButtonsForward}
-                    className='pagination__btn'
+                    className={moveButtonsClass}
                     title='»'/>
             </div>
         );

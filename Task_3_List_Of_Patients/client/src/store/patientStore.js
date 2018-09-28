@@ -23,7 +23,7 @@ class PatientStore {
 
     @observable errorsPatient = [];
 
-    @observable isValidPatient = true;
+    @observable isInValidPatient = true;
 
     @observable patient = emptyPatient
 
@@ -33,7 +33,7 @@ class PatientStore {
     }
 
     @action
-    hasPatientFormError() {
+    setIsValid() {
         for (const prop in this.patient) {
             if (this.patient.hasOwnProperty(prop) && typeof this.patient[prop] === 'object') {
                 if (this.patient[prop].errors.length) {
@@ -43,9 +43,9 @@ class PatientStore {
         }
 
         if (this.errorsPatient.length) {
-            this.isValidPatient = true;
+            this.isInValidPatient = true;
         } else {
-            this.isValidPatient = false;
+            this.isInValidPatient = false;
         }
         this.errorsPatient = [];
     }
@@ -68,7 +68,9 @@ class PatientStore {
                 this.patient.phoneNumber.value = patientFound.phoneNumber;
                 this.patient.email.value = patientFound.email;
                 this.patient.gender.value = patientFound.gender;
-                this.patient.id = patientFound.id;
+                this.patient.id.value = id;
+
+                this.isInValidPatient = false;
             });
         } catch (error) {
             runInAction(() => {
@@ -79,6 +81,7 @@ class PatientStore {
 
     @action
     async addPatient() {
+        this.isInValidPatient = true;
         try {
             return await client.mutate({
                 mutation: add,
@@ -111,7 +114,7 @@ class PatientStore {
                     phoneNumber: this.patient.phoneNumber.value,
                     email: this.patient.email.value,
                     gender: this.patient.gender.value,
-                    id: this.patient.id
+                    id: this.patient.id.value
                 },
                 fetchPolicy: 'no-cache'
             });
@@ -124,13 +127,21 @@ class PatientStore {
 
     @action
     changePatientField(key, value) {
-        const field = {};
-
-        field[key] = value;
-        this.validator.validate(field);
-        this.patient[key].errors = this.validator.messages;
-        this.hasPatientFormError();
         this.patient[key].value = value;
+        this.validator.validate(this.patient);
+        const errors = this.validator.listErrors;
+
+
+        for (let i = 0; i < errors.length; i++) {
+            const prop = errors[i].prop;
+
+            this.patient[prop] = {
+                ...this.patient[prop],
+                errors: errors[i].msgs
+            };
+        }
+        this.setIsValid();
+        this.validator.cleanListErrors();
     }
 
     @action

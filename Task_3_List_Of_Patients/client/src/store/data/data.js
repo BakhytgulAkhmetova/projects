@@ -5,8 +5,14 @@ export const emptyPatient = {
         value: '',
         errors: []
     },
-    id: -1,
-    age: 0,
+    id: {
+        value: -1,
+        errors: []
+    },
+    age: {
+        value: 0,
+        errors: []
+    },
     lastName: {
         value: '',
         errors: []
@@ -34,6 +40,8 @@ export const config = {
     lastName: ['isNotEmpty'],
     birthDate: ['isNotEmpty'],
     gender: [],
+    id: [],
+    age:[],
     phoneNumber: ['isNotEmpty', 'isPhoneNumber'],
     email: ['isNotEmpty', 'isEmail']
 };
@@ -47,7 +55,7 @@ export const types = {
     },
     isPhoneNumber: {
         validate: (value) => {
-            return !isNaN(value) && regPhoneNumber.test(value);
+            return value.search(regPhoneNumber) !== -1;
         },
         instructions: 'The value can only be a valid phone number'
     },

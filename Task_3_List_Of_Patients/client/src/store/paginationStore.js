@@ -58,16 +58,14 @@ class PaginationStore {
     }
 
     @action
-    moveLeft(current) {
-        if ((this.current - this.interval) > 1) {
-            this.current--;
+    moveLeft() {
+        if (this.current - this.interval !== -1) {
+            this.current = this.start;
         }
     }
     @action
-    moveRight(current) {
-        if ((this.current + this.interval) < this.maxCount) {
-            this.current++;
-        }
+    moveRight() {
+        this.current = this.end;
     }
 }
 
