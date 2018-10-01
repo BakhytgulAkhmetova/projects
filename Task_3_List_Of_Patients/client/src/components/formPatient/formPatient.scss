@@ -10,19 +10,32 @@
     width: 100%;
 }
 
+.react-datepicker {
+    &-wrapper {
+         width: 80%;
+         height: 40px;
+         font-size: $font-size-small-plus;
+         border: 1px solid $black;
+    }
+    &__input-container { 
+        @extend %size-max;
+    }
+}
+
 .field {
+    &_date {
+        @extend %size-max;
+        font-size: $font-size-small-plus;
+    }
+
     &__input,
     &__select {
+        width: 80%;
+        height: 40px;
         font-size: $font-size-small-plus;
         border: 1px solid $black;
     }
 
-    &__input,
-    &__select,
-    &__date {
-        width: 80%;
-        height: 40px;
-    }
     padding-top: 15px;
     width: 100%;
 }

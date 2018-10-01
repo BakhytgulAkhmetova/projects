@@ -1,4 +1,4 @@
-import { genders, regEmail, regPhoneNumber } from '../../constants';
+import { genders, regEmail, regPhoneNumber, regBirthDay } from '../../constants';
 
 export const emptyPatient = {
     firstName: {
@@ -38,7 +38,7 @@ export const emptyPatient = {
 export const config = {
     firstName: ['isNotEmpty'],
     lastName: ['isNotEmpty'],
-    birthDate: ['isNotEmpty'],
+    birthDate: ['isNotEmpty', 'isValidDate'],
     gender: [],
     id: [],
     age:[],
@@ -64,5 +64,11 @@ export const types = {
             return regEmail.test(value);
         },
         instructions: 'Invalid Email. Please try again (ex. email2090@mail.ru)'
+    },
+    isValidDate: {
+        validate: (value) => {
+            return regBirthDay.test(value) || (value <= new Date() && value >= new Date('1870-09-27T16:19:06.879Z'));
+        },
+        instructions: 'Invalid date. Please try again (ex. 13/12/2014)'
     }
 };

@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { withHandlers, compose } from 'recompose';
 import { Link } from 'react-router-dom';
 
-import { EditModal } from '../../components/editModal';
+import { FormPatient } from '../../components/formPatient';
 import { ButtonListEditModal } from '../buttonListEditModal';
 import { patientStore, modalStore } from '../../store';
 
@@ -13,7 +13,7 @@ const mapActionsToProps = {
         patientStore.get(event.currentTarget.id);
         modalStore.open({
             title: 'Edit patient',
-            content: <EditModal />,
+            content: <FormPatient patient={patientStore.patient}/>,
             buttons: <ButtonListEditModal />
         });
     }

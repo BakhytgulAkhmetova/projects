@@ -1,31 +1,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import DatePicker from 'react-date-picker';
+import DatePicker from 'react-datepicker';
 import { observer } from 'mobx-react';
 import { withHandlers, compose } from 'recompose';
+import moment from 'moment';
 
 import { ErrorMessage } from '../errorMessage';
 import { genders } from '../../constants';
 import { patientStore } from '../../store';
 
 import './formPatient.scss';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const genderList = [genders.male, genders.female];
 
 const mapActionsToProps = {
     handleChange: props => event => {
-        event.preventDefault();
         patientStore.changePatientField(event.target.id, event.target.value);
     },
     handleOnChangeDate: props => date => {
-        patientStore.changePatientField('birthDate', date);
+        if (date) {
+            patientStore.changePatientField('birthDate', date._d);
+        } else {
+            patientStore.changePatientField('birthDate', date);
+        }
     }
 };
 
 const Form = ({
     patient,
     handleChange,
+    handleChangeRaw,
     handleOnChangeDate }) => {
+    const isValid = (date) => {
+        return date <= new Date() && date >= new Date('1870-09-27T16:19:06.879Z');
+    };
+    const dateValue = patient.birthDate.value ?
+        moment(patient.birthDate.value, 'DD-MM-YYYY') : '';
+
     return (
         <form className='form'>
             <div className='form__field'>
@@ -74,10 +86,13 @@ const Form = ({
                     Birth Date
                     <div className='field__date'>
                         <DatePicker
-                            maxDate={new Date()}
-                            minDate={new Date('1870-09-27T16:19:06.879Z')}
-                            className='field__date'
-                            value={patient.birthDate.value}
+                            id='birthDate'
+                            className='field_date'
+                            selected={dateValue}
+                            onChangeRaw={handleChange}
+                            filterDate={isValid}
+                            isClearable
+                            value={dateValue}
                             onChange={handleOnChangeDate} />
                     </div>
                 </label>
@@ -165,5 +180,6 @@ Form.propTypes = {
     handleChange: PropTypes.func,
     handleOnChangeDate: PropTypes.func,
     patient: PropTypes.object,
+    handleChangeRaw: PropTypes.func,
     gender: PropTypes.object
 };
