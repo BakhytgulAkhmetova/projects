@@ -20,9 +20,9 @@ const mapActionsToProps = {
     },
     handleOnChangeDate: props => date => {
         if (date) {
-            patientStore.changePatientField('birthDate', date._d);
+            patientStore.patient.birthDate.value = date._d;
         } else {
-            patientStore.changePatientField('birthDate', date);
+            patientStore.patient.birthDate.value = date;
         }
     }
 };
@@ -32,12 +32,15 @@ const Form = ({
     handleChange,
     handleChangeRaw,
     handleOnChangeDate }) => {
+    const dateSelected = moment(new Date(), 'DD-MM-YYYY');
+
     const isValid = (date) => {
         return date <= new Date() && date >= new Date('1870-09-27T16:19:06.879Z');
     };
-    const dateValue = patient.birthDate.value ?
-        moment(patient.birthDate.value, 'DD-MM-YYYY') : '';
+    const dateValidated = patient.birthDate.value ?
+        moment(patient.birthDate.value).format('DD/MM/YYYY') : '';
 
+    console.log(typeof dateValidated);
     return (
         <form className='form'>
             <div className='form__field'>
@@ -88,11 +91,11 @@ const Form = ({
                         <DatePicker
                             id='birthDate'
                             className='field_date'
-                            selected={dateValue}
+                            selected={dateSelected}
                             onChangeRaw={handleChange}
                             filterDate={isValid}
                             isClearable
-                            value={dateValue}
+                            value={dateValidated}
                             onChange={handleOnChangeDate} />
                     </div>
                 </label>
@@ -176,10 +179,12 @@ Form.propTypes = {
     birthDate: PropTypes.object,
     genderList: PropTypes.array,
     phoneNumber: PropTypes.string,
+    dateSelected: PropTypes.object,
     email: PropTypes.string,
     handleChange: PropTypes.func,
     handleOnChangeDate: PropTypes.func,
     patient: PropTypes.object,
+    dateValidated: PropTypes.object,
     handleChangeRaw: PropTypes.func,
     gender: PropTypes.object
 };

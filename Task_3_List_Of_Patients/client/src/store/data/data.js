@@ -67,7 +67,7 @@ export const types = {
     },
     isValidDate: {
         validate: (value) => {
-            return regBirthDay.test(value) || (value <= new Date() && value >= new Date('1870-09-27T16:19:06.879Z'));
+            return regBirthDay.test(value);
         },
         instructions: 'Invalid date. Please try again (ex. 13/12/2014)'
     }

@@ -1,34 +1,17 @@
-/*creation graphql types*/
+/* creation graphql types*/
 
-const typeDefs = `
-    scalar Date
-
-    type Patient {
-        id: String!,
-        firstName: String!,
-        lastName: String!,
-        birthDate: Date!,
-        gender: String!,
-        phoneNumber: String! ,
-        email: String!,
-        age: Int
-    }
-
-    type Page {
-        items: [Patient],
-        total: Int!
-    }
-
+const query = `
     type Query {
-        getPage (
+        getPatientsPage (
             skip: Int!,
             limit: Int!
         ): Page!
         getPatientById(
             id: String!
-        ): Patient!
-    }
+            ): Patient!
+    }`;
 
+const mutation = `
     type Mutation {
         addPatient(
             firstName: String!,
@@ -49,10 +32,29 @@ const typeDefs = `
         ): Patient
         deleteAllPatients: Int!
     }
-    
-    schema {
-        query: Query
-        mutation: Mutation
+    `;
+
+const customTypes = `
+    scalar Date
+
+    type Patient {
+        id: String!,
+        firstName: String!,
+        lastName: String!,
+        birthDate: Date!,
+        gender: String!,
+        phoneNumber: String!,
+        email: String!,
+        age: Int
+    }
+
+    type Page {
+        items: [Patient],
+        total: Int!
     }`;
 
-module.exports = typeDefs;
+module.exports = {
+    query,
+    mutation,
+    customTypes
+};

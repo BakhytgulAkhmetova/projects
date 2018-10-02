@@ -127,7 +127,6 @@ class PatientStore {
 
     @action
     changePatientField(key, value) {
-        console.log(key, value);
         this.patient[key].value = value;
         this.validator.validate(this.patient);
         const errors = this.validator.listErrors;

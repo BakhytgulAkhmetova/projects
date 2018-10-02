@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const Patient = require('../mongo/models/patient');
-const setPatientAge = require('../utils/setPatientAge');
+const Patient = require('./mongo/models/patient');
+const setPatientAge = require('./utils/setPatientAge');
 
 /* asynchronous function to add new patient in storage */
 async function addPatient({
@@ -24,15 +24,16 @@ async function addPatient({
     try {
         return await patient.save();
     } catch (error) {
-        return error;
+        throw error;
     }
 }
 
 /* asynchronous function to get all patients from storage*/
-async function getPage({ skip, limit }) {
+async function getPatientsPage({ skip, limit }) {
     try {
         let items = await Patient.find().skip(skip).limit(limit);
         const total = await Patient.find().estimatedDocumentCount();
+
         items = items.map((p) => {
             return {
                 ...p.toObject(),
@@ -42,15 +43,15 @@ async function getPage({ skip, limit }) {
         });
         return { items, total };
     } catch (error) {
-        return error;
+        throw error;
     }
 }
 
-async function deleteAll() {
+async function deleteAllPatients() {
     try {
-       return await Patient.deleteMany();
+        return await Patient.deleteMany();
     } catch (error) {
-        return error;
+        throw error;
     }
 }
 
@@ -59,7 +60,7 @@ async function getPatientById(id) {
     try {
         return await Patient.findById(id);
     } catch (error) {
-        return error;
+        throw error;
     }
 }
 
@@ -77,14 +78,14 @@ async function updatePatient({ id, firstName, lastName, birthDate, gender, phone
     try {
         return await Patient.findByIdAndUpdate(id, patient, { new: true });
     } catch (error) {
-        return error;
+        throw error;
     }
 }
 
 module.exports = {
     addPatient,
-    getPage,
+    getPatientsPage,
     getPatientById,
     updatePatient,
-    deleteAll
+    deleteAllPatients
 };
