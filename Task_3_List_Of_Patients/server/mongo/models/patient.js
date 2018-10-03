@@ -8,7 +8,7 @@ const schema = new Schema({
     firstName: String,
     lastName: String,
     birthDate: Date,
-    gender: String,
+    gender: { type: String, enum: ['Male', 'Female'] },
     phoneNumber: String,
     email: String
 });

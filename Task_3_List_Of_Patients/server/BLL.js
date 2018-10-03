@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
+const moment = require('moment');
 
 const Patient = require('./mongo/models/patient');
-const setPatientAge = require('./utils/setPatientAge');
+// const setPatientAge = require('./utils/setPatientAge');
 
 /* asynchronous function to add new patient in storage */
 async function addPatient({
@@ -38,7 +39,8 @@ async function getPatientsPage({ skip, limit }) {
             return {
                 ...p.toObject(),
                 id: p._id.toString(),
-                age: setPatientAge(p.birthDate)
+                age: moment(new Date()).diff(moment(p.birthDate), 'years')
+                // age: setPatientAge(p.birthDate)
             };
         });
         return { items, total };

@@ -1,9 +1,9 @@
 import gql from 'graphql-tag';
 
-export const getPage = gql
+export const getPatientsPage = gql
     `query ($skip: Int! 
                   $limit: Int!){
-                    getPage (skip: $skip, limit: $limit) {
+                    getPatientsPage (skip: $skip, limit: $limit) {
                         items{
                             firstName
                                 lastName

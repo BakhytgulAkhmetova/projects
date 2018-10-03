@@ -17,7 +17,7 @@ export class HomePage extends React.Component {
     }
 
     componentDidMount() {
-        patientStore.getPage();
+        patientStore.getPatientsPage();
     }
 
     render() {

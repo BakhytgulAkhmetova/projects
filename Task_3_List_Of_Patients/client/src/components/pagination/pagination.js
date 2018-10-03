@@ -51,7 +51,7 @@ export class Pagination extends React.Component {
         paginationStore.setCurrent(event.target.id);
         paginationStore.setStartButton();
         paginationStore.setEndButton();
-        patientStore.getPage();
+        patientStore.getPatientsPage();
     }
 
     onHandleMoveButtonsBack = event => {
