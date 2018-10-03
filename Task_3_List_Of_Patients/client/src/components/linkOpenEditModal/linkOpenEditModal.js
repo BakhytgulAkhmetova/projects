@@ -10,7 +10,7 @@ import { patientStore, modalStore } from '../../store';
 const mapActionsToProps = {
     onHandleOpenModalEdit: props => event => {
         event.preventDefault();
-        patientStore.get(event.currentTarget.id);
+        patientStore.getPatientById(event.currentTarget.id);
         modalStore.open({
             title: 'Edit patient',
             content: <FormPatient patient={patientStore.patient}/>,

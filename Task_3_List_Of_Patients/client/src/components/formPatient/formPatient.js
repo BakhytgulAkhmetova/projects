@@ -32,15 +32,14 @@ const Form = ({
     handleChange,
     handleChangeRaw,
     handleOnChangeDate }) => {
-    const dateSelected = moment(new Date(), 'DD-MM-YYYY');
+    const dateSelected = moment(patient.birthDate.value || new Date(), 'DD-MM-YYYY');
 
     const isValid = (date) => {
         return date <= new Date() && date >= new Date('1870-09-27T16:19:06.879Z');
     };
     const dateValidated = patient.birthDate.value ?
-        moment(patient.birthDate.value).format('DD/MM/YYYY') : '';
+        moment(patient.birthDate.value, 'DD/MM/YYYY') : '';
 
-    console.log(typeof dateValidated);
     return (
         <form className='form'>
             <div className='form__field'>

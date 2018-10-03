@@ -51,7 +51,7 @@ class PatientStore {
     }
 
     @action
-    async get(id) {
+    async getPatientById(id) {
         try {
             const result = await client.query({
                 query: getPatientById,

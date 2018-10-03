@@ -10,7 +10,7 @@ const mapActionsToProps = {
         event.preventDefault();
         modalStore.close();
         patientStore.editPatient();
-        patientStore.getPage();
+        patientStore.getPatientsPage();
         patientStore.cleanPatientFields();
     }
 };

@@ -10,7 +10,7 @@ const mapActionsToProps = {
         event.preventDefault();
         modalStore.close();
         patientStore.addPatient();
-        patientStore.getPage();
+        patientStore.getPatientsPage();
         paginationStore.setMaxCount(props.maxViewPatients, patientStore.count);
         paginationStore.setStartButton();
         paginationStore.setEndButton();

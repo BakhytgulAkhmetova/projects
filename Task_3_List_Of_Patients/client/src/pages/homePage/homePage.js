@@ -1,6 +1,5 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import PropTypes from 'prop-types';
 
 import { ModalView } from '../../components/ModalView';
 import { ButtonAdd } from '../../components/ButtonOpenAddModal';
@@ -12,10 +11,6 @@ import './HomePage.scss';
 
 @observer
 export class HomePage extends React.Component {
-    static propTypes = {
-        patientStore: PropTypes.object
-    }
-
     componentDidMount() {
         patientStore.getPatientsPage();
     }
