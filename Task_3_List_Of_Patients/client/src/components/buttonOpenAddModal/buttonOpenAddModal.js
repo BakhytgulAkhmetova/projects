@@ -2,9 +2,9 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { withHandlers, compose } from 'recompose';
 
-import { Button } from '../button';
-import { FormPatient } from '../../components/formPatient';
-import { ButtonListAddModal } from '../buttonListAddModal';
+import { Button } from '../Button';
+import { FormPatient } from '../../components/FormPatient';
+import { ButtonListAddModal } from '../ButtonListAddModal';
 import { patientStore, modalStore } from '../../store';
 
 const mapActionsToProps = {

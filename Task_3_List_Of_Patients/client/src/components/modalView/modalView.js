@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import { modalStore } from '../../store';
 
-import './modalView.scss';
+import './ModalView.scss';
 
 @observer
 export class ModalView extends React.Component {

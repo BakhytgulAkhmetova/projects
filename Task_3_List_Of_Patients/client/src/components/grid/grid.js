@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 
-import { PatientRow } from '../patientRow';
+import { PatientRow } from '../PatientRow';
 
-import './grid.scss';
+import './Grid.scss';
 
 export const Grid = observer(({ patientList,  handleOpenEditModal }) => {
     return (

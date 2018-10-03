@@ -1,8 +1,8 @@
 import { observable, action, runInAction } from 'mobx';
 
-import { emptyPatient, config, types } from './data';
+import { emptyPatient, config, types } from './data/data';
 import { paginationStore } from '../store';
-import { add, getPatientsPage, edit, getById } from './queries';
+import { addPatient, getPatientById, getPatientsPage, editPatient } from './api';
 import { Validator } from '../utils';
 import { baseUrl, port } from '../constants';
 
@@ -54,7 +54,7 @@ class PatientStore {
     async get(id) {
         try {
             const result = await client.query({
-                query: getById,
+                query: getPatientById,
                 variables: { id },
                 fetchPolicy: 'no-cache'
             });
@@ -73,9 +73,7 @@ class PatientStore {
                 this.isInValidPatient = false;
             });
         } catch (error) {
-            runInAction(() => {
-                return error;
-            });
+            throw error;
         }
     }
 
@@ -84,7 +82,7 @@ class PatientStore {
         this.isInValidPatient = true;
         try {
             return await client.mutate({
-                mutation: add,
+                mutation: addPatient,
                 variables: {
                     firstName: this.patient.firstName.value,
                     lastName: this.patient.lastName.value,
@@ -96,9 +94,7 @@ class PatientStore {
                 fetchPolicy: 'no-cache'
             });
         } catch (error) {
-            runInAction(() => {
-                return error;
-            });
+            throw error;
         }
     }
 
@@ -106,7 +102,7 @@ class PatientStore {
     async editPatient() {
         try {
             await client.mutate({
-                mutation: edit,
+                mutation: editPatient,
                 variables: {
                     firstName: this.patient.firstName.value,
                     lastName: this.patient.lastName.value,
@@ -119,9 +115,7 @@ class PatientStore {
                 fetchPolicy: 'no-cache'
             });
         } catch (error) {
-            runInAction(() => {
-                return error;
-            });
+            throw error;
         }
     }
 
@@ -161,9 +155,7 @@ class PatientStore {
                 this.count = result.data.getPatientsPage.total;
             });
         } catch (error) {
-            runInAction(() => {
-                return error;
-            });
+            throw error;
         }
     }
 }

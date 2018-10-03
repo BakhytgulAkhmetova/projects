@@ -1,1 +1,1 @@
-export * from './linkOpenEditModal';
+export * from './LinkOpenEditModal';

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './errorMessage.scss';
+import './ErrorMessage.scss';
 
 export const ErrorMessage = ({ msgs }) => {
     const getErrors = () => {

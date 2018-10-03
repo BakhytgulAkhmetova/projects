@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { LinkOpenEditModal } from '../linkOpenEditModal';
+import { LinkOpenEditModal } from '../LinkOpenEditModal';
 
 export const PatientRow = ({
     firstName,

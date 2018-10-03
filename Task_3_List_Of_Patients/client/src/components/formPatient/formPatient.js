@@ -5,11 +5,11 @@ import { observer } from 'mobx-react';
 import { withHandlers, compose } from 'recompose';
 import moment from 'moment';
 
-import { ErrorMessage } from '../errorMessage';
+import { ErrorMessage } from '../ErrorMessage';
 import { genders } from '../../constants';
 import { patientStore } from '../../store';
 
-import './formPatient.scss';
+import './FormPatient.scss';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const genderList = [genders.male, genders.female];

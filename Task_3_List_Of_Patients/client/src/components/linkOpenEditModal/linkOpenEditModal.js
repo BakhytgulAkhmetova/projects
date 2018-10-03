@@ -3,8 +3,8 @@ import { observer } from 'mobx-react';
 import { withHandlers, compose } from 'recompose';
 import { Link } from 'react-router-dom';
 
-import { FormPatient } from '../../components/formPatient';
-import { ButtonListEditModal } from '../buttonListEditModal';
+import { FormPatient } from '../../components/FormPatient';
+import { ButtonListEditModal } from '../ButtonListEditModal';
 import { patientStore, modalStore } from '../../store';
 
 const mapActionsToProps = {

@@ -1,1 +1,1 @@
-export * from './buttonOpenAddModal';
+export * from './ButtonOpenAddModal';

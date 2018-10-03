@@ -2,13 +2,13 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 
-import { ModalView } from '../../components/modalView';
-import { ButtonAdd } from '../../components/buttonOpenAddModal';
-import { Grid } from '../../components/grid';
-import { Pagination } from '../../components/pagination';
+import { ModalView } from '../../components/ModalView';
+import { ButtonAdd } from '../../components/ButtonOpenAddModal';
+import { Grid } from '../../components/Grid';
+import { Pagination } from '../../components/Pagination';
 import { patientStore } from '../../store';
 
-import './homePage.scss';
+import './HomePage.scss';
 
 @observer
 export class HomePage extends React.Component {

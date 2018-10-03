@@ -3,10 +3,10 @@ import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import { Button } from '../button';
+import { Button } from '../Button';
 import { paginationStore, patientStore } from '../../store';
 
-import './pagination.scss';
+import './Pagination.scss';
 
 @observer
 export class Pagination extends React.Component {

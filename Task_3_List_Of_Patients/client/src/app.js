@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import { HomePage } from './pages/homePage';
-import { NotFound } from './pages/notFound';
+import { HomePage } from './pages/HomePage';
+import { NotFound } from './pages/NotFound/NotFound';
 
 export const App = () => {
     return (

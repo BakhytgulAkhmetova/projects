@@ -1,1 +1,1 @@
-export * from './formPatient';
+export * from './FormPatient';
