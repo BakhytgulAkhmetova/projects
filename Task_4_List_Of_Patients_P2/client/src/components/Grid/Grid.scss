@@ -1,0 +1,30 @@
+@import 'src/styles/colors';
+
+$table-info-height: 200px;
+
+.table-info {
+    &__row {
+        height: $table-info-height/4;
+    }
+
+    &__row__cell {
+        text-align: center;
+        border: 1px solid;
+        border-color: $black;
+        min-width: 30px;
+    }
+
+    &-tbody {
+        height: $table-info-height/4*3;
+    }
+
+    &__row__cell__link {
+        color: $black;
+    }
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.thead {
+    background-color: $silver-chalice;
+}

@@ -1,0 +1,20 @@
+@import 'src/styles/colors';
+@import 'src/styles/fonts';
+@import 'src/styles/variables';
+
+.menu__header {
+      height: 120px;
+      padding: 40px 0;
+      font: bold normal 110% serif;
+      text-align: center;
+      text-transform: uppercase;
+}
+
+.nav__item {
+      height: 60px;
+      text-align: center;
+}
+
+.item__link {
+  color: $black;
+}

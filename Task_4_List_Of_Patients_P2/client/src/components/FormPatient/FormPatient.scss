@@ -1,0 +1,41 @@
+@import 'src/styles/colors';
+@import 'src/styles/fonts';
+@import 'src/styles/variables';
+
+.form {
+    &__field {
+        margin-left: 30px;
+        padding: 10px 0;
+    }
+    width: 100%;
+}
+
+.react-datepicker {
+    &-wrapper {
+         width: 80%;
+         height: 40px;
+         font-size: $font-size-small-plus;
+         border: 1px solid $black;
+    }
+    &__input-container { 
+        @extend %size-max;
+    }
+}
+
+.field {
+    &_date {
+        @extend %size-max;
+        font-size: $font-size-small-plus;
+    }
+
+    &__input,
+    &__select {
+        width: 80%;
+        height: 40px;
+        font-size: $font-size-small-plus;
+        border: 1px solid $black;
+    }
+
+    padding-top: 15px;
+    width: 100%;
+}
