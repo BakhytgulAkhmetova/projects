@@ -23,7 +23,7 @@ export const ButtonListEditModal = compose(
             key={1}
             title='Edit'
             isDisable={patientStore.isInValidPatient}
-            handleOnClick={onHandleEditPatient}
+            onHandleOnClick={onHandleEditPatient}
             className='content__button' />]
     );
 });

@@ -24,7 +24,7 @@ export const ButtonAdd = compose(
     observer)(({ onHandleOpenModalAdd }) => {
     return (
         <Button
-            handleOnClick={onHandleOpenModalAdd}
+            onHandleOnClick={onHandleOpenModalAdd}
             className='btn-add'
             title='Add' />
     );

@@ -91,3 +91,36 @@ export const types = {
         instructions: 'Invalid date. Please try again (ex. 13/12/2014)'
     }
 };
+
+export const visitList = [
+    {
+        description: 'illness jskdfjdkfjdfsfsf',
+        patient: 'David Linn',
+        doctor: 'Chris Stenford',
+        date: new Date()
+    },
+    {
+        description: 'illness jskdfjdkfjdfsfsf',
+        patient: 'Henry Linn',
+        doctor: 'Chris Stenford',
+        date: new Date()
+    },
+    {
+        description: 'illness jskdfjdkfjdfsfsf',
+        patient: 'Bob Linn',
+        doctor: 'Chris Stenford',
+        date: new Date()
+    },
+    {
+        description: 'illness jskdfjdkfjdfsfsf',
+        patient: 'David Linn',
+        doctor: 'Chris Stenford',
+        date: new Date()
+    },
+    {
+        description: 'illness jskdfjdkfjdfsfsf',
+        patient: 'Mandy Linn',
+        doctor: 'Chris Stenford',
+        date: new Date()
+    }
+];

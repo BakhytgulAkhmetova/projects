@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import { HomePage } from './pages/HomePage';
+import { PatientPage } from './pages/PatientPage';
+import { VisitPage } from './pages/VisitPage';
 import { NotFound } from './pages/NotFound/NotFound';
 
 export const App = () => {
@@ -10,10 +11,13 @@ export const App = () => {
             <Switch>
                 <Route
                     exact path='/'
-                    component={HomePage} />
+                    component={PatientPage} />
+                <Route
+                    exact path='/patients'
+                    component={PatientPage} />
                 <Route
                     exact path='/visits'
-                    component={HomePage} />
+                    component={VisitPage} />
                 <Route
                     exact path='*'
                     component={NotFound} />

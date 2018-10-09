@@ -1,12 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 
 import { PatientRow } from '../PatientRow';
 
 import './Grid.scss';
 
-export const Grid = observer(({ patientList,  handleOpenEditModal }) => {
+export const Grid = observer(({ listItems,  handleOpenEditModal }) => {
     return (
         <table
             cellSpacing='0'
@@ -23,7 +22,7 @@ export const Grid = observer(({ patientList,  handleOpenEditModal }) => {
                 </tr>
             </thead>
             <tbody className='table-info-tbody'>
-                {patientList.map((patient) =>
+                {listItems.map((patient) =>
                     (<PatientRow
                         key={patient.id}
                         firstName={patient.firstName}
@@ -43,8 +42,3 @@ export const Grid = observer(({ patientList,  handleOpenEditModal }) => {
         </table>
     );
 });
-
-Grid.propTypes = {
-    patientList: PropTypes.array,
-    handleOpenEditModal: PropTypes.func
-};

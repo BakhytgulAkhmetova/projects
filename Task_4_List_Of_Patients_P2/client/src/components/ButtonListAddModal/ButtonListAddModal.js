@@ -12,8 +12,7 @@ const mapActionsToProps = {
         patientStore.addPatient();
         patientStore.getPatientsPage();
         paginationStore.setMaxCount(props.maxViewPatients, patientStore.count);
-        paginationStore.setStartButton();
-        paginationStore.setEndButton();
+        paginationStore.setStartEndbuttons();
     }
 };
 
@@ -25,7 +24,7 @@ export const ButtonListAddModal = compose(
             key={1}
             title='Add'
             isDisable={patientStore.isInValidPatient}
-            handleOnClick={onHandleAddPatient}
+            onHandleOnClick={onHandleAddPatient}
             className='content__button' />]
     );
 });

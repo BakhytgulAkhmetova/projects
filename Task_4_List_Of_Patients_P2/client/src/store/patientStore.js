@@ -153,6 +153,12 @@ class PatientStore {
             runInAction(() => {
                 this.patientList = result.data.getPatientsPage.items;
                 this.count = result.data.getPatientsPage.total;
+
+                paginationStore.setBaseValues(3);
+                paginationStore.setMaxCount(4, this.count);
+                paginationStore.setStartEndbuttons();
+                // paginationStore.setStartButton();
+                // paginationStore.setEndButton();
             });
         } catch (error) {
             throw error;
