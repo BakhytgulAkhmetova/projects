@@ -1,5 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
+// import PropTypes from 'prop-types';
 
 import { ModalView } from '../../components/ModalView';
 import { ButtonAdd } from '../../components/ButtonOpenAddModal';
@@ -11,10 +12,41 @@ import { menuItems } from '../../store/data/data';
 
 import './PatientPage.scss';
 
+const columns = [
+    {
+        header: 'First Name',
+        field: 'firstName'
+    },
+    {
+        header: 'Last Name',
+        field: 'lastName'
+    },
+    {
+        header: 'Gender',
+        field: 'gender'
+    },
+    {
+        header: 'Age',
+        field: 'age'
+    },
+    {
+        header: 'Phone',
+        field: 'phoneNumber'
+    },
+    {
+        header: 'Email',
+        field: 'email'
+    }
+];
+
 @observer
 export class PatientPage extends React.Component {
     componentDidMount() {
         patientStore.getPatientsPage();
+        // paginationStore.setBaseValues(3);
+        // paginationStore.setMaxCount(4, patientStore.count);
+        // paginationStore.setStartButton();
+        // paginationStore.setEndButton();
     }
 
     componentWillReceiveProps() {
@@ -39,7 +71,9 @@ export class PatientPage extends React.Component {
                     <header className='content__header'>Patients Info</header>
                     <div className='content__general'>
                         <ButtonAdd />
-                        <Grid listItems={patientStore.patientList}/>
+                        <Grid
+                            columns={columns}
+                            listItems={patientStore.patientList}/>
                         <Pagination onHandleOpenPageTable={this.handleOpenPageTable} />
                         <ModalView />
                     </div>
