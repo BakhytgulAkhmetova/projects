@@ -94,33 +94,38 @@ export const types = {
 
 export const visitList = [
     {
+        id: 1,
         description: 'illness jskdfjdkfjdfsfsf',
         patient: 'David Linn',
         doctor: 'Chris Stenford',
-        date: new Date()
+        date:  new Date().toDateString()
     },
     {
+        id: 2,
         description: 'illness jskdfjdkfjdfsfsf',
         patient: 'Henry Linn',
         doctor: 'Chris Stenford',
-        date: new Date()
+        date:  new Date().toDateString()
     },
     {
+        id: 3,
         description: 'illness jskdfjdkfjdfsfsf',
         patient: 'Bob Linn',
         doctor: 'Chris Stenford',
-        date: new Date()
+        date:  new Date().toDateString()
     },
     {
+        id: 4,
         description: 'illness jskdfjdkfjdfsfsf',
         patient: 'David Linn',
         doctor: 'Chris Stenford',
-        date: new Date()
+        date:  new Date().toDateString()
     },
     {
+        id: 5,
         description: 'illness jskdfjdkfjdfsfsf',
         patient: 'Mandy Linn',
         doctor: 'Chris Stenford',
-        date: new Date()
+        date:  new Date().toDateString()
     }
 ];

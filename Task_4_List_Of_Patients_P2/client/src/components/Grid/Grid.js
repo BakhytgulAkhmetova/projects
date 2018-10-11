@@ -5,7 +5,7 @@ import { LinkOpenEditModal } from '../LinkOpenEditModal';
 
 import './Grid.scss';
 
-export const Grid = observer(({ columns, listItems,  handleOpenEditModal }) => {
+export const Grid = observer(({ columns, listItems }) => {
     return (
         <table
             cellSpacing='0'

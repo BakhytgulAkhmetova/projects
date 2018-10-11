@@ -7,3 +7,5 @@ export const genders = {
     male:'Male',
     female:'Female'
 };
+export const viewitems = 4;
+export const maxVisibleButtons = 3;

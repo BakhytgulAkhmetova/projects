@@ -1,6 +1,5 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-// import PropTypes from 'prop-types';
 
 import { ModalView } from '../../components/ModalView';
 import { ButtonAdd } from '../../components/ButtonOpenAddModal';
@@ -9,6 +8,7 @@ import { Pagination } from '../../components/Pagination';
 import { patientStore, paginationStore } from '../../store';
 import { MenuNavigation } from '../../components/MenuNavigation';
 import { menuItems } from '../../store/data/data';
+import { maxVisibleButtons, viewitems } from '../../constants';
 
 import './PatientPage.scss';
 
@@ -42,23 +42,18 @@ const columns = [
 @observer
 export class PatientPage extends React.Component {
     componentDidMount() {
-        patientStore.getPatientsPage();
-        // paginationStore.setBaseValues(3);
-        // paginationStore.setMaxCount(4, patientStore.count);
-        // paginationStore.setStartButton();
-        // paginationStore.setEndButton();
+        patientStore.getPatientsPage(paginationStore.currentPage);
     }
 
-    componentWillReceiveProps() {
-        paginationStore.setMaxCount(4, patientStore.count);
-        paginationStore.setStartEndbuttons();
+    componentDidUpdate() {
+        patientStore.getPatientsPage(paginationStore.currentPage);
     }
 
     handleOpenPageTable = event => {
         event.preventDefault();
-        paginationStore.setCurrent(event.target.id);
-        paginationStore.setStartEndbuttons();
-        patientStore.getPatientsPage();
+        paginationStore.setStartEndbuttons(+event.target.id);
+        paginationStore.changeCurrentPage(+event.target.id);
+        patientStore.getPatientsPage(paginationStore.currentPage);
     }
 
     render() {
@@ -74,7 +69,12 @@ export class PatientPage extends React.Component {
                         <Grid
                             columns={columns}
                             listItems={patientStore.patientList}/>
-                        <Pagination onHandleOpenPageTable={this.handleOpenPageTable} />
+                        <Pagination
+                            maxVisibleButtons={maxVisibleButtons}
+                            currentPage={paginationStore.currentPage}
+                            items={patientStore.count}
+                            viewitems={viewitems}
+                            onHandleOpenPageTable={this.handleOpenPageTable} />
                         <ModalView />
                     </div>
                 </div>

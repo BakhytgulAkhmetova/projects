@@ -9,6 +9,25 @@ import { visitStore } from '../../store';
 import { MenuNavigation } from '../../components/MenuNavigation';
 import { menuItems } from '../../store/data/data';
 
+const columns = [
+    {
+        header: 'Description',
+        field: 'description'
+    },
+    {
+        header: 'Patient',
+        field: 'patient'
+    },
+    {
+        header: 'Doctor',
+        field: 'doctor'
+    },
+    {
+        header: 'Date',
+        field: 'date'
+    }
+];
+
 @observer
 export class VisitPage extends React.Component {
     componentDidMount() {
@@ -25,7 +44,9 @@ export class VisitPage extends React.Component {
                     <header className='content__header'>Visits Info</header>
                     <div className='content__general'>
                         <ButtonAdd />
-                        <Grid listItems={visitStore.visitList} />
+                        <Grid
+                            columns={columns}
+                            listItems={visitStore.visitList} />
                         <Pagination/>
                         <ModalView />
                     </div>

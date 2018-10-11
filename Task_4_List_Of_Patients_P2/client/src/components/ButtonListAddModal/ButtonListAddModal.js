@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { withHandlers, compose } from 'recompose';
 
 import { Button } from '../Button';
-import { patientStore, modalStore, paginationStore } from '../../store';
+import { patientStore, modalStore } from '../../store';
 
 const mapActionsToProps = {
     onHandleAddPatient: props => event => {
@@ -11,8 +11,6 @@ const mapActionsToProps = {
         modalStore.close();
         patientStore.addPatient();
         patientStore.getPatientsPage();
-        paginationStore.setMaxCount(props.maxViewPatients, patientStore.count);
-        paginationStore.setStartEndbuttons();
     }
 };
 

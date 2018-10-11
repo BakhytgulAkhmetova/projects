@@ -1,7 +1,6 @@
 import { observable, action, runInAction } from 'mobx';
 
 import { emptyPatient, config, types } from './data/data';
-import { paginationStore } from '../store';
 import { addPatient, getPatientById, getPatientsPage, editPatient } from './api';
 import { Validator } from '../utils';
 import { baseUrl, port } from '../constants';
@@ -138,9 +137,9 @@ class PatientStore {
     }
 
     @action
-    async getPatientsPage() {
+    async getPatientsPage(pageNumber) {
         try {
-            const skip = (paginationStore.current - 1) * 4;
+            const skip = (pageNumber - 1) * 4;
             const result = await client.query({
                 query: getPatientsPage,
                 variables: {
@@ -153,12 +152,6 @@ class PatientStore {
             runInAction(() => {
                 this.patientList = result.data.getPatientsPage.items;
                 this.count = result.data.getPatientsPage.total;
-
-                paginationStore.setBaseValues(3);
-                paginationStore.setMaxCount(4, this.count);
-                paginationStore.setStartEndbuttons();
-                // paginationStore.setStartButton();
-                // paginationStore.setEndButton();
             });
         } catch (error) {
             throw error;

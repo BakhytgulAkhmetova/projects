@@ -11,40 +11,49 @@ import './Pagination.scss';
 @observer
 export class Pagination extends React.Component {
     static propTypes = {
-        onHandleOpenPageTable: PropTypes.func
+        onHandleOpenPageTable: PropTypes.func,
+        maxVisibleButtons: PropTypes.number,
+        items: PropTypes.number,
+        viewitems: PropTypes.number,
+        currentPage: PropTypes.number
     }
 
-    handleMoveButtonsBack = event => {
-        event.preventDefault();
-        paginationStore.moveLeft();
-        paginationStore.setStartEndbuttons();
+    componentDidUpdate() {
+        const { maxVisibleButtons, items, viewitems } = this.props;
+
+        paginationStore.setBaseValues(maxVisibleButtons, items, viewitems);
     }
 
-    handleMoveButtonsForward = event => {
+    handleDrawButtons = event => {
         event.preventDefault();
-        paginationStore.moveRight();
-        paginationStore.setStartEndbuttons();
+        paginationStore.setStartEndbuttons(event.target.id);
     }
 
     getButtons = () => {
-        const start = paginationStore.start;
-        const end = paginationStore.end;
+        const start = paginationStore.firstVisibleButton;
+        const end = paginationStore.lastVisibleButton;
 
         const buttons = [];
 
         for (let i = start; i <= end; i++) {
+            const paginationBtn = classNames({
+                'pagination__btn': true,
+                'current': i === this.props.currentPage
+            });
+
             buttons.push(
                 <Button
                     onHandleOnClick={this.props.onHandleOpenPageTable}
                     id={i}
                     key={i}
-                    className='pagination__btn'
+                    className={paginationBtn}
                     title={i} />);
         }
         return buttons;
     };
 
     render() {
+        const { currentPage } = this.props;
         const buttons = this.getButtons();
 
         const moveButtonsClass = classNames({
@@ -55,13 +64,14 @@ export class Pagination extends React.Component {
         return (
             <div className='pagination'>
                 <Button
-                    onHandleOnClick={this.handleMoveButtonsBack}
+                    onHandleOnClick={this.handleDrawButtons}
+                    id={currentPage - 1}
                     className={moveButtonsClass}
                     title='«' />
-
                 {buttons}
                 <Button
-                    onHandleOnClick={this.handleMoveButtonsForward}
+                    onHandleOnClick={this.handleDrawButtons}
+                    id={currentPage + 1}
                     className={moveButtonsClass}
                     title='»'/>
             </div>

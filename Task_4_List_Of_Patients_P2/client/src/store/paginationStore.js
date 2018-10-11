@@ -4,66 +4,65 @@ import { setButtonsCount } from '../utils';
 
 class PaginationStore {
   @observable
-  maxCount = 0;
+  maxVisibleButtons = 1;
+
+  min = 1;
 
   @observable
-  maxCountView = 0;
+  pagesCount = 0;
 
   @observable
-  current = 1;
+  currentPage = 1;
 
   @observable
   interval = 0;
 
   @observable
-  start = 0;
+  firstVisibleButton = this.min;
 
   @observable
-  end = 0;
+  lastVisibleButton = 0;
 
   @action
-  setStartEndbuttons() {
-      if (this.maxCount > this.maxCountView) {
-          if (this.current !== this.maxCount) {
-              if (this.current !== 1) {
-                  this.start = this.current - this.interval;
-                  this.end = this.current + this.interval;
-              } else {
-                  this.start = 1;
-                  this.end = this.maxCountView;
-              }
+  setStartEndbuttons(current) {
+      this.currentPage = +current;
+      this.firstVisibleButton = this.currentPage - this.interval;
+      this.lastVisibleButton = this.currentPage + this.interval;
+
+      if (this.firstVisibleButton <= 0) {
+          this.firstVisibleButton = this.min;
+          if (this.pagesCount <= this.maxVisibleButtons) {
+              this.lastVisibleButton = this.pagesCount;
+          } else {
+              this.lastVisibleButton = this.maxVisibleButtons;
           }
-      } else {
-          this.start = 1;
-          this.end = this.maxCount;
+      } else if (this.lastVisibleButton >= this.pagesCount) {
+          this.lastVisibleButton = this.pagesCount;
+          this.firstVisibleButton = this.lastVisibleButton - (this.maxVisibleButtons - 1);
+      }
+      if (this.currentPage <= 1) {
+          this.currentPage += this.interval;
+      }
+      if (this.currentPage >= this.pagesCount) {
+          this.currentPage -= this.interval;
       }
   }
 
   @action
-  setMaxCount(maxCountView, patientsCount) {
-      this.maxCount = setButtonsCount(patientsCount, maxCountView);
-  }
+  setBaseValues(maxVisibleButtons, totalItemsCount, pageSize) {
+      this.maxVisibleButtons = maxVisibleButtons;
+      this.interval = (maxVisibleButtons - 1) / 2;
+      const pagesCount = setButtonsCount(totalItemsCount, pageSize);
 
-  @action
-  setBaseValues(maxCountView) {
-      this.maxCountView = maxCountView;
-      this.interval = (maxCountView - 1) / 2;
-  }
 
-  @action
-  setCurrent(current) {
-      this.current = parseInt(current, 10);
-  }
-
-  @action
-  moveLeft() {
-      if (this.current - this.interval !== -1) {
-          this.current = this.start;
+      if (this.pagesCount !== pagesCount) {
+          this.pagesCount = pagesCount;
+          this.setStartEndbuttons(this.currentPage);
       }
   }
   @action
-  moveRight() {
-      this.current = this.end;
+  changeCurrentPage(current) {
+      this.currentPage = +current;
   }
 }
 
