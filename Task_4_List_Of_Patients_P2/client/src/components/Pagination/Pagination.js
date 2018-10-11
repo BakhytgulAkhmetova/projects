@@ -11,39 +11,45 @@ import './Pagination.scss';
 @observer
 export class Pagination extends React.Component {
     static propTypes = {
-        onHandleOpenPageTable: PropTypes.func,
+        onChange: PropTypes.func,
         maxVisibleButtons: PropTypes.number,
-        items: PropTypes.number,
-        viewitems: PropTypes.number,
+        totalItemsCount: PropTypes.number,
+        pageSize: PropTypes.number,
         currentPage: PropTypes.number
     }
 
-    componentDidUpdate() {
-        const { maxVisibleButtons, items, viewitems } = this.props;
-
-        paginationStore.setBaseValues(maxVisibleButtons, items, viewitems);
+    componentDidMount() {
+        this.props.onChange(paginationStore.currentPage);
     }
 
-    handleDrawButtons = event => {
+    componentDidUpdate() {
+        const { maxVisibleButtons, totalItemsCount, pageSize } = this.props;
+
+        paginationStore.setBaseValues(maxVisibleButtons, totalItemsCount, pageSize);
+    }
+
+    handleButtonClick = event => {
         event.preventDefault();
-        paginationStore.setStartEndbuttons(event.target.id);
+        paginationStore.setCurrentPage(+event.target.id);
+        this.props.onChange(paginationStore.currentPage);
     }
 
     getButtons = () => {
         const start = paginationStore.firstVisibleButton;
         const end = paginationStore.lastVisibleButton;
+        const  currentPage  = paginationStore.currentPage;
 
         const buttons = [];
 
         for (let i = start; i <= end; i++) {
             const paginationBtn = classNames({
                 'pagination__btn': true,
-                'current': i === this.props.currentPage
+                'current': i === currentPage
             });
 
             buttons.push(
                 <Button
-                    onHandleOnClick={this.props.onHandleOpenPageTable}
+                    onHandleOnClick={this.handleButtonClick}
                     id={i}
                     key={i}
                     className={paginationBtn}
@@ -53,7 +59,7 @@ export class Pagination extends React.Component {
     };
 
     render() {
-        const { currentPage } = this.props;
+        const  currentPage  = paginationStore.currentPage;
         const buttons = this.getButtons();
 
         const moveButtonsClass = classNames({
@@ -64,13 +70,13 @@ export class Pagination extends React.Component {
         return (
             <div className='pagination'>
                 <Button
-                    onHandleOnClick={this.handleDrawButtons}
+                    onHandleOnClick={this.handleButtonClick}
                     id={currentPage - 1}
                     className={moveButtonsClass}
                     title='«' />
                 {buttons}
                 <Button
-                    onHandleOnClick={this.handleDrawButtons}
+                    onHandleOnClick={this.handleButtonClick}
                     id={currentPage + 1}
                     className={moveButtonsClass}
                     title='»'/>

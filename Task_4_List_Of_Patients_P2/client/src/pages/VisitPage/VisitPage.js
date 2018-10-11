@@ -1,13 +1,12 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
-import { ModalView } from '../../components/ModalView';
-import { ButtonAdd } from '../../components/ButtonOpenAddModal';
 import { Grid } from '../../components/Grid';
-import { Pagination } from '../../components/Pagination';
+// import { Pagination } from '../../components/Pagination';
 import { visitStore } from '../../store';
 import { MenuNavigation } from '../../components/MenuNavigation';
 import { menuItems } from '../../store/data/data';
+import { ButtonAddVisit } from './components/ButtonOpenAddModal';
 
 const columns = [
     {
@@ -43,12 +42,11 @@ export class VisitPage extends React.Component {
                 <div className='page__content'>
                     <header className='content__header'>Visits Info</header>
                     <div className='content__general'>
-                        <ButtonAdd />
+                        <ButtonAddVisit />
                         <Grid
                             columns={columns}
                             listItems={visitStore.visitList} />
-                        <Pagination/>
-                        <ModalView />
+                        {/* <Pagination/> */}
                     </div>
                 </div>
             </div>

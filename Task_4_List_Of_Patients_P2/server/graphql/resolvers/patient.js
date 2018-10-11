@@ -3,7 +3,7 @@ const {
     getPatientsPage,
     getPatientById,
     deleteAllPatients,
-    updatePatient } = require('../BLL');
+    updatePatient } = require('../../BLL');
 
 const { GraphQLScalarType } = require('graphql');
 const { Kind } = require('graphql/language');

@@ -1,9 +1,9 @@
 import { observable, action, runInAction } from 'mobx';
 
 import { emptyPatient, config, types } from './data/data';
-import { addPatient, getPatientById, getPatientsPage, editPatient } from './api';
+import { addPatient, getPatientById, getPatientsPage, editPatient } from './api/patient';
 import { Validator } from '../utils';
-import { baseUrl, port } from '../constants';
+import { baseUrl, port, viewitems } from '../constants';
 
 import ApolloClient from 'apollo-boost';
 
@@ -139,12 +139,12 @@ class PatientStore {
     @action
     async getPatientsPage(pageNumber) {
         try {
-            const skip = (pageNumber - 1) * 4;
+            const skip = (pageNumber - 1) * viewitems;
             const result = await client.query({
                 query: getPatientsPage,
                 variables: {
                     skip,
-                    limit: 4
+                    limit: viewitems
                 },
                 fetchPolicy: 'no-cache'
             });

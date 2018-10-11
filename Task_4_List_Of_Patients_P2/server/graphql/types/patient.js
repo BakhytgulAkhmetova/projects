@@ -1,6 +1,6 @@
 /* creation graphql types*/
 
-const query = `
+const queryPatient = `
     type Query {
         getPatientsPage (
             skip: Int!,
@@ -11,7 +11,7 @@ const query = `
             ): Patient!
     }`;
 
-const mutation = `
+const mutationPatient = `
     type Mutation {
         addPatient(
             firstName: String!,
@@ -34,27 +34,7 @@ const mutation = `
     }
     `;
 
-const customTypes = `
-    scalar Date
-
-    type Patient {
-        id: String!,
-        firstName: String!,
-        lastName: String!,
-        birthDate: Date!,
-        gender: String!,
-        phoneNumber: String!,
-        email: String!,
-        age: Int
-    }
-
-    type Page {
-        items: [Patient],
-        total: Int!
-    }`;
-
 module.exports = {
-    query,
-    mutation,
-    customTypes
+    queryPatient,
+    mutationPatient
 };

@@ -1,14 +1,16 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
-import { ModalView } from '../../components/ModalView';
-import { ButtonAdd } from '../../components/ButtonOpenAddModal';
+import { ButtonAddPatient } from './components/ButtonOpenAddModal';
 import { Grid } from '../../components/Grid';
 import { Pagination } from '../../components/Pagination';
-import { patientStore, paginationStore } from '../../store';
+import { patientStore, modalStore } from '../../store';
 import { MenuNavigation } from '../../components/MenuNavigation';
 import { menuItems } from '../../store/data/data';
 import { maxVisibleButtons, viewitems } from '../../constants';
+
+import { FormPatient } from './components/FormPatient';
+import { ButtonListEditModal } from './components/ButtonListEditModal';
 
 import './PatientPage.scss';
 
@@ -41,19 +43,18 @@ const columns = [
 
 @observer
 export class PatientPage extends React.Component {
-    componentDidMount() {
-        patientStore.getPatientsPage(paginationStore.currentPage);
+    handleOpenPageTable = page => {
+        patientStore.getPatientsPage(page);
     }
 
-    componentDidUpdate() {
-        patientStore.getPatientsPage(paginationStore.currentPage);
-    }
-
-    handleOpenPageTable = event => {
+    handlerOpenModalEdit = event => {
         event.preventDefault();
-        paginationStore.setStartEndbuttons(+event.target.id);
-        paginationStore.changeCurrentPage(+event.target.id);
-        patientStore.getPatientsPage(paginationStore.currentPage);
+        patientStore.getPatientById(event.currentTarget.id);
+        modalStore.open({
+            title: 'Edit patient',
+            content: <FormPatient patient={patientStore.patient}/>,
+            buttons: <ButtonListEditModal />
+        });
     }
 
     render() {
@@ -65,17 +66,16 @@ export class PatientPage extends React.Component {
                 <div className='page__content'>
                     <header className='content__header'>Patients Info</header>
                     <div className='content__general'>
-                        <ButtonAdd />
+                        <ButtonAddPatient />
                         <Grid
                             columns={columns}
+                            handlerOpenModalEdit={this.handlerOpenModalEdit}
                             listItems={patientStore.patientList}/>
                         <Pagination
                             maxVisibleButtons={maxVisibleButtons}
-                            currentPage={paginationStore.currentPage}
-                            items={patientStore.count}
-                            viewitems={viewitems}
-                            onHandleOpenPageTable={this.handleOpenPageTable} />
-                        <ModalView />
+                            totalItemsCount={patientStore.count}
+                            pageSize={viewitems}
+                            onChange={this.handleOpenPageTable} />
                     </div>
                 </div>
             </div>

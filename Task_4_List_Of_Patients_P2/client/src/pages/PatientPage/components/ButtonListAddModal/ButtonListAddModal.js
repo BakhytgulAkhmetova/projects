@@ -2,15 +2,15 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { withHandlers, compose } from 'recompose';
 
-import { Button } from '../Button';
-import { patientStore, modalStore } from '../../store';
+import { Button } from '../../../../components/Button';
+import { patientStore, modalStore } from '../../../../store';
 
 const mapActionsToProps = {
     onHandleAddPatient: props => event => {
         event.preventDefault();
         modalStore.close();
         patientStore.addPatient();
-        patientStore.getPatientsPage();
+        // patientStore.getPatientsPage();
     }
 };
 

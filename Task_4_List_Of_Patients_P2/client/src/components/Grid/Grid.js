@@ -1,11 +1,11 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
-import { LinkOpenEditModal } from '../LinkOpenEditModal';
+import { Link } from 'react-router-dom';
 
 import './Grid.scss';
 
-export const Grid = observer(({ columns, listItems }) => {
+export const Grid = observer(({ columns, listItems, handlerOpenModalEdit }) => {
     return (
         <table
             cellSpacing='0'
@@ -32,9 +32,13 @@ export const Grid = observer(({ columns, listItems }) => {
                                 key={item.id}
                                 className='table-info__row'>
                                 <td className='table-info__row__cell'>
-                                    <LinkOpenEditModal
+                                    <Link
+                                        onClick={handlerOpenModalEdit}
                                         id={item.id}
-                                        linkStyle='table-info__row__cell__link'/>
+                                        to='/'
+                                        className='table-info__row__cell__link'>
+                                        Edit
+                                    </Link>
                                 </td>
                                 {
                                     columns.map((c) => {

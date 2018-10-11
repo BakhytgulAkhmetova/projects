@@ -5,9 +5,9 @@ import { observer } from 'mobx-react';
 import { withHandlers, compose } from 'recompose';
 import moment from 'moment';
 
-import { ErrorMessage } from '../ErrorMessage';
-import { genders } from '../../constants';
-import { patientStore } from '../../store';
+import { ErrorMessage } from '../../../../components/ErrorMessage';
+import { genders } from '../../../../constants';
+import { patientStore } from '../../../../store';
 
 import './FormPatient.scss';
 import 'react-datepicker/dist/react-datepicker.css';

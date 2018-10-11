@@ -1,21 +1,21 @@
 const {
-    query,
-    mutation,
-    customTypes
-} = require('./types');
+    queryPatient,
+    mutationPatient } = require('../graphql/types/patient');
+
+const { customTypes } = require('../graphql/types/customTypes');
 
 const {
     queryResolvers,
     mutationResolvers,
     date
-} = require('./resolvers');
+} = require('../graphql/resolvers/patient');
 
 const { makeExecutableSchema } = require('graphql-tools');
 
 const schema = makeExecutableSchema({
     typeDefs: [
-        query,
-        mutation,
+        queryPatient,
+        mutationPatient,
         customTypes
     ],
     resolvers: {
