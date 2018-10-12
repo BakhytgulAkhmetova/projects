@@ -1,15 +1,15 @@
-const query = `
+const queryVisit = `
     type Query {
         getVisitsPage (
             skip: Int!,
             limit: Int!
-        ): Page!
+        ): VisitPage!
         getVisitById(
             id: String!
             ): Visit!
     }`;
 
-const mutation = `
+const mutationVisit = `
     type Mutation {
         addVisit(
             patient: String!,
@@ -28,26 +28,8 @@ const mutation = `
     }
     `;
 
-
-const customTypes = `
-    scalar Date
-
-    type Visit {
-        id: String!,
-        patient: String!,
-        doctor: String!,
-        description: String!,
-        date: Date!
-    }
-
-    type Page {
-        items: [Visit],
-        total: Int!
-    }`;
-
 module.exports = {
-    query,
-    mutation,
-    customTypes
+    queryVisit,
+    mutationVisit
 };
 

@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx';
+import { observable, action, computed } from 'mobx';
 
 import { setButtonsCount } from '../utils';
 
@@ -17,41 +17,55 @@ class PaginationStore {
   @observable
   interval = 0;
 
-  @observable
-  firstVisibleButton = this.min;
-
-  @observable
-  lastVisibleButton = 0;
-
   @action
   setCurrentPage(current) {
       if (current < 1 || current > this.pagesCount) {
           return;
       }
       this.currentPage = current;
+  }
 
-      this.firstVisibleButton = this.currentPage - this.interval;
-      this.lastVisibleButton = this.currentPage + this.interval;
-      if (this.firstVisibleButton <= 0) {
-          this.firstVisibleButton = this.min;
-          this.lastVisibleButton = this.pagesCount <= this.maxVisibleButtons ?
+
+  @computed
+  get firstVisibleButton() {
+      let firstVisibleButton = this.currentPage - this.interval;
+      const lastVisibleButton = this.currentPage + this.interval;
+
+      if (firstVisibleButton <= 0) {
+          firstVisibleButton = this.min;
+      }
+
+      if (lastVisibleButton >= this.pagesCount) {
+          firstVisibleButton = this.lastVisibleButton - (this.maxVisibleButtons - 1);
+      }
+
+      return firstVisibleButton;
+  }
+
+  @computed
+  get lastVisibleButton() {
+      const firstVisibleButton = this.currentPage - this.interval;
+      let lastVisibleButton = this.currentPage + this.interval;
+
+      if (firstVisibleButton <= 0) {
+          lastVisibleButton = this.pagesCount <= this.maxVisibleButtons ?
               this.pagesCount :
               this.maxVisibleButtons;
       }
 
 
-      if (this.lastVisibleButton >= this.pagesCount) {
-          this.lastVisibleButton = this.pagesCount;
-          this.firstVisibleButton = this.lastVisibleButton - (this.maxVisibleButtons - 1);
+      if (lastVisibleButton >= this.pagesCount) {
+          lastVisibleButton = this.pagesCount;
       }
+      return lastVisibleButton;
   }
+
 
   @action
   setBaseValues(maxVisibleButtons, totalItemsCount, pageSize) {
       this.maxVisibleButtons = maxVisibleButtons;
       this.interval = (maxVisibleButtons - 1) / 2;
       const pagesCount = setButtonsCount(totalItemsCount, pageSize);
-
 
       if (this.pagesCount !== pagesCount) {
           this.pagesCount = pagesCount;

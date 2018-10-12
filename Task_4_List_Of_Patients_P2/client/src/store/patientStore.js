@@ -20,6 +20,8 @@ class PatientStore {
 
     @observable count = 0;
 
+    @observable currentPage = 1;
+
     @observable errorsPatient = [];
 
     @observable isInValidPatient = true;
@@ -152,6 +154,7 @@ class PatientStore {
             runInAction(() => {
                 this.patientList = result.data.getPatientsPage.items;
                 this.count = result.data.getPatientsPage.total;
+                this.currentPage = pageNumber;
             });
         } catch (error) {
             throw error;

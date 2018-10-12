@@ -12,7 +12,20 @@ const customTypes = `
         age: Int
     }
 
-    type Page {
+    type Visit {
+        id: String!,
+        patient: String!,
+        doctor: String!,
+        description: String!,
+        date: Date!
+    }
+
+    type VisitPage {
+        items: [Visit],
+        total: Int!
+    }
+
+    type PatientPage {
         items: [Patient],
         total: Int!
     }`;

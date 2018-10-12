@@ -5,7 +5,7 @@ const queryPatient = `
         getPatientsPage (
             skip: Int!,
             limit: Int!
-        ): Page!
+        ): PatientPage!
         getPatientById(
             id: String!
             ): Patient!

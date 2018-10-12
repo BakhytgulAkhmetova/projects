@@ -14,7 +14,9 @@ const mapActionsToProps = {
         modalStore.open({
             title: 'Add patient',
             content: <FormPatient patient={patientStore.patient}/>,
-            buttons: <ButtonListAddModal maxViewPatients={4}/>
+            buttons: <ButtonListAddModal
+                currentPage={props.currentPage}
+                maxViewPatients={4}/>
         });
     }
 };

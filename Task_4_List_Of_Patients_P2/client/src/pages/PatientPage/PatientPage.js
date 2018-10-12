@@ -66,7 +66,8 @@ export class PatientPage extends React.Component {
                 <div className='page__content'>
                     <header className='content__header'>Patients Info</header>
                     <div className='content__general'>
-                        <ButtonAddPatient />
+                        <ButtonAddPatient
+                            currentPage={patientStore.currentPage}/>
                         <Grid
                             columns={columns}
                             handlerOpenModalEdit={this.handlerOpenModalEdit}
