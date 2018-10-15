@@ -9,6 +9,6 @@ const schema = new Schema({
     lastname: String
 });
 
-const modelDoctor = mongoose.model('Descripton', schema);
+const modelDoctor = mongoose.model('Doctor', schema);
 
 module.exports = modelDoctor;

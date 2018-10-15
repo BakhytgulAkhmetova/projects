@@ -1,6 +1,6 @@
 /* creation graphql types*/
 
-const queryPatient = `
+const queryTypePatient = `
     type Query {
         getPatientsPage (
             skip: Int!,
@@ -11,7 +11,7 @@ const queryPatient = `
             ): Patient!
     }`;
 
-const mutationPatient = `
+const mutationTypePatient = `
     type Mutation {
         addPatient(
             firstName: String!,
@@ -35,6 +35,6 @@ const mutationPatient = `
     `;
 
 module.exports = {
-    queryPatient,
-    mutationPatient
+    queryTypePatient,
+    mutationTypePatient
 };

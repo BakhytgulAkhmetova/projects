@@ -1,0 +1,16 @@
+@import 'src/styles/colors';
+@import 'src/styles/fonts';
+
+.field--visit {
+
+    &__select {
+        width: 80%;
+        height: 40px;
+        font-size: $font-size-small-plus;
+        border: 1px solid $black;
+        border-radius: 5px;
+    }
+    
+    padding-top: 15px;
+    width: 100%;
+}

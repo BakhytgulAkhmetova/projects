@@ -86,10 +86,10 @@ const Form = ({
                 <label
                     className='field__label'>
                     Birth Date
-                    <div className='field__date'>
+                    <div className='field'>
                         <DatePicker
                             id='birthDate'
-                            className='field_date'
+                            className='date'
                             selected={dateSelected}
                             onChangeRaw={handleChange}
                             filterDate={isValid}

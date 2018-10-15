@@ -1,6 +1,6 @@
 import { observable, action, runInAction } from 'mobx';
 
-// import { visitList } from './data/data';
+import { visitList } from './data/data';
 import { baseUrl, port, viewitems } from '../constants';
 import { getVisitsPage } from '../store/api/visit';
 
@@ -14,10 +14,14 @@ class VisitStore {
   @observable
   visitList = [];
 
-  // @action
-  // getAllVisits() {
-  //     this.visitList = visitList;
-  // }
+  @observable
+  count
+
+  @action
+  getAllVisits(pageNumber) {
+      this.visitList = visitList;
+      this.count = visitList.length;
+  }
 
   @action
   async getVisitsPage(pageNumber) {

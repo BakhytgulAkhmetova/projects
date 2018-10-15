@@ -3,16 +3,17 @@ import { observer } from 'mobx-react';
 import { withHandlers, compose } from 'recompose';
 
 import { Button } from '../../../../components/Button';
-import { patientStore, modalStore } from '../../../../store';
+import { modalStore } from '../../../../store';
+import { ButtonsModalAdd } from '../ButtonsModalAdd';
+import { FormVisit } from '../FormVisit';
 
 const mapActionsToProps = {
     onHandleOpenModalAdd: props => event => {
         event.preventDefault();
-        patientStore.cleanPatientFields();
         modalStore.open({
-            title: 'Add visit'
-            // content: <FormPatient patient={patientStore.patient}/>,
-            // buttons: <ButtonListAddModal maxViewPatients={4}/>
+            title: 'Add visit',
+            content: <FormVisit/>,
+            buttons: <ButtonsModalAdd/>
         });
     }
 };

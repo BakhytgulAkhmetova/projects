@@ -1,6 +1,6 @@
-const queryVisit = `
+const queryTypeVisit = `
     type Query {
-        getVisitsPage (
+        getVisitPage (
             skip: Int!,
             limit: Int!
         ): VisitPage!
@@ -9,7 +9,7 @@ const queryVisit = `
             ): Visit!
     }`;
 
-const mutationVisit = `
+const mutationTypeVisit = `
     type Mutation {
         addVisit(
             patient: String!,
@@ -29,7 +29,6 @@ const mutationVisit = `
     `;
 
 module.exports = {
-    queryVisit,
-    mutationVisit
+    queryTypeVisit,
+    mutationTypeVisit
 };
-

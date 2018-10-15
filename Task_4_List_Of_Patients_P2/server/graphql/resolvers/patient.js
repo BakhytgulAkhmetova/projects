@@ -3,10 +3,10 @@ const {
     getPatientsPage,
     getPatientById,
     deleteAllPatients,
-    updatePatient } = require('../../BLL');
+    updatePatient } = require('../../BLL/patient');
 
 /* Definition resolve functions for getting data from mongoDB*/
-const queryResolvers = {
+const queryPatientResolvers = {
     getPatientById(parent, args) {
         return getPatientById(args.id);
     },
@@ -15,7 +15,7 @@ const queryResolvers = {
     }
 };
 /* Definition resolve functions for changing data in mongoDB*/
-const mutationResolvers = {
+const mutationPatientResolvers = {
     addPatient(parent, args) {
         return addPatient(args);
     },
@@ -28,6 +28,6 @@ const mutationResolvers = {
 };
 
 module.exports = {
-    queryResolvers,
-    mutationResolvers
+    queryPatientResolvers,
+    mutationPatientResolvers
 };

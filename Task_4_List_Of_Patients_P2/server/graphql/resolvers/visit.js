@@ -1,33 +1,33 @@
 const {
-    addPatient,
-    getPatientsPage,
-    getPatientById,
-    deleteAllPatients,
-    updatePatient } = require('../../BLL');
+    addVisit,
+    getVisitPage,
+    getVisitById,
+    deleteAllVisits,
+    updateVisit } = require('../../BLL/visit');
 
 /* Definition resolve functions for getting data from mongoDB*/
-const queryResolvers = {
-    getPatientById(parent, args) {
-        return getPatientById(args.id);
+const queryVisitResolvers = {
+    getVisitById(parent, args) {
+        return getVisitById(args.id);
     },
-    getPatientsPage(parent, args) {
-        return getPatientsPage(args);
+    getVisitPage(parent, args) {
+        return getVisitPage(args);
     }
 };
 /* Definition resolve functions for changing data in mongoDB*/
-const mutationResolvers = {
-    addPatient(parent, args) {
-        return addPatient(args);
+const mutationVisitResolvers = {
+    addVisit(parent, args) {
+        return addVisit(args);
     },
-    deleteAllPatients() {
-        return deleteAllPatients();
+    deleteAllVisits() {
+        return deleteAllVisits();
     },
-    updatePatient(parent, args) {
-        return updatePatient(args);
+    updateVisit(parent, args) {
+        return updateVisit(args);
     }
 };
 
 module.exports = {
-    queryResolvers,
-    mutationResolvers
+    queryVisitResolvers,
+    mutationVisitResolvers
 };

@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 const schema = new Schema({
     _id: Schema.Types.ObjectId,
     value: String
-}, { collection: 'descriptions' });
+});
 
 const modelDescription = mongoose.model('Descripton', schema);
 
