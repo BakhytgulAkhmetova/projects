@@ -1,9 +1,8 @@
 const queryTypeVisit = `
     type Query {
-        getVisitPage (
-            skip: Int!,
-            limit: Int!
-        ): VisitPage!
+        getSelectedPatients (
+            firstName: String!
+        ): [Patient]
         getVisitById(
             id: String!
             ): Visit!

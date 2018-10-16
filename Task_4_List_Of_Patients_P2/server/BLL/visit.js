@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
 
-const  Visit  = require('../mongo/models/visit');
-const description = require('../mongo/data/description');
-const doctor = require('../mongo/data/doctor');
+const Visit  = require('../mongo/models/visit');
+const Patient = require('../mongo/models/patient');
+const Description = require('../mongo/data/description');
+const Doctor = require('../mongo/data/doctor');
 
 /* asynchronous function to add new patient in storage */
 async function addVisit() {
@@ -17,20 +18,19 @@ async function addVisit() {
     }
 }
 
-/* asynchronous function to get all patients from storage*/
-async function getVisitPage({ skip, limit }) {
+/* asynchronous function to get selected patients from storage*/
+async function getSelectedPatients(firstName) {
     try {
-        let items = await Visit.find().skip(skip).limit(limit);
-        const total = await Visit.find().estimatedDocumentCount();
+        let patients = await Patient.find({ firstName: firstName });
 
-        items = items.map((p) => {
+        patients = patients.map((p) => {
             return {
-                ...p.toObject(),
-                id: p._id.toString(),
-                age: moment.utc(new Date()).diff(moment.utc(p.birthDate), 'years')
+                firstName: p.firstName,
+                lastName: p.lastName,
+                id: p._id.toString()
             };
         });
-        return { items, total };
+        return patients;
     } catch (error) {
         throw error;
     }
@@ -73,7 +73,7 @@ async function updateVisit({ id, firstName, lastName, birthDate, gender, phoneNu
 
 module.exports = {
     addVisit,
-    getVisitPage,
+    getSelectedPatients,
     getVisitById,
     updateVisit,
     deleteAllVisits

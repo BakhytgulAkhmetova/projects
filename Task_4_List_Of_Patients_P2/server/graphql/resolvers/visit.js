@@ -1,6 +1,6 @@
 const {
     addVisit,
-    getVisitPage,
+    getSelectedPatients,
     getVisitById,
     deleteAllVisits,
     updateVisit } = require('../../BLL/visit');
@@ -10,8 +10,8 @@ const queryVisitResolvers = {
     getVisitById(parent, args) {
         return getVisitById(args.id);
     },
-    getVisitPage(parent, args) {
-        return getVisitPage(args);
+    getSelectedPatients(parent, args) {
+        return getSelectedPatients(args);
     }
 };
 /* Definition resolve functions for changing data in mongoDB*/
