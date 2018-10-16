@@ -20,7 +20,7 @@ const typeDefs = mergeTypes([
 const schema = makeExecutableSchema({
     typeDefs,
     resolvers: {
-        Query: mergeResolvers([ queryPatientResolvers, queryVisitResolvers]),
+        Query: mergeResolvers([queryPatientResolvers, queryVisitResolvers]),
         Mutation: mergeResolvers([mutationPatientResolvers, mutationVisitResolvers]),
         Date: date
     }

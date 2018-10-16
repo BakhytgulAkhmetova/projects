@@ -1,8 +1,14 @@
 const queryTypeVisit = `
     type Query {
         getSelectedPatients (
-            firstName: String!
-        ): [Patient]
+            letters: String!
+        ): [SelectPatient]
+        getSelectedDoctors(
+            letters: String!
+        ): [Doctor]
+        getSelectedDescriptions(
+            letters: String!
+        ): [Description]
         getVisitById(
             id: String!
             ): Visit!
@@ -11,15 +17,15 @@ const queryTypeVisit = `
 const mutationTypeVisit = `
     type Mutation {
         addVisit(
-            patient: String!,
-            doctor: String!,
-            description: String!,
+            patientId: String!,
+            doctorId: String!,
+            descriptionId: String!,
             date: Date!
         ): Visit
         updateVisit(
-            patient: String!,
-            doctor: String!,
-            description: String!,
+            patientId: String!,
+            doctorId: String!,
+            descriptionId: String!,
             date: Date!
             id: String!
         ): Visit

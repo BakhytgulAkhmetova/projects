@@ -12,6 +12,22 @@ const customTypes = `
         age: Int
     }
 
+    type SelectPatient {
+        label: String!,
+        value: String!,
+    }
+
+    type Doctor {
+        id: String!,
+        firstName: String!,
+        lastName: String!
+    }
+
+    type Description {
+        id: String!,
+        value: String!
+    }
+
     type Visit {
         id: String!,
         patient: String!,

@@ -1,8 +1,8 @@
 import { observable, action, runInAction } from 'mobx';
 
 import { visitList } from './data/data';
-import { baseUrl, port, viewitems } from '../constants';
-import { getVisitsPage } from '../store/api/visit';
+import { baseUrl, port } from '../constants';
+import { getSelectedPatients } from '../store/api/visit';
 
 import ApolloClient from 'apollo-boost';
 
@@ -17,6 +17,12 @@ class VisitStore {
   @observable
   count
 
+  @observable
+  patient = { value: 'patientId', label: 'value' };
+
+    //   @observable
+    //   patientList = [];
+
   @action
   getAllVisits(pageNumber) {
       this.visitList = visitList;
@@ -24,25 +30,21 @@ class VisitStore {
   }
 
   @action
-  async getVisitsPage(pageNumber) {
-      try {
-          const skip = (pageNumber - 1) * viewitems;
-          const result = await client.query({
-              query: getVisitsPage,
-              variables: {
-                  skip,
-                  limit: viewitems
-              },
-              fetchPolicy: 'no-cache'
-          });
+  onChangePatientOption(letters) {
+      this.patient.label = letters;
+  }
 
-          runInAction(() => {
-              this.visitList = result.data.getVisitsPage.items;
-              this.count = result.data.getVisitsPage.total;
-          });
-      } catch (error) {
-          throw error;
-      }
+  @action
+  async getSelectedPatients(letters) {
+      const result = await client.query({
+          query: getSelectedPatients,
+          variables: { letters },
+          fetchPolicy: 'no-cache'
+      });
+
+      runInAction(() => {
+          return result.data.getSelectedPatients;
+      });
   }
 }
 

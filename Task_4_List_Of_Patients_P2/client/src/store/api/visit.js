@@ -18,25 +18,33 @@ export const addPatient = gql`
        `;
 
 
-export const getVisitsPage = gql`
-         query($skip: Int!, $limit: Int!) {
-            getVisitsPage(skip: $skip, limit: $limit) {
-             items {
-               firstName
-               lastName
-               id
-               birthDate
-               phoneNumber
-               email
-               gender
-               age
-             }
-             total
+export const getSelectedPatients = gql`
+         query($letters: String!) {
+          getSelectedPatients(letters: $letters) {
+               value
+               label
            }
          }
        `;
 
+export const getSelectedDoctors = gql`
+       query($letters: String!) {
+        getSelectedDoctors(letters: $letters) {
+             firstName
+             lastName
+             id
+         }
+       }
+     `;
 
+export const getSelectedDescriptions = gql`
+     query($letters: String!) {
+      getSelectedDescriptions(letters: $letters) {
+           value
+           id
+       }
+     }
+   `;
 export const getPatientById = gql`
          query($id: String!) {
            getPatientById(id: $id) {
@@ -68,4 +76,3 @@ export const editPatient = gql`
            }
          }
        `;
-

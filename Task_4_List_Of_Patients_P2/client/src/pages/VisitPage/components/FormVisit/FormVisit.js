@@ -1,15 +1,26 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import { observer } from 'mobx-react';
-import { compose } from 'recompose';
+import { compose, withHandlers } from 'recompose';
 import moment from 'moment';
-import Select from 'react-select';
+import PropTypes from 'prop-types';
+import AsyncSelect from 'react-select/lib/Async';
+
+import { visitStore } from '../../../../store';
 
 import './FormVisit.scss';
 
-const options = ['Mary Jane', 'Spider man', 'Tor'];
+const mapActionsToProps  = {
+    handleGetSelectedPatients : event => input  => {
+        visitStore.onChangePatientOption(input);
+    }
+};
 
-const Form  = () => {
+const patientsOptions = inputValue => {
+    visitStore.getSelectedPatients(inputValue);
+};
+
+const Form  = ({ handleGetSelectedPatients }) => {
     return (
         <form className='form'>
             <div className='form__field'>
@@ -18,11 +29,12 @@ const Form  = () => {
                     className='field__label'>
                     Patient
                     <div className='field--visit'>
-                        <Select
-                            value={''}
-                            className='field--visit__select'
-                            onChange={this.handleChange}
-                            options={options}/>
+                        <AsyncSelect
+                            cacheOptions
+                            onInputChange={handleGetSelectedPatients}
+                            value={visitStore.patient.label}
+                            loadOptions={patientsOptions}
+                            className='field--visit__select'/>
                     </div>
                 </label>
             </div>
@@ -32,11 +44,11 @@ const Form  = () => {
                     className='field__label'>
                     Doctor
                     <div className='field--visit'>
-                        <Select
-                            value={''}
-                            className='field--visit__select'
-                            onChange={this.handleChange}
-                            options={options}/>
+                        <AsyncSelect
+                            cacheOptions
+                            defaultOptions
+                            // loadOptions={promiseOptions}
+                            className='field--visit__select'/>
                     </div>
                 </label>
             </div>
@@ -60,11 +72,11 @@ const Form  = () => {
                     className='field__label'>
                     Description
                     <div className='field--visit'>
-                        <Select
-                            value={''}
-                            className='field--visit__select'
-                            onChange={this.handleChange}
-                            options={options}/>
+                        <AsyncSelect
+                            cacheOptions
+                            defaultOptions
+                            // loadOptions={promiseOptions}
+                            className='field--visit__select'/>
                     </div>
                 </label>
             </div>
@@ -72,4 +84,12 @@ const Form  = () => {
     );
 };
 
-export const FormVisit = compose(observer)(Form);
+Form.propTypes = {
+    patient: PropTypes.string,
+    patientsOptions: PropTypes.array,
+    handleGetSelectedPatients: PropTypes.func
+};
+
+export const FormVisit = compose(
+    observer,
+    withHandlers(mapActionsToProps))(Form);

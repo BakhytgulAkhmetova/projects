@@ -6,8 +6,8 @@ const Schema = mongoose.Schema;
 const schema = new Schema({
     _id: Schema.Types.ObjectId,
     descriptionId: Schema.Types.ObjectId,
+    doctorId: Schema.Types.ObjectId,
     patientId: Schema.Types.ObjectId,
-    birthDate: Schema.Types.ObjectId,
     date: Date
 });
 

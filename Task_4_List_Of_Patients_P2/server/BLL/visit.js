@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const moment = require('moment');
 
 const Visit  = require('../mongo/models/visit');
 const Patient = require('../mongo/models/patient');
@@ -7,50 +6,69 @@ const Description = require('../mongo/data/description');
 const Doctor = require('../mongo/data/doctor');
 
 /* asynchronous function to add new patient in storage */
-async function addVisit() {
+async function addVisit({ date, patientId, doctorId, descriptionId }) {
     const visit = new Visit({
+        _id: new mongoose.Types.ObjectId(),
+        patientId,
+        date,
+        doctorId,
+        descriptionId
     });
 
-    try {
-        return await visit.save();
-    } catch (error) {
-        throw error;
-    }
+    return await visit.save();
 }
 
 /* asynchronous function to get selected patients from storage*/
-async function getSelectedPatients(firstName) {
-    try {
-        let patients = await Patient.find({ firstName: firstName });
+async function getSelectedPatients({ letters }) {
+    let patients = await Patient.find({ firstName: { $regex: letters, $options: 'i' } });
 
-        patients = patients.map((p) => {
-            return {
-                firstName: p.firstName,
-                lastName: p.lastName,
-                id: p._id.toString()
-            };
-        });
-        return patients;
-    } catch (error) {
-        throw error;
-    }
+    patients = patients.map((p) => {
+        return {
+            label: `${p.firstName  }${  p.lastName}`,
+            value: p._id.toString()
+        };
+    });
+
+    return patients;
 }
 
+/* asynchronous function to get selected doctors from storage*/
+async function getSelectedDoctors({ letters }) {
+    let doctors = await Doctor.find({ firstName: { $regex: letters, $options: 'i' } });
+
+    doctors = doctors.map((d) => {
+        return {
+            firstName: d.firstName,
+            lastName: d.lastName,
+            id: d._id.toString()
+        };
+    });
+
+    return doctors;
+}
+
+/* asynchronous function to get selected descriptions from storage*/
+async function getSelectedDescriptions({ letters }) {
+    let descriptions = await Description.find({ value: { $regex: letters, $options: 'i' } });
+
+    descriptions = descriptions.map((d) => {
+        return {
+            value: d.value,
+            id: d._id.toString()
+        };
+    });
+
+    return descriptions;
+}
+
+/* asynchronous function to delete all visits*/
 async function deleteAllVisits() {
-    try {
-        return await Visit.deleteMany();
-    } catch (error) {
-        throw error;
-    }
+    return await Visit.deleteMany();
 }
 
 /* asynchronous function to get one patient from storage by id */
 async function getVisitById(id) {
-    try {
-        return await Visit.findById(id);
-    } catch (error) {
-        throw error;
-    }
+    return await Visit.findById(id);
 }
 
 /* asynchronous function to update info about patient in storage by id */
@@ -64,16 +82,14 @@ async function updateVisit({ id, firstName, lastName, birthDate, gender, phoneNu
         email
     });
 
-    try {
-        return await Visit.findByIdAndUpdate(id, patient, { new: true });
-    } catch (error) {
-        throw error;
-    }
+    return await Visit.findByIdAndUpdate(id, patient, { new: true });
 }
 
 module.exports = {
     addVisit,
     getSelectedPatients,
+    getSelectedDoctors,
+    getSelectedDescriptions,
     getVisitById,
     updateVisit,
     deleteAllVisits
