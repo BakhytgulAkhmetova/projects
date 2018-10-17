@@ -14,19 +14,9 @@ class VisitStore {
   @observable
   visitList = [];
 
-  @observable
-  count
-
-  @observable
-  patient = { value: 'patientId', label: 'value' };
-
-    //   @observable
-    //   patientList = [];
-
   @action
-  getAllVisits(pageNumber) {
+  getAllVisits() {
       this.visitList = visitList;
-      this.count = visitList.length;
   }
 
   @action
@@ -36,6 +26,7 @@ class VisitStore {
 
   @action
   async getSelectedPatients(letters) {
+      let patients;
       const result = await client.query({
           query: getSelectedPatients,
           variables: { letters },
@@ -43,8 +34,10 @@ class VisitStore {
       });
 
       runInAction(() => {
-          return result.data.getSelectedPatients;
+          patients =  result.data.getSelectedPatients;
       });
+      debugger;
+      return patients;
   }
 }
 

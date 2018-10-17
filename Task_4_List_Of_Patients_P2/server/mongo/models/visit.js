@@ -4,10 +4,10 @@ const Schema = mongoose.Schema;
 
 /* Definition schema for visit */
 const schema = new Schema({
-    _id: Schema.Types.ObjectId,
-    descriptionId: Schema.Types.ObjectId,
-    doctorId: Schema.Types.ObjectId,
-    patientId: Schema.Types.ObjectId,
+    _id: Schema.Types.String,
+    descriptionId: Schema.Types.String,
+    doctorId: Schema.Types.String,
+    patientId: Schema.Types.String,
     date: Date
 });
 

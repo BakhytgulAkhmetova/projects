@@ -26,7 +26,7 @@ async function getPatientsPage({ skip, limit }) {
     items = items.map((p) => {
         return {
             ...p.toObject(),
-            id: p._id.toString(),
+            id: p._id,
             age: moment.utc(new Date()).diff(moment.utc(p.birthDate), 'years')
         };
     });

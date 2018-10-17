@@ -20,12 +20,14 @@ async function addVisit({ date, patientId, doctorId, descriptionId }) {
 
 /* asynchronous function to get selected patients from storage*/
 async function getSelectedPatients({ letters }) {
+    console.log(letters);
     let patients = await Patient.find({ firstName: { $regex: letters, $options: 'i' } });
 
+    console.log(patients);
     patients = patients.map((p) => {
         return {
             label: `${p.firstName  }${  p.lastName}`,
-            value: p._id.toString()
+            value: p._id
         };
     });
 
@@ -40,7 +42,7 @@ async function getSelectedDoctors({ letters }) {
         return {
             firstName: d.firstName,
             lastName: d.lastName,
-            id: d._id.toString()
+            id: d._id
         };
     });
 
@@ -54,7 +56,7 @@ async function getSelectedDescriptions({ letters }) {
     descriptions = descriptions.map((d) => {
         return {
             value: d.value,
-            id: d._id.toString()
+            id: d._id
         };
     });
 

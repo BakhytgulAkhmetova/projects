@@ -1,7 +1,7 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import { observer } from 'mobx-react';
-import { compose, withHandlers } from 'recompose';
+import { compose, withHandlers, withState, withProps } from 'recompose';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import AsyncSelect from 'react-select/lib/Async';
@@ -10,17 +10,22 @@ import { visitStore } from '../../../../store';
 
 import './FormVisit.scss';
 
+const patientInitial = { value: 'patientId', label: '' };
+
 const mapActionsToProps  = {
-    handleGetSelectedPatients : event => input  => {
-        visitStore.onChangePatientOption(input);
+    onChangePatient : ({ patient, changePatient }) => (inputValue) => {
+        changePatient({ ...patient, label: inputValue });
+    },
+    onChange : ({ patient, changePatient }) => (selected) => {
+        changePatient({ ...patient, label: selected.label });
     }
 };
 
 const patientsOptions = inputValue => {
-    visitStore.getSelectedPatients(inputValue);
+    return visitStore.getSelectedPatients(inputValue);
 };
 
-const Form  = ({ handleGetSelectedPatients }) => {
+const Form  = ({ patient, onChangePatient, onChange, onFocus }) => {
     return (
         <form className='form'>
             <div className='form__field'>
@@ -31,8 +36,9 @@ const Form  = ({ handleGetSelectedPatients }) => {
                     <div className='field--visit'>
                         <AsyncSelect
                             cacheOptions
-                            onInputChange={handleGetSelectedPatients}
-                            value={visitStore.patient.label}
+                            onChange={onChange}
+                            onInputChange={onChangePatient}
+                            value={patient}
                             loadOptions={patientsOptions}
                             className='field--visit__select'/>
                     </div>
@@ -87,9 +93,15 @@ const Form  = ({ handleGetSelectedPatients }) => {
 Form.propTypes = {
     patient: PropTypes.string,
     patientsOptions: PropTypes.array,
-    handleGetSelectedPatients: PropTypes.func
+    onChange: PropTypes.func,
+    onFocus: PropTypes.func,
+    onChangePatient: PropTypes.func
 };
 
 export const FormVisit = compose(
     observer,
+    withState('patient', 'changePatient', patientInitial),
+    withProps(({ patient }) => {
+        return { patient };
+    }),
     withHandlers(mapActionsToProps))(Form);
