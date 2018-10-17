@@ -23,13 +23,16 @@ const mapActionsToProps  = {
         changeDescription({ ...description, label: inputValue });
     },
     onSelectPatient : ({ patient, changePatient }) => (selected) => {
-        changePatient({ ...patient, label: selected.label });
+        changePatient({ ...patient, value: selected.value, label: selected.label });
+        visitStore.visit.patientId = patient.value;
     },
     onSelectDoctor : ({ doctor, changeDoctor }) => (selected) => {
-        changeDoctor({ ...doctor, label: selected.label });
+        changeDoctor({ ...doctor, value: selected.value, label: selected.label });
+        visitStore.visit.doctorId = doctor.value;
     },
     onSelectDescription : ({ description, changeDescription }) => (selected) => {
-        changeDescription({ ...description, label: selected.label });
+        changeDescription({ ...description, value: selected.value, label: selected.label });
+        visitStore.visit.descriptionId = description.value;
     }
 };
 
@@ -53,6 +56,7 @@ const Form  = ({
     onSelectPatient,
     onSelectDoctor,
     onSelectDescription }) => {
+    console.log(patient);
     return (
         <form className='form'>
             <div className='form__field'>

@@ -1,6 +1,6 @@
 import { observable, action, runInAction } from 'mobx';
 
-import { visitList } from './data/data';
+import { visitList, emptyVisit } from './data/data';
 import { baseUrl, port } from '../constants';
 import { getSelectedPatients, getSelectedDoctors, getSelectedDescriptions } from '../store/api/visit';
 
@@ -13,6 +13,9 @@ const client = new ApolloClient({
 class VisitStore {
   @observable
   visitList = [];
+
+  @observable
+  visit = emptyVisit;
 
   @action
   getAllVisits() {
