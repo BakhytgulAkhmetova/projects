@@ -2,7 +2,7 @@ import { observable, action, runInAction } from 'mobx';
 
 import { visitList } from './data/data';
 import { baseUrl, port } from '../constants';
-import { getSelectedPatients } from '../store/api/visit';
+import { getSelectedPatients, getSelectedDoctors, getSelectedDescriptions } from '../store/api/visit';
 
 import ApolloClient from 'apollo-boost';
 
@@ -36,8 +36,37 @@ class VisitStore {
       runInAction(() => {
           patients =  result.data.getSelectedPatients;
       });
-      debugger;
       return patients;
+  }
+
+  @action
+  async getSelectedDoctors(letters) {
+      let doctors;
+      const result = await client.query({
+          query: getSelectedDoctors,
+          variables: { letters },
+          fetchPolicy: 'no-cache'
+      });
+
+      runInAction(() => {
+          doctors =  result.data.getSelectedDoctors;
+      });
+      return doctors;
+  }
+
+  @action
+  async getSelectedDescriptions(letters) {
+      let descriptions;
+      const result = await client.query({
+          query: getSelectedDescriptions,
+          variables: { letters },
+          fetchPolicy: 'no-cache'
+      });
+
+      runInAction(() => {
+          descriptions =  result.data.getSelectedDescriptions;
+      });
+      return descriptions;
   }
 }
 

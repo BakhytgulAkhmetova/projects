@@ -20,10 +20,8 @@ async function addVisit({ date, patientId, doctorId, descriptionId }) {
 
 /* asynchronous function to get selected patients from storage*/
 async function getSelectedPatients({ letters }) {
-    console.log(letters);
     let patients = await Patient.find({ firstName: { $regex: letters, $options: 'i' } });
 
-    console.log(patients);
     patients = patients.map((p) => {
         return {
             label: `${p.firstName  }${  p.lastName}`,
@@ -36,6 +34,7 @@ async function getSelectedPatients({ letters }) {
 
 /* asynchronous function to get selected doctors from storage*/
 async function getSelectedDoctors({ letters }) {
+    console.log(Doctor);
     let doctors = await Doctor.find({ firstName: { $regex: letters, $options: 'i' } });
 
     doctors = doctors.map((d) => {

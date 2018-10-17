@@ -10,22 +10,49 @@ import { visitStore } from '../../../../store';
 
 import './FormVisit.scss';
 
-const patientInitial = { value: 'patientId', label: '' };
+const optionInitial = { value: 'Id', label: '' };
 
 const mapActionsToProps  = {
     onChangePatient : ({ patient, changePatient }) => (inputValue) => {
         changePatient({ ...patient, label: inputValue });
     },
-    onChange : ({ patient, changePatient }) => (selected) => {
+    onChangeDoctor : ({ doctor, changeDoctor }) => (inputValue) => {
+        changeDoctor({ ...doctor, label: inputValue });
+    },
+    onChangeDescription : ({ description, changeDescription }) => (inputValue) => {
+        changeDescription({ ...description, label: inputValue });
+    },
+    onSelectPatient : ({ patient, changePatient }) => (selected) => {
         changePatient({ ...patient, label: selected.label });
+    },
+    onSelectDoctor : ({ doctor, changeDoctor }) => (selected) => {
+        changeDoctor({ ...doctor, label: selected.label });
+    },
+    onSelectDescription : ({ description, changeDescription }) => (selected) => {
+        changeDescription({ ...description, label: selected.label });
     }
 };
 
 const patientsOptions = inputValue => {
     return visitStore.getSelectedPatients(inputValue);
 };
+const doctorsOptions = inputValue => {
+    return visitStore.getSelectedDoctors(inputValue);
+};
+const descriptionsOptions = inputValue => {
+    return visitStore.getSelectedDescriptions(inputValue);
+};
 
-const Form  = ({ patient, onChangePatient, onChange, onFocus }) => {
+const Form  = ({
+    patient,
+    doctor,
+    description,
+    onChangePatient,
+    onChangeDoctor,
+    onChangeDescription,
+    onSelectPatient,
+    onSelectDoctor,
+    onSelectDescription }) => {
     return (
         <form className='form'>
             <div className='form__field'>
@@ -36,7 +63,7 @@ const Form  = ({ patient, onChangePatient, onChange, onFocus }) => {
                     <div className='field--visit'>
                         <AsyncSelect
                             cacheOptions
-                            onChange={onChange}
+                            onChange={onSelectPatient}
                             onInputChange={onChangePatient}
                             value={patient}
                             loadOptions={patientsOptions}
@@ -52,8 +79,10 @@ const Form  = ({ patient, onChangePatient, onChange, onFocus }) => {
                     <div className='field--visit'>
                         <AsyncSelect
                             cacheOptions
-                            defaultOptions
-                            // loadOptions={promiseOptions}
+                            onChange={onSelectDoctor}
+                            onInputChange={onChangeDoctor}
+                            value={doctor}
+                            loadOptions={doctorsOptions}
                             className='field--visit__select'/>
                     </div>
                 </label>
@@ -80,8 +109,10 @@ const Form  = ({ patient, onChangePatient, onChange, onFocus }) => {
                     <div className='field--visit'>
                         <AsyncSelect
                             cacheOptions
-                            defaultOptions
-                            // loadOptions={promiseOptions}
+                            onChange={onSelectDescription}
+                            onInputChange={onChangeDescription}
+                            value={description}
+                            loadOptions={descriptionsOptions}
                             className='field--visit__select'/>
                     </div>
                 </label>
@@ -92,16 +123,25 @@ const Form  = ({ patient, onChangePatient, onChange, onFocus }) => {
 
 Form.propTypes = {
     patient: PropTypes.string,
+    doctor: PropTypes.string,
+    description: PropTypes.string,
     patientsOptions: PropTypes.array,
-    onChange: PropTypes.func,
-    onFocus: PropTypes.func,
-    onChangePatient: PropTypes.func
+    doctorsOptions: PropTypes.array,
+    descriptionsOptions: PropTypes.array,
+    onSelectPatient: PropTypes.func,
+    onSelectDoctor: PropTypes.func,
+    onSelectDescription: PropTypes.func,
+    onChangePatient: PropTypes.func,
+    onChangeDoctor: PropTypes.func,
+    onChangeDescription: PropTypes.func
 };
 
 export const FormVisit = compose(
     observer,
-    withState('patient', 'changePatient', patientInitial),
-    withProps(({ patient }) => {
-        return { patient };
+    withState('patient', 'changePatient', optionInitial),
+    withState('doctor', 'changeDoctor', optionInitial),
+    withState('description', 'changeDescription', optionInitial),
+    withProps(({ patient, doctor, description }) => {
+        return { patient, doctor, description };
     }),
     withHandlers(mapActionsToProps))(Form);
