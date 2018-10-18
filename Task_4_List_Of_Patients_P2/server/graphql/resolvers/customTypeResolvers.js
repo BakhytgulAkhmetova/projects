@@ -20,7 +20,6 @@ const date = new GraphQLScalarType({
     }
 });
 
-
 module.exports = {
     date
 };

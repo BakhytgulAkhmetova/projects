@@ -5,6 +5,7 @@ import { compose, withHandlers, withState, withProps } from 'recompose';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import AsyncSelect from 'react-select/lib/Async';
+import _ from 'lodash';
 
 import { visitStore } from '../../../../store';
 
@@ -36,15 +37,9 @@ const mapActionsToProps  = {
     }
 };
 
-const patientsOptions = inputValue => {
-    return visitStore.getSelectedPatients(inputValue);
-};
-const doctorsOptions = inputValue => {
-    return visitStore.getSelectedDoctors(inputValue);
-};
-const descriptionsOptions = inputValue => {
-    return visitStore.getSelectedDescriptions(inputValue);
-};
+const getPatientOptions = _.debounce(visitStore.getSelectedPatients, 1000);
+const getDoctorOptions = _.debounce(visitStore.getSelectedDoctors, 1000);
+const getDescriptionOptions = _.debounce(visitStore.getSelectedDescriptions, 1000);
 
 const Form  = ({
     patient,
@@ -56,7 +51,6 @@ const Form  = ({
     onSelectPatient,
     onSelectDoctor,
     onSelectDescription }) => {
-    console.log(patient);
     return (
         <form className='form'>
             <div className='form__field'>
@@ -70,7 +64,7 @@ const Form  = ({
                             onChange={onSelectPatient}
                             onInputChange={onChangePatient}
                             value={patient}
-                            loadOptions={patientsOptions}
+                            loadOptions={getPatientOptions}
                             className='field--visit__select'/>
                     </div>
                 </label>
@@ -86,7 +80,7 @@ const Form  = ({
                             onChange={onSelectDoctor}
                             onInputChange={onChangeDoctor}
                             value={doctor}
-                            loadOptions={doctorsOptions}
+                            loadOptions={(input) => getDoctorOptions(input)}
                             className='field--visit__select'/>
                     </div>
                 </label>
@@ -116,7 +110,7 @@ const Form  = ({
                             onChange={onSelectDescription}
                             onInputChange={onChangeDescription}
                             value={description}
-                            loadOptions={descriptionsOptions}
+                            loadOptions={(input) => getDescriptionOptions(input)}
                             className='field--visit__select'/>
                     </div>
                 </label>

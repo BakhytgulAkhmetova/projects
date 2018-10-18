@@ -29,7 +29,6 @@ async function getSelectedPatients({ letters }) {
         };
     });
 
-    console.log(patients);
     return patients;
 }
 
@@ -57,7 +56,7 @@ async function getSelectedDescriptions({ letters }) {
             value: d._id
         };
     });
-    console.log(descriptions);
+
     return descriptions;
 }
 

@@ -30,7 +30,6 @@ async function getPatientsPage({ skip, limit }) {
             age: moment.utc(new Date()).diff(moment.utc(p.birthDate), 'years')
         };
     });
-    console.log(items);
 
     return { items, total };
 }
