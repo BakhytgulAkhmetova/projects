@@ -30,9 +30,8 @@ export const getSelectedPatients = gql`
 export const getSelectedDoctors = gql`
        query($letters: String!) {
         getSelectedDoctors(letters: $letters) {
-             firstName
-             lastName
-             id
+          value
+          label
          }
        }
      `;
@@ -40,8 +39,8 @@ export const getSelectedDoctors = gql`
 export const getSelectedDescriptions = gql`
      query($letters: String!) {
       getSelectedDescriptions(letters: $letters) {
-           value
-           id
+        value
+        label
        }
      }
    `;

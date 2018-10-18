@@ -12,7 +12,7 @@ const customTypes = `
         age: Int
     }
 
-    type SelectPatient {
+    type Selected {
         label: String!,
         value: String!,
     }

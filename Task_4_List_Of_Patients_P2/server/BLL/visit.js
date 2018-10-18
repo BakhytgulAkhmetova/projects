@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 const Visit  = require('../mongo/models/visit');
 const Patient = require('../mongo/models/patient');
-const Description = require('../mongo/data/description');
-const Doctor = require('../mongo/data/doctor');
+const Description = require('../mongo/models/description');
+const Doctor = require('../mongo/models/doctor');
 
 /* asynchronous function to add new patient in storage */
 async function addVisit({ date, patientId, doctorId, descriptionId }) {
@@ -20,7 +20,7 @@ async function addVisit({ date, patientId, doctorId, descriptionId }) {
 
 /* asynchronous function to get selected patients from storage*/
 async function getSelectedPatients({ letters }) {
-    let patients = await Patient.find({ firstName: { $regex: letters, $options: 'i' } });
+    let patients = await Patient.find({ firstName: { $regex: `^${  letters }`, $options: 'i' } });
 
     patients = patients.map((p) => {
         return {
@@ -29,19 +29,18 @@ async function getSelectedPatients({ letters }) {
         };
     });
 
+    console.log(patients);
     return patients;
 }
 
 /* asynchronous function to get selected doctors from storage*/
 async function getSelectedDoctors({ letters }) {
-    console.log(Doctor);
-    let doctors = await Doctor.find({ firstName: { $regex: letters, $options: 'i' } });
+    let doctors = await Doctor.find({ firstName: { $regex: `^${  letters }`, $options: 'i' } });
 
     doctors = doctors.map((d) => {
         return {
-            firstName: d.firstName,
-            lastName: d.lastName,
-            id: d._id
+            label: `${d.firstName  }${  d.lastName}`,
+            value: d._id
         };
     });
 
@@ -50,15 +49,15 @@ async function getSelectedDoctors({ letters }) {
 
 /* asynchronous function to get selected descriptions from storage*/
 async function getSelectedDescriptions({ letters }) {
-    let descriptions = await Description.find({ value: { $regex: letters, $options: 'i' } });
+    let descriptions = await Description.find({ value: { $regex: `^${  letters }`, $options: 'i' } });
 
     descriptions = descriptions.map((d) => {
         return {
-            value: d.value,
-            id: d._id
+            label: d.value,
+            value: d._id
         };
     });
-
+    console.log(descriptions);
     return descriptions;
 }
 

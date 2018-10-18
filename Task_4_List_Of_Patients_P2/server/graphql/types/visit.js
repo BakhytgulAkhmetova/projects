@@ -2,13 +2,13 @@ const queryTypeVisit = `
     type Query {
         getSelectedPatients (
             letters: String!
-        ): [SelectPatient]
+        ): [Selected]
         getSelectedDoctors(
             letters: String!
-        ): [Doctor]
+        ): [Selected]
         getSelectedDescriptions(
             letters: String!
-        ): [Description]
+        ): [Selected]
         getVisitById(
             id: String!
             ): Visit!
