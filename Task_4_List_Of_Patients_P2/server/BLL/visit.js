@@ -5,6 +5,8 @@ const Patient = require('../mongo/models/patient');
 const Description = require('../mongo/models/description');
 const Doctor = require('../mongo/models/doctor');
 
+console.log(Doctor);
+
 /* asynchronous function to add new patient in storage */
 async function addVisit({ date, patientId, doctorId, descriptionId }) {
     const visit = new Visit({
@@ -62,7 +64,7 @@ async function getSelectedDescriptions({ letters }) {
 
 /* asynchronous function to delete all visits*/
 async function deleteAllVisits() {
-    return await Visit.deleteMany();
+    return await Doctor.deleteMany();
 }
 
 /* asynchronous function to get one patient from storage by id */

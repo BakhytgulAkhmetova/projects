@@ -1,16 +1,6 @@
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
-
-/* Definition schema for doctor */
-const schema = new Schema({
-    _id: Schema.Types.String,
-    firstName: String,
-    lastName: String
-});
-
-const Doctor = mongoose.model('Doctor', schema);
-
 const doctors = [
     {
         _id: new mongoose.Types.ObjectId(),
@@ -67,6 +57,27 @@ const doctors = [
     }
 ];
 
-Doctor.collection.insertMany(doctors);
+/* Definition schema for Doctor */
+const schema = new Schema({
+    _id: Schema.Types.String,
+    firstName: String,
+    lastName: String
+}, { strict: true });
+
+var Doctor = mongoose.model('Doctor', schema);
+
+// var collection = mongoose.createConnection('doctors');
+
+var doctor = new Doctor({
+    _id: new mongoose.Types.ObjectId(),
+    firstName: 'Hunter',
+    lastName:'Cooper'
+});
+
+
+// doctor.create(doctors);
+// doctor.save();
+// Doctor.insertMany(doctors);
+doctor.save();
 
 module.exports = Doctor;
