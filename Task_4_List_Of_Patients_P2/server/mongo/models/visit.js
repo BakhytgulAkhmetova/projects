@@ -11,6 +11,6 @@ const schema = new Schema({
     date: Date
 });
 
-const modelVisit = mongoose.model('Visit', schema);
+const visit = mongoose.model('Visit', schema);
 
-module.exports = modelVisit;
+module.exports = visit;

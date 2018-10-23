@@ -5,14 +5,6 @@ import {
     regBirthDay
 } from '../../constants';
 
-export const emptyVisit = {
-    patientId: '',
-    doctorId: '',
-    descriptionId: '',
-    id: -1,
-    date: new Date()
-};
-
 export const emptyPatient = {
     firstName: {
         value: '',

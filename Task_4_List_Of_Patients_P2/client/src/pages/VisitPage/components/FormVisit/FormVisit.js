@@ -11,7 +11,16 @@ import { visitStore } from '../../../../store';
 
 import './FormVisit.scss';
 
-const optionInitial = { value: 'Id', label: '' };
+const patientOption = { value: 'Id', label: '' };
+const doctorOption = { value: 'Id', label: '' };
+const descriptionOption = { value: 'Id', label: '' };
+
+const visit = {
+    patientId: -1,
+    doctorId: -1,
+    descriptionId: -1,
+    date: new Date()
+};
 
 const mapActionsToProps  = {
     onChangePatient : ({ patient, changePatient }) => (inputValue) => {
@@ -23,17 +32,24 @@ const mapActionsToProps  = {
     onChangeDescription : ({ description, changeDescription }) => (inputValue) => {
         changeDescription({ ...description, label: inputValue });
     },
-    onSelectPatient : ({ patient, changePatient }) => (selected) => {
-        changePatient({ ...patient, value: selected.value, label: selected.label });
-        visitStore.visit.patientId = patient.value;
-    },
+    onSelectPatient : ({ changePatient }) =>  (selected) => changePatient(selected),
+    // ({ patient, changePatient }) => (selected) => {
+    //     // changePatient({ ...patient, value: selected.value, label: selected.label });
+    //     // patientOption.value = patient.value;
+    //     // patientOption.label = patient.label;
+    //     // visit.patientId = patient.value;
+    // },
     onSelectDoctor : ({ doctor, changeDoctor }) => (selected) => {
         changeDoctor({ ...doctor, value: selected.value, label: selected.label });
-        visitStore.visit.doctorId = doctor.value;
+        doctorOption.value = doctor.value;
+        doctorOption.label = doctor.label;
+        visit.doctorId = doctor.value;
     },
     onSelectDescription : ({ description, changeDescription }) => (selected) => {
         changeDescription({ ...description, value: selected.value, label: selected.label });
-        visitStore.visit.descriptionId = description.value;
+        descriptionOption.value = description.value;
+        descriptionOption.label = description.label;
+        visit.descriptionId = description.value;
     }
 };
 
@@ -51,6 +67,7 @@ const Form  = ({
     onSelectPatient,
     onSelectDoctor,
     onSelectDescription }) => {
+    console.log(patient);
     return (
         <form className='form'>
             <div className='form__field'>
@@ -136,9 +153,9 @@ Form.propTypes = {
 
 export const FormVisit = compose(
     observer,
-    withState('patient', 'changePatient', optionInitial),
-    withState('doctor', 'changeDoctor', optionInitial),
-    withState('description', 'changeDescription', optionInitial),
+    withState('patient', 'changePatient', patientOption),
+    withState('doctor', 'changeDoctor', doctorOption),
+    withState('description', 'changeDescription', descriptionOption),
     withProps(({ patient, doctor, description }) => {
         return { patient, doctor, description };
     }),

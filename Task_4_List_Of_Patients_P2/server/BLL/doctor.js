@@ -1,21 +1,44 @@
 const mongoose = require('mongoose');
 
-const Visit  = require('../mongo/models/visit');
-const Patient = require('../mongo/models/patient');
-const Description = require('../mongo/models/description');
 const Doctor = require('../mongo/models/doctor');
 
-console.log(Doctor);
-
-/* asynchronous function to add new patient in storage */
-async function addVisit({ date, patientId, doctorId, descriptionId }) {
-    const visit = new Visit({
+/* asynchronous function to add new doctor in storage */
+async function addDoctor({ firstName, lastName }) {
+    const doctor = new Doctor({
         _id: new mongoose.Types.ObjectId(),
-        patientId,
-        date,
-        doctorId,
-        descriptionId
+        firstName,
+        lastName
     });
 
-    return await visit.save();
+    return await doctor.save();
 }
+
+/* asynchronous function to get all doctors from the storage */
+async function getAllDoctors() {
+    let items = await Doctor.find();
+
+    items = items.map((d) => {
+        return {
+            ...d.toObject(),
+            id: d._id };
+    });
+
+    return items;
+}
+
+/* asynchronous function to delete all doctors from the storage */
+async function deleteAllDoctors() {
+    return await Doctor.deleteMany();
+}
+
+/* asynchronous function to get one doctor from the storage by id */
+async function getDoctorById(id) {
+    return await Doctor.findById(id);
+}
+
+module.exports = {
+    addDoctor,
+    getAllDoctors,
+    deleteAllDoctors,
+    getDoctorById
+};
