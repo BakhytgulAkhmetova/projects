@@ -13,6 +13,6 @@ const schema = new Schema({
     email: String
 });
 
-const patient = mongoose.model('Patient', schema);
+const Patient = mongoose.model('Patient', schema);
 
-module.exports = patient;
+module.exports = Patient;

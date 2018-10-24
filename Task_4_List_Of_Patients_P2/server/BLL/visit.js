@@ -7,12 +7,18 @@ const Doctor = require('../mongo/models/doctor');
 
 /* asynchronous function to add new patient in storage */
 async function addVisit({ date, patientId, doctorId, descriptionId }) {
+    // const patient = await Patient.findById(patientId);
+    // const doctor = await Doctor.findById(doctorId);
+    // const description = await Description.findById(descriptionId);
+
+    console.log(patientId);
+
     const visit = new Visit({
         _id: new mongoose.Types.ObjectId(),
-        patientId,
-        date,
-        doctorId,
-        descriptionId
+        patient: patientId,
+        doctor: doctorId,
+        description: descriptionId,
+        date
     });
 
     return await visit.save();
@@ -20,15 +26,14 @@ async function addVisit({ date, patientId, doctorId, descriptionId }) {
 
 /* asynchronous function to get all patients from storage*/
 async function getVisitsPage({ skip, limit }) {
-    let items = await Visit.find().skip(skip).limit(limit);
+    // const items = await Visit.find().skip(skip).limit(limit);
     const total = await Visit.find().estimatedDocumentCount();
 
-    items = items.map((p) => {
-        return {
-            ...p.toObject(),
-            id: p._id
-        };
-    });
+    const items = await Visit.find()
+        .populate('patient')
+        .populate('doctor')
+        .populate('description')
+        .skip(skip).limit(limit);
 
     return { items, total };
 }

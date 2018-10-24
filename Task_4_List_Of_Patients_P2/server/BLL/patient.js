@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
 
-const Patient = require('../mongo/models/patient');
+const Patient  = require('../mongo/models/patient');
 
 /* asynchronous function to add new patient in storage */
 async function addPatient({ firstName, lastName, birthDate, gender, phoneNumber, email }) {

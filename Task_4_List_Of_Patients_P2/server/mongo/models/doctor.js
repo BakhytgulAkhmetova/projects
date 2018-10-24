@@ -9,6 +9,6 @@ const schema = new Schema({
     lastName: String
 });
 
-var doctor = mongoose.model('Doctor', schema);
+var Doctor = mongoose.model('Doctor', schema);
 
-module.exports = doctor;
+module.exports = Doctor;

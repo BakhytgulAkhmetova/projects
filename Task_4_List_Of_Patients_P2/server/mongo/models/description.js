@@ -8,6 +8,6 @@ const schema = new Schema({
     value: String
 });
 
-const description = mongoose.model('Descripton', schema);
+const Description = mongoose.model('Descripton', schema);
 
-module.exports = description;
+module.exports = Description;

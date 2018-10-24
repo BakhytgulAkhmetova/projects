@@ -5,9 +5,9 @@ const Schema = mongoose.Schema;
 /* Definition schema for visit */
 const schema = new Schema({
     _id: Schema.Types.String,
-    descriptionId: Schema.Types.String,
-    doctorId: Schema.Types.String,
-    patientId: Schema.Types.String,
+    description: { type: Schema.Types.String, ref: 'Descripton' },
+    doctor: { type: Schema.Types.String, ref: 'Doctor' },
+    patient: { type: Schema.Types.String, ref: 'Patient' },
     date: Date
 });
 

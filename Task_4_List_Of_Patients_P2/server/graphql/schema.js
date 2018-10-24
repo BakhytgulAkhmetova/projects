@@ -15,13 +15,13 @@ const { date } = require('../graphql/resolvers/customTypeResolvers');
 
 const typeDefs = mergeTypes([
     queryTypePatient,
-    queryTypeVisit,
     queryTypeDoctor,
     queryTypeDescription,
+    queryTypeVisit,
     mutationTypePatient,
-    mutationTypeVisit,
     mutationTypeDoctor,
     mutationTypeDescription,
+    mutationTypeVisit,
     customTypes
 ], { all: true });
 

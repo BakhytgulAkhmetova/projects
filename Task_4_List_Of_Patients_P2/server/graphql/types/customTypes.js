@@ -30,14 +30,22 @@ const customTypes = `
 
     type Visit {
         id: String!,
-        patient: String!,
-        doctor: String!,
-        description: String!,
-        date: Date!
+        patientId: String !,
+        doctorId: String!,
+        descriptionId: String!,
+        date: String!
+    }
+
+    type VisitPageItem {
+        id: String!,
+        patient: Patient !,
+        doctor: Doctor!,
+        description: Description!,
+        date: String!
     }
 
     type VisitPage {
-        items: [Visit],
+        items: [VisitPageItem],
         total: Int!
     }
 

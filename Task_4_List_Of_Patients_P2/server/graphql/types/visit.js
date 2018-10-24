@@ -27,9 +27,9 @@ const mutationTypeVisit = `
             date: Date!
         ): Visit
         updateVisit(
-            patientId: String!,
-            doctorId: String!,
-            descriptionId: String!,
+            patient: String!,
+            doctor: String!,
+            description: String!,
             date: Date!
             id: String!
         ): Visit

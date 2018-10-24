@@ -14,30 +14,33 @@ import './FormVisit.scss';
 const option = { value: 'Id', label: '' };
 
 export const visit = {
-    patientId: -1,
-    doctorId: -1,
-    descriptionId: -1,
+    patient: -1,
+    doctor: -1,
+    description: -1,
     date: new Date()
 };
 
 const mapActionsToProps  = {
-    onChangePatient : ({ patient, changePatient }) => (inputValue) => {
-        changePatient({ inputValue });
-        visit.patientId = patient.value;
+    onChangePatient : ({ changePatient }) => (label) => changePatient({ label }),
+    onChangeDoctor : ({ changeDoctor }) => (label) => changeDoctor({ label }),
+    onChangeDescription : ({ changeDescription }) => (label) => changeDescription({ label }),
+    onSelectPatient : ({ changePatient }) => (selected) => {
+        changePatient(selected);
+        visit.patient = selected.value;
     },
-    onChangeDoctor : ({ doctor, changeDoctor }) => (inputValue) => {
-        changeDoctor({ inputValue });
-        visit.doctorId = doctor.value;
+    onSelectDoctor : ({ changeDoctor }) => (selected) => {
+        changeDoctor(selected);
+        visit.doctor = selected.value;
     },
-    onChangeDescription : ({ description, changeDescription }) => (inputValue) =>  {
-        changeDescription({ inputValue });
-        visit.descriptionId = description.value;
+    onSelectDescripion : ({ changeDescription }) => (selected) =>  {
+        changeDescription(selected);
+        visit.description = selected.value;
     },
     onChangeDate: props => date => {
         if (date) {
-            patientStore.patient.birthDate.value = date._d;
+            visit.date = date._d;
         } else {
-            patientStore.patient.birthDate.value = date;
+            visit.date = date;
         }
     }
 };
@@ -49,9 +52,11 @@ const getDescriptionOptions = _.debounce(visitStore.getSelectedDescriptions, 100
 const Form  = ({
     onChangePatient,
     onChangeDoctor,
-    onChangeDescription, 
+    onChangeDescription,
+    onSelectPatient,
+    onSelectDoctor,
+    onSelectDescripion,
     onChangeDate }) => {
-    console.log(visit);
     return (
         <form className='form'>
             <div className='form__field'>
@@ -63,6 +68,7 @@ const Form  = ({
                         <AsyncSelect
                             cacheOptions
                             onInputChange={onChangePatient}
+                            onChange={onSelectPatient}
                             loadOptions={getPatientOptions}
                             className='field--visit__select'/>
                     </div>
@@ -77,6 +83,7 @@ const Form  = ({
                         <AsyncSelect
                             cacheOptions
                             onInputChange={onChangeDoctor}
+                            onChange={onSelectDoctor}
                             loadOptions={(input) => getDoctorOptions(input)}
                             className='field--visit__select'/>
                     </div>
@@ -92,7 +99,7 @@ const Form  = ({
                             className='date'
                             selected={moment(new Date(), 'DD/MM/YYYY')}
                             isClearable
-                            onChange={handleOnChangeDate}
+                            onChange={onChangeDate}
                             value={moment(new Date(), 'DD/MM/YYYY')}/>
                     </div>
                 </label>
@@ -106,6 +113,7 @@ const Form  = ({
                         <AsyncSelect
                             cacheOptions
                             onInputChange={onChangeDescription}
+                            onChange={onSelectDescripion}
                             loadOptions={(input) => getDescriptionOptions(input)}
                             className='field--visit__select'/>
                     </div>
@@ -119,6 +127,9 @@ Form.propTypes = {
     onChangePatient: PropTypes.func,
     onChangeDoctor: PropTypes.func,
     onChangeDescription: PropTypes.func,
+    onSelectPatient: PropTypes.func,
+    onSelectDoctor: PropTypes.func,
+    onSelectDescripion: PropTypes.func,
     onChangeDate: PropTypes.func
 };
 

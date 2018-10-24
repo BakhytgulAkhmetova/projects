@@ -11,7 +11,7 @@ const mapActionsToProps = {
         event.preventDefault();
         modalStore.close();
         visitStore.addVisit(visit);
-        visitStore.getVisitPage(props.currentPage);
+        // visitStore.getVisitPage(props.currentPage);
     }
 };
 

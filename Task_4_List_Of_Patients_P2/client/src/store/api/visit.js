@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 export const addVisit = gql`
          mutation(
-           $patientId: String!, $doctorId: String!, $descriptionId: String!, $date: String!) {
+           $patientId: String!, $doctorId: String!, $descriptionId: String!, $date: Date!) {
            addVisit(patientId: $patientId, doctorId: $doctorId, descriptionId: $descriptionId, date: $date) {
               patientId
               doctorId
@@ -16,9 +16,9 @@ export const getVisitsPage = gql`
          query($skip: Int!, $limit: Int!) {
           getVisitsPage(skip: $skip, limit: $limit) {
              items {
-              patientId
-              doctorId
-              descriptionId
+              patient
+              doctor
+              description
               date
               id }
              total

@@ -13,16 +13,16 @@ import { ButtonsModalEdit } from './components/ButtonsModalEdit';
 
 const columns = [
     {
-        header: 'Description',
-        field: 'description'
-    },
-    {
         header: 'Patient',
         field: 'patient'
     },
     {
         header: 'Doctor',
         field: 'doctor'
+    },
+    {
+        header: 'Description',
+        field: 'description'
     },
     {
         header: 'Date',
@@ -33,7 +33,7 @@ const columns = [
 @observer
 export class VisitPage extends React.Component {
     handleOpenPageTable = page => {
-        visitStore.getVisitPage(visitStore.currentPage);
+        // visitStore.getVisitPage(visitStore.currentPage);
     }
 
     handlerOpenModalEdit = event => {

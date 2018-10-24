@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const Description = require('../mongo/models/description');
+const  Description  = require('../mongo/models/description');
 
 /* asynchronous function to add new description in storage */
 async function addDescription({ value }) {

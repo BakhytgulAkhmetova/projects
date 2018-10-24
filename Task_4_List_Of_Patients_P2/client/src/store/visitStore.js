@@ -18,8 +18,6 @@ class VisitStore {
 
   @observable currentPage = 1;
 
-  @observable visit = {};
-
   @action
   getAllVisits() {
       this.visitList = visitList;
@@ -56,14 +54,14 @@ class VisitStore {
   }
 
   @action
-  async addVisit() {
+  async addVisit(visit) {
       return await client.mutate({
           mutation: addVisit,
           variables: {
-              patientId: this.visit.patientId,
-              doctorId: this.visit.doctorId,
-              descriptionId: this.visit.descriptionId,
-              date: this.visit.date.toString()
+              patientId: visit.patient,
+              doctorId: visit.doctor,
+              descriptionId: visit.description,
+              date: visit.date
           },
           fetchPolicy: 'no-cache'
       });

@@ -3,12 +3,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { ApolloServer } = require('apollo-server-express');
 
-const schema = require('./graphql/schema');
-const server = new ApolloServer({ schema });
-
 const { MONGO_CONNECTION_STRING } = require('./mongo/constants');
 
 mongoose.connect(MONGO_CONNECTION_STRING, { useNewUrlParser: true });
+
+const schema = require('./graphql/schema');
+const server = new ApolloServer({ schema });
 
 const app = express();
 
