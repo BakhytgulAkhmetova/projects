@@ -33,7 +33,7 @@ const columns = [
 @observer
 export class VisitPage extends React.Component {
     handleOpenPageTable = page => {
-        visitStore.getAllVisits(page);
+        visitStore.getVisitPage(visitStore.currentPage);
     }
 
     handlerOpenModalEdit = event => {
@@ -55,7 +55,8 @@ export class VisitPage extends React.Component {
                 <div className='page__content'>
                     <header className='content__header'>Visits Info</header>
                     <div className='content__general'>
-                        <ButtonAddVisit/>
+                        <ButtonAddVisit
+                            currentPage={visitStore.currentPage}/>
                         <Grid
                             columns={columns}
                             handlerOpenModalEdit={this.handlerOpenModalEdit}

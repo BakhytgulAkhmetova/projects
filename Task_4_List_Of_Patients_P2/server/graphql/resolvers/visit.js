@@ -5,6 +5,7 @@ const {
     getSelectedDescriptions,
     getVisitById,
     deleteAllVisits,
+    getVisitsPage,
     updateVisit } = require('../../BLL/visit');
 
 /* Definition resolve functions for getting data from mongoDB*/
@@ -20,6 +21,9 @@ const queryVisitResolvers = {
     },
     getSelectedDescriptions(parent, args) {
         return getSelectedDescriptions(args);
+    },
+    getVisitsPage(parent, args) {
+        return getVisitsPage(args);
     }
 };
 /* Definition resolve functions for changing data in mongoDB*/

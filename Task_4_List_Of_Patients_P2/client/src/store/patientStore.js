@@ -81,43 +81,35 @@ class PatientStore {
     @action
     async addPatient() {
         this.isInValidPatient = true;
-        try {
-            return await client.mutate({
-                mutation: addPatient,
-                variables: {
-                    firstName: this.patient.firstName.value,
-                    lastName: this.patient.lastName.value,
-                    birthDate: this.patient.birthDate.value,
-                    phoneNumber: this.patient.phoneNumber.value,
-                    email: this.patient.email.value,
-                    gender: this.patient.gender.value
-                },
-                fetchPolicy: 'no-cache'
-            });
-        } catch (error) {
-            throw error;
-        }
+        return await client.mutate({
+            mutation: addPatient,
+            variables: {
+                firstName: this.patient.firstName.value,
+                lastName: this.patient.lastName.value,
+                birthDate: this.patient.birthDate.value,
+                phoneNumber: this.patient.phoneNumber.value,
+                email: this.patient.email.value,
+                gender: this.patient.gender.value
+            },
+            fetchPolicy: 'no-cache'
+        });
     }
 
     @action
     async editPatient() {
-        try {
-            await client.mutate({
-                mutation: editPatient,
-                variables: {
-                    firstName: this.patient.firstName.value,
-                    lastName: this.patient.lastName.value,
-                    birthDate: this.patient.birthDate.value,
-                    phoneNumber: this.patient.phoneNumber.value,
-                    email: this.patient.email.value,
-                    gender: this.patient.gender.value,
-                    id: this.patient.id.value
-                },
-                fetchPolicy: 'no-cache'
-            });
-        } catch (error) {
-            throw error;
-        }
+        await client.mutate({
+            mutation: editPatient,
+            variables: {
+                firstName: this.patient.firstName.value,
+                lastName: this.patient.lastName.value,
+                birthDate: this.patient.birthDate.value,
+                phoneNumber: this.patient.phoneNumber.value,
+                email: this.patient.email.value,
+                gender: this.patient.gender.value,
+                id: this.patient.id.value
+            },
+            fetchPolicy: 'no-cache'
+        });
     }
 
     @action
@@ -140,25 +132,21 @@ class PatientStore {
 
     @action
     async getPatientsPage(pageNumber) {
-        try {
-            const skip = (pageNumber - 1) * viewitems;
-            const result = await client.query({
-                query: getPatientsPage,
-                variables: {
-                    skip,
-                    limit: viewitems
-                },
-                fetchPolicy: 'no-cache'
-            });
+        const skip = (pageNumber - 1) * viewitems;
+        const result = await client.query({
+            query: getPatientsPage,
+            variables: {
+                skip,
+                limit: viewitems
+            },
+            fetchPolicy: 'no-cache'
+        });
 
-            runInAction(() => {
-                this.patientList = result.data.getPatientsPage.items;
-                this.count = result.data.getPatientsPage.total;
-                this.currentPage = pageNumber;
-            });
-        } catch (error) {
-            throw error;
-        }
+        runInAction(() => {
+            this.patientList = result.data.getPatientsPage.items;
+            this.count = result.data.getPatientsPage.total;
+            this.currentPage = pageNumber;
+        });
     }
 }
 

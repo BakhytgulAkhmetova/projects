@@ -12,6 +12,10 @@ const queryTypeVisit = `
         getVisitById(
             id: String!
             ): Visit!
+        getVisitsPage(
+            skip: Int!,
+            limit: Int!
+        ): VisitPage!
     }`;
 
 const mutationTypeVisit = `

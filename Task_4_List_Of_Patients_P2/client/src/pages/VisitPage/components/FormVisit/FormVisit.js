@@ -13,17 +13,33 @@ import './FormVisit.scss';
 
 const option = { value: 'Id', label: '' };
 
-// const visit = {
-//     patientId: -1,
-//     doctorId: -1,
-//     descriptionId: -1,
-//     date: new Date()
-// };
+export const visit = {
+    patientId: -1,
+    doctorId: -1,
+    descriptionId: -1,
+    date: new Date()
+};
 
 const mapActionsToProps  = {
-    onChangePatient : ({ changePatient }) => (inputValue) => changePatient({ inputValue }),
-    onChangeDoctor : ({ changeDoctor }) => (inputValue) => changeDoctor({ inputValue }),
-    onChangeDescription : ({ changeDescription }) => (inputValue) =>  changeDescription({ inputValue })
+    onChangePatient : ({ patient, changePatient }) => (inputValue) => {
+        changePatient({ inputValue });
+        visit.patientId = patient.value;
+    },
+    onChangeDoctor : ({ doctor, changeDoctor }) => (inputValue) => {
+        changeDoctor({ inputValue });
+        visit.doctorId = doctor.value;
+    },
+    onChangeDescription : ({ description, changeDescription }) => (inputValue) =>  {
+        changeDescription({ inputValue });
+        visit.descriptionId = description.value;
+    },
+    onChangeDate: props => date => {
+        if (date) {
+            patientStore.patient.birthDate.value = date._d;
+        } else {
+            patientStore.patient.birthDate.value = date;
+        }
+    }
 };
 
 const getPatientOptions = _.debounce(visitStore.getSelectedPatients, 1000);
@@ -33,7 +49,9 @@ const getDescriptionOptions = _.debounce(visitStore.getSelectedDescriptions, 100
 const Form  = ({
     onChangePatient,
     onChangeDoctor,
-    onChangeDescription }) => {
+    onChangeDescription, 
+    onChangeDate }) => {
+    console.log(visit);
     return (
         <form className='form'>
             <div className='form__field'>
@@ -74,6 +92,7 @@ const Form  = ({
                             className='date'
                             selected={moment(new Date(), 'DD/MM/YYYY')}
                             isClearable
+                            onChange={handleOnChangeDate}
                             value={moment(new Date(), 'DD/MM/YYYY')}/>
                     </div>
                 </label>
@@ -99,7 +118,8 @@ const Form  = ({
 Form.propTypes = {
     onChangePatient: PropTypes.func,
     onChangeDoctor: PropTypes.func,
-    onChangeDescription: PropTypes.func
+    onChangeDescription: PropTypes.func,
+    onChangeDate: PropTypes.func
 };
 
 export const FormVisit = compose(

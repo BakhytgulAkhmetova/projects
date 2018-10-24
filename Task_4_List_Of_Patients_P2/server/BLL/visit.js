@@ -18,6 +18,21 @@ async function addVisit({ date, patientId, doctorId, descriptionId }) {
     return await visit.save();
 }
 
+/* asynchronous function to get all patients from storage*/
+async function getVisitsPage({ skip, limit }) {
+    let items = await Visit.find().skip(skip).limit(limit);
+    const total = await Visit.find().estimatedDocumentCount();
+
+    items = items.map((p) => {
+        return {
+            ...p.toObject(),
+            id: p._id
+        };
+    });
+
+    return { items, total };
+}
+
 /* asynchronous function to get selected patients from storage*/
 async function getSelectedPatients({ letters }) {
     let patients = await Patient.find({ firstName: { $regex: `^${  letters }`, $options: 'i' } });
@@ -91,5 +106,6 @@ module.exports = {
     getSelectedDescriptions,
     getVisitById,
     updateVisit,
-    deleteAllVisits
+    deleteAllVisits,
+    getVisitsPage
 };

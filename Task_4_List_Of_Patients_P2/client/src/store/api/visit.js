@@ -1,18 +1,27 @@
 import gql from 'graphql-tag';
 
-export const addPatient = gql`
+export const addVisit = gql`
          mutation(
-             $firstName: String!, $lastName: String!, $birthDate: String!,
-             $phoneNumber: String!, $email: String!, $gender: String!) {
-           addPatient(
-            firstName: $firstName, lastName: $lastName, birthDate: $birthDate, 
-            phoneNumber: $phoneNumber, email: $email, gender: $gender) {
-             firstName
-             lastName
-             birthDate
-             phoneNumber
-             email
-             gender
+           $patientId: String!, $doctorId: String!, $descriptionId: String!, $date: String!) {
+           addVisit(patientId: $patientId, doctorId: $doctorId, descriptionId: $descriptionId, date: $date) {
+              patientId
+              doctorId
+              descriptionId
+              date
+           }
+         }
+       `;
+
+export const getVisitsPage = gql`
+         query($skip: Int!, $limit: Int!) {
+          getVisitsPage(skip: $skip, limit: $limit) {
+             items {
+              patientId
+              doctorId
+              descriptionId
+              date
+              id }
+             total
            }
          }
        `;
@@ -44,34 +53,28 @@ export const getSelectedDescriptions = gql`
        }
      }
    `;
-export const getPatientById = gql`
+export const getVisitById = gql`
          query($id: String!) {
-           getPatientById(id: $id) {
-             firstName
-             lastName
+           getVisitById(id: $id) {
+             patientId
+             doctorId
+             descriptionId
+             date
              id
-             birthDate
-             phoneNumber
-             email
-             gender
            }
          }
        `;
 
 
-export const editPatient = gql`
+export const editVisit = gql`
          mutation(
-             $firstName: String!, $id: String!, $lastName: String!, $birthDate: String!,
-             $phoneNumber: String!, $email: String!, $gender: String!) {
-           updatePatient(
-             firstName: $firstName, lastName: $lastName, id: $id, birthDate: $birthDate,
-             phoneNumber: $phoneNumber, email: $email, gender: $gender) {
-             firstName
-             lastName
-             birthDate
-             phoneNumber
-             email
-             gender
+          $patientId: String!, $doctorId: String!, $descriptionId: String!, $date: String!) {
+           updateVisit( patientId: $patientId, doctorId: $doctorId,
+             descriptionId: $descriptionId, date: $date, id: $id) {
+              patientId
+              doctorId
+              descriptionId
+              date
            }
          }
        `;
