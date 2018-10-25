@@ -1,6 +1,5 @@
 import { observable, action, runInAction } from 'mobx';
 
-import { visitList } from './data/data';
 import { baseUrl, port, viewitems } from '../constants';
 import { addVisit, getVisitsPage, editVisit, getVisitById } from './api/visit';
 import { getSelectedPatients, getSelectedDoctors, getSelectedDescriptions } from '../store/api/visit';
@@ -18,10 +17,12 @@ class VisitStore {
 
   @observable currentPage = 1;
 
-  @action
-  getAllVisits() {
-      this.visitList = visitList;
-  }
+  @observable visit = {
+      patient: { value: 'Id', label: 'patient' },
+      doctor: { value: 'Id', label: '' },
+      description: { value: 'Id', label: '' },
+      date: new Date()
+  };;
 
   @action
   async getSelectedPatients(letters) {
@@ -55,13 +56,14 @@ class VisitStore {
 
   @action
   async addVisit(visit) {
+      this.visit = visit;
       return await client.mutate({
           mutation: addVisit,
           variables: {
-              patientId: visit.patient,
-              doctorId: visit.doctor,
-              descriptionId: visit.description,
-              date: visit.date
+              patientId: this.visit.patient,
+              doctorId: this.visit.doctor,
+              descriptionId: this.visit.description,
+              date: this.visit.date
           },
           fetchPolicy: 'no-cache'
       });
@@ -88,12 +90,12 @@ class VisitStore {
       });
 
       runInAction(() => {
-          const visitFound = result.data.getPatientById;
+          const visitFound = result.data.getVisitById;
 
-          this.visit.patientId = visitFound.patientId;
-          this.visit.doctorId = visitFound.doctorId;
-          this.visit.descriptionId = visitFound.descriptionId;
-          this.visit.date = new Date(visitFound.date);
+          this.visit.patient.label = visitFound.patient;
+          this.visit.doctor.label = visitFound.doctor;
+          this.visit.description.label = visitFound.description;
+          this.visit.date = visitFound.date;
           this.visit.id = id;
       });
   }

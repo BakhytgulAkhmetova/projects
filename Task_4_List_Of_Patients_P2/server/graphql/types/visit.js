@@ -11,7 +11,7 @@ const queryTypeVisit = `
         ): [Selected]
         getVisitById(
             id: String!
-            ): Visit!
+            ): VisitViewItem!
         getVisitsPage(
             skip: Int!,
             limit: Int!

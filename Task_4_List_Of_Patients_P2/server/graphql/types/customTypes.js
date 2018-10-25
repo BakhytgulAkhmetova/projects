@@ -36,16 +36,16 @@ const customTypes = `
         date: String!
     }
 
-    type VisitPageItem {
+    type VisitViewItem {
         id: String!,
-        patient: Patient !,
-        doctor: Doctor!,
-        description: Description!,
+        patient: String !,
+        doctor: String!,
+        description: String!,
         date: String!
     }
 
     type VisitPage {
-        items: [VisitPageItem],
+        items: [VisitViewItem],
         total: Int!
     }
 

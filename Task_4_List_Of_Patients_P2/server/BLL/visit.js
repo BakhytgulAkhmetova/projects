@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const moment = require('moment');
 
 const Visit  = require('../mongo/models/visit');
 const Patient = require('../mongo/models/patient');
@@ -7,12 +8,6 @@ const Doctor = require('../mongo/models/doctor');
 
 /* asynchronous function to add new patient in storage */
 async function addVisit({ date, patientId, doctorId, descriptionId }) {
-    // const patient = await Patient.findById(patientId);
-    // const doctor = await Doctor.findById(doctorId);
-    // const description = await Description.findById(descriptionId);
-
-    console.log(patientId);
-
     const visit = new Visit({
         _id: new mongoose.Types.ObjectId(),
         patient: patientId,
@@ -26,14 +21,24 @@ async function addVisit({ date, patientId, doctorId, descriptionId }) {
 
 /* asynchronous function to get all patients from storage*/
 async function getVisitsPage({ skip, limit }) {
-    // const items = await Visit.find().skip(skip).limit(limit);
     const total = await Visit.find().estimatedDocumentCount();
 
-    const items = await Visit.find()
+    let items = await Visit.find()
         .populate('patient')
         .populate('doctor')
         .populate('description')
         .skip(skip).limit(limit);
+
+    items = items.map((item) => {
+        return {
+            ...item.toObject(),
+            id: item._id,
+            patient: item.patient.firstName + item.patient.lastName,
+            doctor: item.doctor.firstName + item.doctor.lastName,
+            description: item.description.value,
+            date: moment(item.date).format('DD-MM-YYYY')
+        };
+    });
 
     return { items, total };
 }
@@ -85,9 +90,21 @@ async function deleteAllVisits() {
     return await Visit.deleteMany();
 }
 
-/* asynchronous function to get one patient from storage by id */
+/* asynchronous function to get one visit from storage by id */
 async function getVisitById(id) {
-    return await Visit.findById(id);
+    const visit =  await Visit.findById(id)
+        .populate('patient')
+        .populate('doctor')
+        .populate('description');
+
+    return {
+        ...visit.toObject(),
+        id: visit._id,
+        patient: visit.patient.firstName + visit.patient.lastName,
+        doctor: visit.doctor.firstName + visit.doctor.lastName,
+        description: visit.description.value,
+        date: moment(visit.date).format('DD-MM-YYYY')
+    };
 }
 
 /* asynchronous function to update info about patient in storage by id */

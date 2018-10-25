@@ -11,7 +11,7 @@ import { visitStore } from '../../../../store';
 
 import './FormVisit.scss';
 
-const option = { value: 'Id', label: '' };
+const option = { value: 'Id', label: 'gdfgdfg' };
 
 export const visit = {
     patient: -1,
@@ -57,6 +57,7 @@ const Form  = ({
     onSelectDoctor,
     onSelectDescripion,
     onChangeDate }) => {
+    console.log(visitStore.visit);
     return (
         <form className='form'>
             <div className='form__field'>
@@ -67,6 +68,7 @@ const Form  = ({
                     <div className='field--visit'>
                         <AsyncSelect
                             cacheOptions
+                            // value={visitStore.visit.patient}
                             onInputChange={onChangePatient}
                             onChange={onSelectPatient}
                             loadOptions={getPatientOptions}
@@ -82,6 +84,7 @@ const Form  = ({
                     <div className='field--visit'>
                         <AsyncSelect
                             cacheOptions
+                            // value={visitStore.visit.doctor}
                             onInputChange={onChangeDoctor}
                             onChange={onSelectDoctor}
                             loadOptions={(input) => getDoctorOptions(input)}
@@ -112,6 +115,7 @@ const Form  = ({
                     <div className='field--visit'>
                         <AsyncSelect
                             cacheOptions
+                            value={visitStore.visit.description}
                             onInputChange={onChangeDescription}
                             onChange={onSelectDescripion}
                             loadOptions={(input) => getDescriptionOptions(input)}
@@ -136,7 +140,7 @@ Form.propTypes = {
 export const FormVisit = compose(
     observer,
     withProps(),
-    withState('patient', 'changePatient', option),
-    withState('doctor', 'changeDoctor', option),
+    withState('patient', 'changePatient'),
+    withState('doctor', 'changeDoctor', visitStore),
     withState('description', 'changeDescription', option),
     withHandlers(mapActionsToProps))(Form);

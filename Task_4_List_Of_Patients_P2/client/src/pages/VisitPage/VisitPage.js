@@ -33,12 +33,12 @@ const columns = [
 @observer
 export class VisitPage extends React.Component {
     handleOpenPageTable = page => {
-        // visitStore.getVisitPage(visitStore.currentPage);
+        visitStore.getVisitPage(visitStore.currentPage);
     }
 
     handlerOpenModalEdit = event => {
         event.preventDefault();
-        // patientStore.getPatientById(event.currentTarget.id);
+        visitStore.getVisitById(event.currentTarget.id);
         modalStore.open({
             title: 'Edit visit',
             content: <FormVisit/>,
