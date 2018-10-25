@@ -40,6 +40,14 @@ export const emptyPatient = {
     }
 };
 
+export const emptyVisit = {
+    id: -1,
+    patient: { value: '', label: '' },
+    doctor: { value: '', label: '' },
+    description: { value: '', label: '' },
+    date: new Date()
+};
+
 export const menuItems = [
     {
         name: 'Patients',
@@ -51,7 +59,7 @@ export const menuItems = [
     }
 ];
 
-export const config = {
+export const configPatient = {
     firstName: ['isNotEmpty'],
     lastName: ['isNotEmpty'],
     birthDate: ['isNotEmpty', 'isValidDate'],
@@ -62,10 +70,18 @@ export const config = {
     email: ['isNotEmpty', 'isEmail']
 };
 
+export const configVisit = {
+    patient: ['isNotEmpty'],
+    doctor: ['isNotEmpty'],
+    description: ['isNotEmpty'],
+    date: ['isNotEmpty', 'isValidDate'],
+    id: []
+};
+
 export const types = {
     isNotEmpty: {
         validate: value => {
-            return value !== '' && value !== null;
+            return value !== '' && value !== null && value !== undefined;
         },
         instructions: 'The value cannot be empty'
     },
@@ -91,41 +107,3 @@ export const types = {
         instructions: 'Invalid date. Please try again (ex. 13/12/2014)'
     }
 };
-
-export const visitList = [
-    {
-        id: 1,
-        description: 'illness jskdfjdkfjdfsfsf',
-        patient: 'David Linn',
-        doctor: 'Chris Stenford',
-        date:  new Date().toDateString()
-    },
-    {
-        id: 2,
-        description: 'illness jskdfjdkfjdfsfsf',
-        patient: 'Henry Linn',
-        doctor: 'Chris Stenford',
-        date:  new Date().toDateString()
-    },
-    {
-        id: 3,
-        description: 'illness jskdfjdkfjdfsfsf',
-        patient: 'Bob Linn',
-        doctor: 'Chris Stenford',
-        date:  new Date().toDateString()
-    },
-    {
-        id: 4,
-        description: 'illness jskdfjdkfjdfsfsf',
-        patient: 'David Linn',
-        doctor: 'Chris Stenford',
-        date:  new Date().toDateString()
-    },
-    {
-        id: 5,
-        description: 'illness jskdfjdkfjdfsfsf',
-        patient: 'Mandy Linn',
-        doctor: 'Chris Stenford',
-        date:  new Date().toDateString()
-    }
-];

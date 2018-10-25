@@ -1,5 +1,6 @@
 import { observable, action, runInAction } from 'mobx';
 
+import { emptyVisit } from '../store/data/data';
 import { baseUrl, port, viewitems } from '../constants';
 import { addVisit, getVisitsPage, editVisit, getVisitById } from './api/visit';
 import { getSelectedPatients, getSelectedDoctors, getSelectedDescriptions } from '../store/api/visit';
@@ -17,13 +18,7 @@ class VisitStore {
 
   @observable currentPage = 1;
 
-  @observable visit = {
-      id: -1,
-      patient: { value: '', label: 'patient' },
-      doctor: { value: '', label: '' },
-      description: { value: '', label: '' },
-      date: new Date()
-  };
+  @observable visit = emptyVisit;
 
   @action
   async getSelectedPatients(letters) {
@@ -131,7 +126,6 @@ class VisitStore {
   }
   @action
   async getVisitPage(pageNumber) {
-      debugger;
       const skip = (pageNumber - 1) * viewitems;
       const result = await client.query({
           query: getVisitsPage,

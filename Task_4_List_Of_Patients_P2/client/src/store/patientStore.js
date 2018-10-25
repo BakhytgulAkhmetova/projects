@@ -1,6 +1,6 @@
 import { observable, action, runInAction } from 'mobx';
 
-import { emptyPatient, config, types } from './data/data';
+import { emptyPatient, configPatient, types } from './data/data';
 import { addPatient, getPatientById, getPatientsPage, editPatient } from './api/patient';
 import { Validator } from '../utils';
 import { baseUrl, port, viewitems } from '../constants';
@@ -13,7 +13,7 @@ const client = new ApolloClient({
 
 class PatientStore {
     constructor() {
-        this.validator = new Validator({ types, config });
+        this.validator = new Validator({ types, config: configPatient });
     }
 
     @observable patientList = [];
