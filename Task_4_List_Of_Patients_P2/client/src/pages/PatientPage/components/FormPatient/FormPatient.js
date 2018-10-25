@@ -4,7 +4,6 @@ import DatePicker from 'react-datepicker';
 import { observer } from 'mobx-react';
 import { withHandlers, compose } from 'recompose';
 import moment from 'moment';
-// import {deb} from 'lodash';
 
 import { ErrorMessage } from '../../../../components/ErrorMessage';
 import { genders } from '../../../../constants';

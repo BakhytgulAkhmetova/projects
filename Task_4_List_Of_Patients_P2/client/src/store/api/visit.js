@@ -15,13 +15,14 @@ export const addVisit = gql`
 export const getVisitsPage = gql`
          query($skip: Int!, $limit: Int!) {
           getVisitsPage(skip: $skip, limit: $limit) {
-             items {
+            items{
               patient
               doctor
               description
               date
-              id }
-             total
+              id
+            }
+            total
            }
          }
        `;
@@ -56,9 +57,9 @@ export const getSelectedDescriptions = gql`
 export const getVisitById = gql`
          query($id: String!) {
            getVisitById(id: $id) {
-             patientId
-             doctorId
-             descriptionId
+             patient
+             doctor
+             description
              date
              id
            }
