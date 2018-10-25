@@ -30,7 +30,6 @@ const mapActionsToProps = {
 const Form = ({
     patient,
     handleChange,
-    handleChangeRaw,
     handleOnChangeDate }) => {
     const dateSelected = moment(patient.birthDate.value || new Date(), 'DD-MM-YYYY');
 

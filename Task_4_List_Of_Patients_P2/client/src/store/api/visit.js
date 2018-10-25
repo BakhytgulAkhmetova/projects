@@ -57,9 +57,20 @@ export const getSelectedDescriptions = gql`
 export const getVisitById = gql`
          query($id: String!) {
            getVisitById(id: $id) {
-             patient
-             doctor
-             description
+            doctor{
+              firstName
+              lastName
+              id
+            }
+            patient{
+              firstName
+              lastName
+              id
+            }
+            description{
+              value
+              id
+            }
              date
              id
            }
@@ -69,13 +80,14 @@ export const getVisitById = gql`
 
 export const editVisit = gql`
          mutation(
-          $patientId: String!, $doctorId: String!, $descriptionId: String!, $date: String!) {
+          $patientId: String!, $doctorId: String!, $descriptionId: String!, $date: Date!, $id: String!) {
            updateVisit( patientId: $patientId, doctorId: $doctorId,
              descriptionId: $descriptionId, date: $date, id: $id) {
               patientId
               doctorId
               descriptionId
               date
+              id
            }
          }
        `;

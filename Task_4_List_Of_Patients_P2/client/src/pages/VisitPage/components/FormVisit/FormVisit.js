@@ -1,7 +1,7 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import { observer } from 'mobx-react';
-import { compose, withHandlers, withState, withProps } from 'recompose';
+import { compose, withHandlers, withState } from 'recompose';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import AsyncSelect from 'react-select/lib/Async';
@@ -11,14 +11,7 @@ import { visitStore } from '../../../../store';
 
 import './FormVisit.scss';
 
-const option = { value: 'Id', label: 'gdfgdfg' };
-
-export const visit = {
-    patient: -1,
-    doctor: -1,
-    description: -1,
-    date: new Date()
-};
+export const visit = visitStore.visit;
 
 const mapActionsToProps  = {
     onChangePatient : ({ changePatient }) => (label) => changePatient({ label }),
@@ -26,15 +19,15 @@ const mapActionsToProps  = {
     onChangeDescription : ({ changeDescription }) => (label) => changeDescription({ label }),
     onSelectPatient : ({ changePatient }) => (selected) => {
         changePatient(selected);
-        visit.patient = selected.value;
+        visit.patient.value = selected.value;
     },
     onSelectDoctor : ({ changeDoctor }) => (selected) => {
         changeDoctor(selected);
-        visit.doctor = selected.value;
+        visit.doctor.value = selected.value;
     },
     onSelectDescripion : ({ changeDescription }) => (selected) =>  {
         changeDescription(selected);
-        visit.description = selected.value;
+        visit.description.value = selected.value;
     },
     onChangeDate: props => date => {
         if (date) {
@@ -57,9 +50,12 @@ const Form  = ({
     onSelectDoctor,
     onSelectDescripion,
     onChangeDate }) => {
-    console.log(visitStore.visit);
+    const visitEdit = visitStore.visit;
+
     return (
-        <form className='form'>
+        <form
+            key={visitEdit.id}
+            className='form'>
             <div className='form__field'>
                 <label
                     htmlFor='patient'
@@ -68,7 +64,7 @@ const Form  = ({
                     <div className='field--visit'>
                         <AsyncSelect
                             cacheOptions
-                            // value={visitStore.visit.patient}
+                            defaultValue ={visitEdit.patient}
                             onInputChange={onChangePatient}
                             onChange={onSelectPatient}
                             loadOptions={getPatientOptions}
@@ -84,7 +80,7 @@ const Form  = ({
                     <div className='field--visit'>
                         <AsyncSelect
                             cacheOptions
-                            // value={visitStore.visit.doctor}
+                            defaultValue ={visitEdit.doctor}
                             onInputChange={onChangeDoctor}
                             onChange={onSelectDoctor}
                             loadOptions={(input) => getDoctorOptions(input)}
@@ -102,8 +98,8 @@ const Form  = ({
                             className='date'
                             selected={moment(new Date(), 'DD/MM/YYYY')}
                             isClearable
-                            onChange={onChangeDate}
-                            value={moment(new Date(), 'DD/MM/YYYY')}/>
+                            value={moment(new Date(), 'DD/MM/YYYY').toString()}
+                            onChange={onChangeDate}/>
                     </div>
                 </label>
             </div>
@@ -115,7 +111,7 @@ const Form  = ({
                     <div className='field--visit'>
                         <AsyncSelect
                             cacheOptions
-                            value={visitStore.visit.description}
+                            defaultValue ={visitEdit.description}
                             onInputChange={onChangeDescription}
                             onChange={onSelectDescripion}
                             loadOptions={(input) => getDescriptionOptions(input)}
@@ -128,6 +124,7 @@ const Form  = ({
 };
 
 Form.propTypes = {
+    visitEdit: PropTypes.object,
     onChangePatient: PropTypes.func,
     onChangeDoctor: PropTypes.func,
     onChangeDescription: PropTypes.func,
@@ -138,9 +135,8 @@ Form.propTypes = {
 };
 
 export const FormVisit = compose(
-    observer,
-    withProps(),
     withState('patient', 'changePatient'),
-    withState('doctor', 'changeDoctor', visitStore),
-    withState('description', 'changeDescription', option),
-    withHandlers(mapActionsToProps))(Form);
+    withState('doctor', 'changeDoctor'),
+    withState('description', 'changeDescription'),
+    withHandlers(mapActionsToProps),
+    observer)(Form);

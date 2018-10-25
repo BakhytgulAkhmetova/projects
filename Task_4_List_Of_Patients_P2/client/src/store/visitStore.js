@@ -18,11 +18,12 @@ class VisitStore {
   @observable currentPage = 1;
 
   @observable visit = {
-      patient: { value: 'Id', label: 'patient' },
-      doctor: { value: 'Id', label: '' },
-      description: { value: 'Id', label: '' },
+      id: -1,
+      patient: { value: '', label: 'patient' },
+      doctor: { value: '', label: '' },
+      description: { value: '', label: '' },
       date: new Date()
-  };;
+  };
 
   @action
   async getSelectedPatients(letters) {
@@ -56,7 +57,10 @@ class VisitStore {
 
   @action
   async addVisit(visit) {
-      this.visit = visit;
+      this.visit.patient = visit.patientId;
+      this.visit.doctor = visit.doctorId;
+      this.visit.description = visit.descriptionId;
+      this.visit.date = visit.date;
       return await client.mutate({
           mutation: addVisit,
           variables: {
@@ -70,12 +74,20 @@ class VisitStore {
   }
 
   @action
-  async editPatient() {
+  async editVisit(visit) {
+      debugger;
+      this.visit.patient.value = visit.patient.value;
+      this.visit.doctor.value = visit.doctor.value;
+      this.visit.description.value = visit.description.value;
+      this.visit.date = visit.date;
       await client.mutate({
           mutation: editVisit,
           variables: {
-              firstName: this.patient.firstName.value,
-              lastName: this.patient.lastName.value
+              patientId: this.visit.patient.value,
+              doctorId: this.visit.doctor.value,
+              descriptionId: this.visit.description.value,
+              date: this.visit.date,
+              id: this.visit.id
           },
           fetchPolicy: 'no-cache'
       });
@@ -92,9 +104,12 @@ class VisitStore {
       runInAction(() => {
           const visitFound = result.data.getVisitById;
 
-          this.visit.patient.label = visitFound.patient;
-          this.visit.doctor.label = visitFound.doctor;
-          this.visit.description.label = visitFound.description;
+          this.visit.patient.label = visitFound.patient.firstName + visitFound.patient.lastName;
+          this.visit.doctor.label = visitFound.doctor.firstName + visitFound.doctor.lastName;
+          this.visit.description.label = visitFound.description.value;
+          this.visit.patient.value = visitFound.patient.id;
+          this.visit.doctor.value = visitFound.doctor.id;
+          this.visit.description.value = visitFound.description.id;
           this.visit.date = visitFound.date;
           this.visit.id = id;
       });
@@ -116,6 +131,7 @@ class VisitStore {
   }
   @action
   async getVisitPage(pageNumber) {
+      debugger;
       const skip = (pageNumber - 1) * viewitems;
       const result = await client.query({
           query: getVisitsPage,

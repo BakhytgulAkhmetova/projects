@@ -3,12 +3,14 @@ import { observer } from 'mobx-react';
 import { withHandlers, compose } from 'recompose';
 
 import { Button } from '../../../../components/Button';
-import { modalStore } from '../../../../store';
+import { modalStore, visitStore } from '../../../../store';
+import { visit } from '../FormVisit';
 
 const mapActionsToProps = {
     onHandleEditVisit: props => event => {
         event.preventDefault();
         modalStore.close();
+        visitStore.editVisit(visit);
     }
 };
 
@@ -20,7 +22,7 @@ export const ButtonsModalEdit = compose(
             key={1}
             title='Edit'
             // isDisable={patientStore.isInValidPatient}
-            // onHandleOnClick={onHandleEditPatient}
+            onHandleOnClick={onHandleEditVisit}
             className='content__button' />]
     );
 });

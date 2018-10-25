@@ -97,28 +97,37 @@ async function getVisitById(id) {
         .populate('doctor')
         .populate('description');
 
-    return {
+    return  {
         ...visit.toObject(),
         id: visit._id,
-        patient: visit.patient.firstName + visit.patient.lastName,
-        doctor: visit.doctor.firstName + visit.doctor.lastName,
-        description: visit.description.value,
+        patient: {
+            id: visit.patient._id,
+            firstName: visit.patient.firstName,
+            lastName: visit.patient.lastName
+        },
+        doctor: {
+            id: visit.doctor._id,
+            firstName: visit.doctor.firstName,
+            lastName: visit.doctor.lastName
+        },
+        description: {
+            id: visit.description._id,
+            value: visit.description.value
+        },
         date: moment(visit.date).format('DD-MM-YYYY')
     };
 }
 
 /* asynchronous function to update info about patient in storage by id */
-async function updateVisit({ id, firstName, lastName, birthDate, gender, phoneNumber, email }) {
-    const patient = new Visit({
-        firstName,
-        lastName,
-        birthDate,
-        gender,
-        phoneNumber,
-        email
+async function updateVisit({ id, date, patientId, doctorId, descriptionId }) {
+    const visit = new Visit({
+        patient: patientId,
+        doctor: doctorId,
+        description: descriptionId,
+        date
     });
 
-    return await Visit.findByIdAndUpdate(id, patient, { new: true });
+    return await Visit.findByIdAndUpdate(id, visit, { new: true });
 }
 
 module.exports = {

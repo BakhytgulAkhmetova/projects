@@ -53,29 +53,25 @@ class PatientStore {
 
     @action
     async getPatientById(id) {
-        try {
-            const result = await client.query({
-                query: getPatientById,
-                variables: { id },
-                fetchPolicy: 'no-cache'
-            });
+        const result = await client.query({
+            query: getPatientById,
+            variables: { id },
+            fetchPolicy: 'no-cache'
+        });
 
-            runInAction(() => {
-                const patientFound = result.data.getPatientById;
+        runInAction(() => {
+            const patientFound = result.data.getPatientById;
 
-                this.patient.firstName.value = patientFound.firstName;
-                this.patient.lastName.value = patientFound.lastName;
-                this.patient.birthDate.value = new Date(patientFound.birthDate);
-                this.patient.phoneNumber.value = patientFound.phoneNumber;
-                this.patient.email.value = patientFound.email;
-                this.patient.gender.value = patientFound.gender;
-                this.patient.id.value = id;
+            this.patient.firstName.value = patientFound.firstName;
+            this.patient.lastName.value = patientFound.lastName;
+            this.patient.birthDate.value = new Date(patientFound.birthDate);
+            this.patient.phoneNumber.value = patientFound.phoneNumber;
+            this.patient.email.value = patientFound.email;
+            this.patient.gender.value = patientFound.gender;
+            this.patient.id.value = id;
 
-                this.isInValidPatient = false;
-            });
-        } catch (error) {
-            throw error;
-        }
+            this.isInValidPatient = false;
+        });
     }
 
     @action

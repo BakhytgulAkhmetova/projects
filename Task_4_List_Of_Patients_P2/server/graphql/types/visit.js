@@ -11,7 +11,7 @@ const queryTypeVisit = `
         ): [Selected]
         getVisitById(
             id: String!
-            ): VisitViewItem!
+            ): VisitModal!
         getVisitsPage(
             skip: Int!,
             limit: Int!
@@ -27,9 +27,9 @@ const mutationTypeVisit = `
             date: Date!
         ): Visit
         updateVisit(
-            patient: String!,
-            doctor: String!,
-            description: String!,
+            patientId: String!,
+            doctorId: String!,
+            descriptionId: String!,
             date: Date!
             id: String!
         ): Visit

@@ -36,7 +36,7 @@ export class VisitPage extends React.Component {
         visitStore.getVisitPage(visitStore.currentPage);
     }
 
-    handlerOpenModalEdit = event => {
+    handlerOpenModalEdit =  event => {
         event.preventDefault();
         visitStore.getVisitById(event.currentTarget.id);
         modalStore.open({

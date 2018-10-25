@@ -38,9 +38,17 @@ const customTypes = `
 
     type VisitViewItem {
         id: String!,
-        patient: String !,
+        patient: String!,
         doctor: String!,
         description: String!,
+        date: String!
+    }
+
+    type VisitModal {
+        id: String!,
+        patient: Patient!,
+        doctor: Doctor!,
+        description: Description!,
         date: String!
     }
 
