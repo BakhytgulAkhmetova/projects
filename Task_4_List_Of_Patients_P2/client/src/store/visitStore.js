@@ -52,9 +52,9 @@ class VisitStore {
 
   @action
   async addVisit(visit) {
-      this.visit.patient = visit.patientId;
-      this.visit.doctor = visit.doctorId;
-      this.visit.description = visit.descriptionId;
+      this.visit.patient = visit.patient.value;
+      this.visit.doctor = visit.doctor.value;
+      this.visit.description = visit.description.value;
       this.visit.date = visit.date;
       return await client.mutate({
           mutation: addVisit,
@@ -70,7 +70,6 @@ class VisitStore {
 
   @action
   async editVisit(visit) {
-      debugger;
       this.visit.patient.value = visit.patient.value;
       this.visit.doctor.value = visit.doctor.value;
       this.visit.description.value = visit.description.value;
@@ -105,8 +104,8 @@ class VisitStore {
           this.visit.patient.value = visitFound.patient.id;
           this.visit.doctor.value = visitFound.doctor.id;
           this.visit.description.value = visitFound.description.id;
-          this.visit.date = visitFound.date;
-          this.visit.id = id;
+          this.visit.date.value = visitFound.date;
+          this.visit.id.value = id;
       });
   }
 

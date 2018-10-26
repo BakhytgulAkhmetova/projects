@@ -35,7 +35,7 @@ class PaginationStore {
           firstVisibleButton = this.min;
       }
 
-      if (lastVisibleButton >= this.pagesCount) {
+      if (lastVisibleButton >= this.pagesCount && this.pagesCount >=  this.maxVisibleButtons) {
           firstVisibleButton = this.lastVisibleButton - (this.maxVisibleButtons - 1);
       }
 
@@ -62,6 +62,7 @@ class PaginationStore {
 
   @action
   setBaseValues(maxVisibleButtons, totalItemsCount, pageSize) {
+      debugger;
       this.maxVisibleButtons = maxVisibleButtons;
       this.interval = (maxVisibleButtons - 1) / 2;
       const pagesCount = setButtonsCount(totalItemsCount, pageSize);

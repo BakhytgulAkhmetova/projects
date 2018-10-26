@@ -27,7 +27,6 @@ export const getVisitsPage = gql`
          }
        `;
 
-
 export const getSelectedPatients = gql`
          query($letters: String!) {
           getSelectedPatients(letters: $letters) {
@@ -81,7 +80,7 @@ export const getVisitById = gql`
 export const editVisit = gql`
          mutation(
           $patientId: String!, $doctorId: String!, $descriptionId: String!, $date: Date!, $id: String!) {
-           updateVisit( patientId: $patientId, doctorId: $doctorId,
+            updateVisit (patientId: $patientId, doctorId: $doctorId,
              descriptionId: $descriptionId, date: $date, id: $id) {
               patientId
               doctorId
