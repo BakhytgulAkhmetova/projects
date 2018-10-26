@@ -36,12 +36,12 @@ export class VisitPage extends React.Component {
         visitStore.getVisitPage(visitStore.currentPage);
     }
 
-    handlerOpenModalEdit =  event => {
+    handlerOpenModalEdit = async event => {
         event.preventDefault();
-        visitStore.getVisitById(event.currentTarget.id);
+        await visitStore.getVisitById(event.currentTarget.id);
         modalStore.open({
             title: 'Edit visit',
-            content: <FormVisit/>,
+            content: <FormVisit visitE={visitStore.visit}/>,
             buttons: <ButtonsModalEdit />
         });
     }

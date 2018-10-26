@@ -2,7 +2,7 @@ import {
     genders,
     regEmail,
     regPhoneNumber,
-    regBirthDay
+    regDate
 } from '../../constants';
 
 export const emptyPatient = {
@@ -41,11 +41,11 @@ export const emptyPatient = {
 };
 
 export const emptyVisit = {
-    id: -1,
+    id: { value: -1 },
     patient: { value: '', label: '' },
     doctor: { value: '', label: '' },
     description: { value: '', label: '' },
-    date: new Date()
+    date: { value: new Date() }
 };
 
 export const menuItems = [
@@ -100,7 +100,7 @@ export const types = {
     isValidDate: {
         validate: value => {
             return (
-                regBirthDay.test(value) ||
+                regDate.test(value) ||
         (value <= new Date() && value >= new Date('1870-09-27T16:19:06.879Z'))
             );
         },

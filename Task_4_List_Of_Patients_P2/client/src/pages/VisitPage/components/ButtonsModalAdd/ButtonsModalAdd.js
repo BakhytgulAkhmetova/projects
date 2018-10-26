@@ -4,13 +4,13 @@ import { withHandlers, compose } from 'recompose';
 
 import { Button } from '../../../../components/Button';
 import { modalStore, visitStore } from '../../../../store';
-import { visit } from '../FormVisit';
+// import { visit } from '../FormVisit';
 
 const mapActionsToProps = {
     onHandleAddVisit: props => event => {
         event.preventDefault();
         modalStore.close();
-        visitStore.addVisit(visit);
+        // visitStore.addVisit(visit);
         visitStore.getVisitPage(props.currentPage);
     }
 };

@@ -28,6 +28,7 @@ export class Validator {
                     const success = checker.validate(data[i].value);
 
                     if (!success) {
+                        debugger;
                         const msg = `Invalid value. ${checker.instructions}`;
 
                         this.messages.push(msg);

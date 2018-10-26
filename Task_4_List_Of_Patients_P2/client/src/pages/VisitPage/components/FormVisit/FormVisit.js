@@ -16,75 +16,53 @@ import './FormVisit.scss';
 
 const validator = new Validator({ types, config: configVisit });
 
-export const visit = {
-    id:  { value: -1, errors: [] },
-    patient: { value: '', label: '', errors: [] },
-    doctor: { value: '', label: '', errors: [] },
-    description: { value: '', label: '', errors: [] },
-    date:  { value: new Date(), errors: [] }
-};
+const validateVisit = ({ changeVisit }) => (visit) => {
+    const visitValidate = visit;
 
-const getFullVisit = () => {
-    visit.patient.label = visitStore.visit.patient.label;
-    visit.doctor.label = visitStore.visit.doctor.label;
-    visit.description.label = visitStore.visit.description.label;
-    visit.patient.value = visitStore.visit.patient.value;
-    visit.doctor.value = visitStore.visit.doctor.value;
-    visit.description.value = visitStore.visit.description.value;
-};
-
-const validateVisit = () => {
-    debugger;
-    validator.validate(visit);
+    validator.validate(visitValidate);
     const errors = validator.listErrors;
 
     for (let i = 0; i < errors.length; i++) {
         const prop = errors[i].prop;
 
-        visit[prop] = {
+        visitValidate[prop] = {
             ...visit[prop],
             errors: errors[i].msgs
         };
     }
-    // this.setIsValid();
+    changeVisit(visit);
     validator.cleanListErrors();
 };
 
 const mapActionsToProps  = {
-    onChangePatient : ({ changePatient }) => (label) => {
-        changePatient({ label });
-        validateVisit();
+    onChangePatient : ({ changeVisit, visit }) => (label) => {
+        changeVisit({ ...visit.patient, label });
     },
-    onChangeDoctor : ({ changeDoctor }) => (label) => {
-        changeDoctor({ label });
-        validateVisit();
+    onChangeDoctor : ({ changeVisit }) => (label) => {
+        changeVisit({ label });
     },
-    onChangeDescription : ({ changeDescription }) => (label) => {
-        changeDescription({ label });
-        validateVisit();
+    onChangeDescription : ({ changeVisit }) => (label) => {
+        changeVisit({ label });
     },
-    onSelectPatient : ({ changePatient }) => (selected) => {
-        changePatient(selected);
-        console.log(selected);
-        visitStore.visit.patient.value = selected.value;
-        validateVisit();
+    onSelectPatient : ({ changeVisit }) => (selected) => {
+        changeVisit(selected);
     },
-    onSelectDoctor : ({ changeDoctor }) => (selected) => {
-        changeDoctor(selected);
-        visitStore.visit.doctor.value = selected.value;
-        validateVisit();
+    onSelectDoctor : ({ changeVisit }) => (selected) => {
+        changeVisit(selected);
     },
-    onSelectDescripion : ({ changeDescription }) => (selected) =>  {
-        changeDescription(selected);
-        visitStore.visit.description.value = selected.value;
-        validateVisit();
+    onSelectDescripion : ({ changeVisit }) => (selected) =>  {
+        changeVisit(selected);
     },
     onChangeDate: props => date => {
         if (date) {
-            visit.date = date._d;
+            visitStore.visit.date = date._d;
         } else {
-            visit.date = date;
+            visitStore.visit.date = date;
         }
+    },
+    onChangeDateRow:({ changeVisit }) => (date) => {
+        changeVisit({ date });
+        validateVisit();
     }
 };
 
@@ -99,13 +77,19 @@ const Form  = ({
     onSelectPatient,
     onSelectDoctor,
     onSelectDescripion,
-    onChangeDate }) => {
-    const visitEdit = visitStore.visit;
+    onChangeDate,
+    onChangeDateRow,
+    visitE }) => {
+    const dateSelected = moment(visitE.date || new Date(), 'DD-MM-YYYY');
+    const isValid = (date) => {
+        return date <= new Date() && date >= new Date('1870-09-27T16:19:06.879Z');
+    };
+    const dateValidated = visitE.date ?
+        moment(visitE.date, 'DD/MM/YYYY') : '';
 
-    getFullVisit();
     return (
         <form
-            key={visitEdit.id}
+            key={visitE.id}
             className='form'>
             <div className='form__field'>
                 <label
@@ -115,7 +99,7 @@ const Form  = ({
                     <div className='field--visit'>
                         <AsyncSelect
                             cacheOptions
-                            defaultValue ={visitEdit.patient}
+                            defaultValue ={visitE.patient}
                             onInputChange={onChangePatient}
                             onChange={onSelectPatient}
                             loadOptions={getPatientOptions}
@@ -123,8 +107,8 @@ const Form  = ({
                     </div>
                 </label>
                 {
-                    visit.patient.errors ?
-                        <ErrorMessage msgs={visit.patient.errors} /> :
+                    visitE.patient.errors ?
+                        <ErrorMessage msgs={visitE.patient.errors} /> :
                         null
                 }
             </div>
@@ -136,7 +120,7 @@ const Form  = ({
                     <div className='field--visit'>
                         <AsyncSelect
                             cacheOptions
-                            defaultValue ={visitEdit.doctor}
+                            defaultValue ={visitE.doctor}
                             onInputChange={onChangeDoctor}
                             onChange={onSelectDoctor}
                             loadOptions={(input) => getDoctorOptions(input)}
@@ -144,8 +128,8 @@ const Form  = ({
                     </div>
                 </label>
                 {
-                    visit.doctor.errors ?
-                        <ErrorMessage msgs={visit.doctor.errors} /> :
+                    visitE.doctor.errors ?
+                        <ErrorMessage msgs={visitE.doctor.errors} /> :
                         null
                 }
             </div>
@@ -157,15 +141,17 @@ const Form  = ({
                         <DatePicker
                             id='birthDate'
                             className='date'
-                            selected={moment(new Date(), 'DD/MM/YYYY')}
+                            selected={dateSelected}
                             isClearable
-                            value={visitEdit.date.toString()}
+                            onChangeRaw={onChangeDateRow}
+                            filterDate={isValid}
+                            value={dateValidated}
                             onChange={onChangeDate}/>
                     </div>
                 </label>
                 {
-                    visit.date.errors ?
-                        <ErrorMessage msgs={visit.date.errors} /> :
+                    visitE.date.errors ?
+                        <ErrorMessage msgs={visitE.date.errors} /> :
                         null
                 }
             </div>
@@ -177,7 +163,7 @@ const Form  = ({
                     <div className='field--visit'>
                         <AsyncSelect
                             cacheOptions
-                            defaultValue ={visitEdit.description}
+                            defaultValue ={visitE.description}
                             onInputChange={onChangeDescription}
                             onChange={onSelectDescripion}
                             loadOptions={(input) => getDescriptionOptions(input)}
@@ -185,8 +171,8 @@ const Form  = ({
                     </div>
                 </label>
                 {
-                    visit.description.errors ?
-                        <ErrorMessage msgs={visit.description.errors} /> :
+                    visitE.description.errors ?
+                        <ErrorMessage msgs={visitE.description.errors} /> :
                         null
                 }
             </div>
@@ -195,19 +181,27 @@ const Form  = ({
 };
 
 Form.propTypes = {
-    visitEdit: PropTypes.object,
     onChangePatient: PropTypes.func,
     onChangeDoctor: PropTypes.func,
     onChangeDescription: PropTypes.func,
     onSelectPatient: PropTypes.func,
     onSelectDoctor: PropTypes.func,
     onSelectDescripion: PropTypes.func,
-    onChangeDate: PropTypes.func
+    onChangeDate: PropTypes.func,
+    onChangeDateRow: PropTypes.func,
+    visitE: PropTypes.object
 };
 
 export const FormVisit = compose(
-    withState('patient', 'changePatient'),
-    withState('doctor', 'changeDoctor'),
-    withState('description', 'changeDescription'),
+    withState('visit', 'changeVisit', ({ visitE }) => {
+        const visit = visitE;
+
+        return Object.keys(visit).map((key) => {
+            return {
+                ...visit[key],
+                errors: []
+            };
+        });
+    }),
     withHandlers(mapActionsToProps),
     observer)(Form);
