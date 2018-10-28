@@ -113,8 +113,7 @@ async function getVisitById(id) {
         description: {
             id: visit.description._id,
             value: visit.description.value
-        },
-        date: moment(visit.date).format('DD-MM-YYYY')
+        }
     };
 }
 

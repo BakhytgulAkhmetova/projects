@@ -41,7 +41,7 @@ const customTypes = `
         patient: Patient!,
         doctor: Doctor!,
         description: Description!,
-        date: String!
+        date: Date!
     }
 
     type VisitPage {

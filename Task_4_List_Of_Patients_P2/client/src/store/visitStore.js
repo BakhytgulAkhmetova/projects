@@ -3,6 +3,7 @@ import { observable, action, runInAction } from 'mobx';
 import { emptyVisit } from '../store/data/data';
 import { baseUrl, port, viewitems } from '../constants';
 import { addVisit, getVisitsPage, editVisit, getVisitById } from './api/visit';
+import moment from 'moment';
 import { getSelectedPatients, getSelectedDoctors, getSelectedDescriptions } from '../store/api/visit';
 
 import ApolloClient from 'apollo-boost';
@@ -104,7 +105,7 @@ class VisitStore {
           this.visit.patient.value = visitFound.patient.id;
           this.visit.doctor.value = visitFound.doctor.id;
           this.visit.description.value = visitFound.description.id;
-          this.visit.date.value = visitFound.date;
+          this.visit.date.value = moment(visitFound.date);
           this.visit.id.value = id;
       });
   }

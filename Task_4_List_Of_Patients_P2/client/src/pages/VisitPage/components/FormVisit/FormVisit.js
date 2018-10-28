@@ -9,18 +9,18 @@ import _ from 'lodash';
 
 import { visitStore } from '../../../../store';
 import { mapCopy } from '../../../../utils';
-// import { Validator } from '../../../../utils';
-// import { configVisit, types } from '../../../../store/data/data';
-// import { ErrorMessage } from '../../../../components/ErrorMessage';
+import { Validator } from '../../../../utils';
+import { configVisit, types } from '../../../../store/data/data';
+import { ErrorMessage } from '../../../../components/ErrorMessage';
 
 import './FormVisit.scss';
 
-// const validator = new Validator({ types, config: configVisit });
+const validator = new Validator({ types, config: configVisit });
 
-// const validateVisit = ({ changeVisit }) => (visit) => {
-//     const visitValidate = visit;
+// const validateVisit = ({  }) => {
+//     // const visitValidate = visit;
 
-//     validator.validate(visitValidate);
+//     // validator.validate(visitValidate);
 //     const errors = validator.listErrors;
 
 //     for (let i = 0; i < errors.length; i++) {
@@ -40,6 +40,29 @@ const mapActionsToProps  = {
         const selectedModified = { ...selected, errors: [] };
 
         changeVisit({ ...visit, patient:selectedModified });
+
+        if (selected.value) {
+            const visitValidated = { ...visit };
+
+            for (const prop in visit) {
+                if (visit.hasOwnProperty(prop)) {
+                    if (visit[prop].hasOwnProperty('label')) {
+                        visitValidated[prop].value = visitValidated[prop].label;
+                    } else if (prop === 'date') {
+                        visitValidated[prop].value = new Date(visitValidated[prop].value._i);
+                    }
+                }
+            }
+
+            validator.validate(visitValidated);
+            const errors = validator.listErrors;
+
+            for (let i = 0; i < errors.length; i++) {
+                const prop = errors[i].prop;
+
+                changeVisit({ ...visit, ...[prop], errors: errors[i].msgs });
+            }
+        }
     },
     onSelectDoctor : ({ changeVisit, visit }) => (selected) => {
         const selectedModified = { ...selected, errors: [] };
@@ -51,16 +74,11 @@ const mapActionsToProps  = {
 
         changeVisit({ ...visit, description:selectedModified });
     },
-    onChangeDate: props => date => {
-        if (date) {
-            visitStore.visit.date = date._d;
-        } else {
-            visitStore.visit.date = date;
-        }
+    onSelectDate: ({ changeVisit, visit }) => (selected) => {
+        changeVisit({ ...visit, date: { value: selected, errors: [] }  });
     },
-    onChangeDateRow:({ changeVisit }) => (date) => {
-        changeVisit({ date });
-        // validateVisit();
+    onChangeDateRow:({ changeVisit, visit }) => (date) => {
+        changeVisit({ ...visit, date: { value: date, errors: [] }  });
     }
 };
 
@@ -72,15 +90,17 @@ const Form  = ({
     onSelectPatient,
     onSelectDoctor,
     onSelectDescripion,
-    onChangeDate,
+    onSelectDate,
     onChangeDateRow,
     visit }) => {
-    // const dateSelected = moment(visit.date || new Date(), 'DD-MM-YYYY');
+    // const dateSelected = visit.date.value || moment(new Date(), 'DD-MM-YYYY');
+
     // const isValid = (date) => {
     //     return date <= new Date() && date >= new Date('1870-09-27T16:19:06.879Z');
     // };
-    // const dateValidated = visit.date ?
-    //     moment(visit.date, 'DD/MM/YYYY') : '';
+    // const dateValidated = visit.date.value ?
+    //     moment(visit.date.value, 'DD/MM/YYYY') : '';
+
 
     return (
         <form
@@ -100,11 +120,11 @@ const Form  = ({
                             className='field--visit__select'/>
                     </div>
                 </label>
-                {/* {
+                {
                     visit.patient.errors ?
                         <ErrorMessage msgs={visit.patient.errors} /> :
                         null
-                } */}
+                }
             </div>
             <div className='form__field'>
                 <label
@@ -120,17 +140,17 @@ const Form  = ({
                             className='field--visit__select'/>
                     </div>
                 </label>
-                {/* {
-                    visitE.doctor.errors ?
-                        <ErrorMessage msgs={visitE.doctor.errors} /> :
+                {
+                    visit.doctor.errors ?
+                        <ErrorMessage msgs={visit.doctor.errors} /> :
                         null
-                } */}
+                }
             </div>
-            <div className='form__field'>
+            {/* <div className='form__field'>
                 <label
                     className='field__label'>
                     Birth Date
-                    {/* <div className='field'>
+                    <div className='field'>
                         <DatePicker
                             id='birthDate'
                             className='date'
@@ -138,16 +158,15 @@ const Form  = ({
                             isClearable
                             onChangeRaw={onChangeDateRow}
                             filterDate={isValid}
-                            value={dateValidated}
-                            onChange={onChangeDate}/>
-                    </div> */}
+                            onChange={onSelectDate}/>
+                    </div>
                 </label>
-                {/* {
-                    visitE.date.errors ?
-                        <ErrorMessage msgs={visitE.date.errors} /> :
+                {
+                    visit.date.errors ?
+                        <ErrorMessage msgs={visit.date.errors} /> :
                         null
-                } */}
-            </div>
+                }
+            </div> */}
             <div className='form__field'>
                 <label
                     htmlFor='description'
@@ -162,11 +181,11 @@ const Form  = ({
                             className='field--visit__select'/>
                     </div>
                 </label>
-                {/* {
-                    visitE.description.errors ?
-                        <ErrorMessage msgs={visitE.description.errors} /> :
+                {
+                    visit.description.errors ?
+                        <ErrorMessage msgs={visit.description.errors} /> :
                         null
-                } */}
+                }
             </div>
         </form>
     );
@@ -176,10 +195,20 @@ Form.propTypes = {
     onSelectPatient: PropTypes.func,
     onSelectDoctor: PropTypes.func,
     onSelectDescripion: PropTypes.func,
-    onChangeDate: PropTypes.func,
+    onSelectDate: PropTypes.func,
     onChangeDateRow: PropTypes.func,
     visit: PropTypes.object
 };
+// const changeVisitValidate = ( visit, prop, key) => {
+//     const v = visit;
+
+//     if (v[prop].hasOwnProperty('label')) {
+//         v[prop].value = visit[prop].label;
+//     } else if (prop === 'date') {
+//         v[prop].value = v[prop].value._i;
+//     }
+//     return v;
+// };
 
 const addProperty = (object, params) => {
     const { key, value } = params;
