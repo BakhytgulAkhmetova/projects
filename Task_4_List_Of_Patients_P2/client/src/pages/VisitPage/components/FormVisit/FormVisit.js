@@ -1,8 +1,8 @@
 import React from 'react';
-import DatePicker from 'react-datepicker';
+// import DatePicker from 'react-datepicker';
 import { observer } from 'mobx-react';
 import { compose, withHandlers, withState } from 'recompose';
-import moment from 'moment';
+// import moment from 'moment';
 import PropTypes from 'prop-types';
 import AsyncSelect from 'react-select/lib/Async';
 import _ from 'lodash';
@@ -36,16 +36,20 @@ import './FormVisit.scss';
 // };
 
 const mapActionsToProps  = {
-    onSelectPatient : ({ changeVisit }) => (selected) => {
-        if (selected.value) {
-            changeVisit(selected);
-        }
+    onSelectPatient : ({ changeVisit, visit }) => (selected) => {
+        const selectedModified = { ...selected, errors: [] };
+
+        changeVisit({ ...visit, patient:selectedModified });
     },
-    onSelectDoctor : ({ changeVisit }) => (selected) => {
-        changeVisit(selected);
+    onSelectDoctor : ({ changeVisit, visit }) => (selected) => {
+        const selectedModified = { ...selected, errors: [] };
+
+        changeVisit({ ...visit, doctor:selectedModified });
     },
-    onSelectDescripion : ({ changeVisit }) => (selected) =>  {
-        changeVisit(selected);
+    onSelectDescripion : ({ changeVisit, visit }) => (selected) =>  {
+        const selectedModified = { ...selected, errors: [] };
+
+        changeVisit({ ...visit, description:selectedModified });
     },
     onChangeDate: props => date => {
         if (date) {
@@ -71,12 +75,12 @@ const Form  = ({
     onChangeDate,
     onChangeDateRow,
     visit }) => {
-    const dateSelected = moment(visit.date || new Date(), 'DD-MM-YYYY');
-    const isValid = (date) => {
-        return date <= new Date() && date >= new Date('1870-09-27T16:19:06.879Z');
-    };
-    const dateValidated = visit.date ?
-        moment(visit.date, 'DD/MM/YYYY') : '';
+    // const dateSelected = moment(visit.date || new Date(), 'DD-MM-YYYY');
+    // const isValid = (date) => {
+    //     return date <= new Date() && date >= new Date('1870-09-27T16:19:06.879Z');
+    // };
+    // const dateValidated = visit.date ?
+    //     moment(visit.date, 'DD/MM/YYYY') : '';
 
     return (
         <form
@@ -97,8 +101,8 @@ const Form  = ({
                     </div>
                 </label>
                 {/* {
-                    visitE.patient.errors ?
-                        <ErrorMessage msgs={visitE.patient.errors} /> :
+                    visit.patient.errors ?
+                        <ErrorMessage msgs={visit.patient.errors} /> :
                         null
                 } */}
             </div>
@@ -111,7 +115,6 @@ const Form  = ({
                         <AsyncSelect
                             cacheOptions
                             defaultValue ={visit.doctor}
-                            // onInputChange={onChangeDoctor}
                             onChange={onSelectDoctor}
                             loadOptions={(input) => getDoctorOptions(input)}
                             className='field--visit__select'/>
@@ -127,7 +130,7 @@ const Form  = ({
                 <label
                     className='field__label'>
                     Birth Date
-                    <div className='field'>
+                    {/* <div className='field'>
                         <DatePicker
                             id='birthDate'
                             className='date'
@@ -137,7 +140,7 @@ const Form  = ({
                             filterDate={isValid}
                             value={dateValidated}
                             onChange={onChangeDate}/>
-                    </div>
+                    </div> */}
                 </label>
                 {/* {
                     visitE.date.errors ?
@@ -154,7 +157,6 @@ const Form  = ({
                         <AsyncSelect
                             cacheOptions
                             defaultValue ={visit.description}
-                            // onInputChange={onChangeDescription}
                             onChange={onSelectDescripion}
                             loadOptions={(input) => getDescriptionOptions(input)}
                             className='field--visit__select'/>
@@ -171,9 +173,6 @@ const Form  = ({
 };
 
 Form.propTypes = {
-    onChangePatient: PropTypes.func,
-    onChangeDoctor: PropTypes.func,
-    onChangeDescription: PropTypes.func,
     onSelectPatient: PropTypes.func,
     onSelectDoctor: PropTypes.func,
     onSelectDescripion: PropTypes.func,
@@ -182,26 +181,20 @@ Form.propTypes = {
     visit: PropTypes.object
 };
 
+const addProperty = (object, params) => {
+    const { key, value } = params;
+
+    return {
+        ...object,
+        [key]: value
+    };
+};
+
 export const FormVisit = compose(
     withState('visit', 'changeVisit', ({ visitE }) => {
         const visit = visitE;
 
-        return {
-            ...visit,
-            ...
-        }
-
-        // for (prop in visit) {
-        //     if (visit.hasOwnProperty(prop)) {
-        //         Object.keys(visit).map((key) => {
-        //             visit[key] = {
-        //                 ...visit[key],
-        //                 errors: []
-        //             };
-        //             return visit[key];
-        //         });
-        //     }
-        // }
+        return mapCopy(visit, addProperty, { key:'errors', value: [] });
     }),
     withHandlers(mapActionsToProps),
     observer)(Form);

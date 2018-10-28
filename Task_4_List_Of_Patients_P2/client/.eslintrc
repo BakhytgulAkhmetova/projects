@@ -79,6 +79,7 @@
       2,
       "multi-line"
     ],
+    "callback-return": [2, ["cb", "next"]],
     "default-case": 2,
     "dot-notation": [
       2,
