@@ -8,14 +8,13 @@ import AsyncSelect from 'react-select/lib/Async';
 import _ from 'lodash';
 
 import { visitStore } from '../../../../store';
-import { mapCopy } from '../../../../utils';
-// import { Validator } from '../../../../utils';
-// import { configVisit, types } from '../../../../store/data/data';
+import { Validator } from '../../../../utils';
+import { configVisit, types } from '../../../../store/data/data';
 import { ErrorMessage } from '../../../../components/ErrorMessage';
 
 import './FormVisit.scss';
 
-// const validator = new Validator({ types, config: configVisit });
+const validator = new Validator({ types, config: configVisit });
 
 const createValidatedVisit = (visit) => {
     const visitValidated = {
@@ -35,7 +34,6 @@ const createValidatedVisit = (visit) => {
             }
         }
     }
-    console.log(visitValidated);
     return visitValidated;
 
     // for (const prop in visitValidated) {
@@ -50,13 +48,19 @@ const createValidatedVisit = (visit) => {
     // return visitValidated;
 };
 
-// const mapAdiingErrorMsg = ({ changeVisit, visit }) => (errs) => {
-//     for (let i = 0; i < errs.length; i++) {
-//         const prop = errs[i].prop;
+const mapAddingErrorMsg =  (errs, visit) => {
+    let visitM = visit;
 
-//         changeVisit({ ...visit, ...[prop], errors: errs[i] });
-//     }
-// };
+    for (let i = 0; i < errs.length; i++) {
+        const prop = errs[i].prop;
+
+        visitM = { ...visitM, [prop]: {
+            errors: errs[i].msgs,
+            label: visit[prop].label,
+            value: visit[prop].value }  };
+    }
+    return visitM;
+};
 
 const mapActionsToProps  = {
     onSelectPatient : ({ changeVisit, visit }) => (selected) => {
@@ -65,27 +69,28 @@ const mapActionsToProps  = {
         if (selected.value) {
             selectedModified = { ...selected, errors: [] };
         } else {
-            selectedModified = { ...selected, errors: [],  value: '' };
+            selectedModified = { ...selected, errors: [],  value: '', label: '' };
         }
         changeVisit({ ...visit, patient:selectedModified });
-
-        const visitValidated = createValidatedVisit(visit);
-
-        // validator.validate(visitValidated);
-        // const errs = validator.listErrors;
-
-        console.log(visitValidated);
-
-        // mapAdiingErrorMsg(errs);
-        console.log(visit);
     },
     onSelectDoctor : ({ changeVisit, visit }) => (selected) => {
-        const selectedModified = { ...selected, errors: [] };
+        let selectedModified;
 
+        if (selected.value) {
+            selectedModified = { ...selected, errors: [] };
+        } else {
+            selectedModified = { ...selected, errors: [],  value: '', label: '' };
+        }
         changeVisit({ ...visit, doctor:selectedModified });
     },
     onSelectDescripion : ({ changeVisit, visit }) => (selected) =>  {
-        const selectedModified = { ...selected, errors: [] };
+        let selectedModified;
+
+        if (selected.value) {
+            selectedModified = { ...selected, errors: [] };
+        } else {
+            selectedModified = { ...selected, errors: [],  value: '', label: '' };
+        }
 
         changeVisit({ ...visit, description:selectedModified });
     },
@@ -113,6 +118,14 @@ const Form  = ({
     const isValid = (date) => {
         return date <= new Date() && date >= new Date('1870-09-27T16:19:06.879Z');
     };
+
+    validator.cleanListErrors();
+    const visitValidated = createValidatedVisit(visit);
+
+    validator.validate(visitValidated);
+    const errs = validator.listErrors;
+    const v = mapAddingErrorMsg(errs, visit);
+
     // const dateValidated = visit.date.value ?
     //     moment(visit.date.value, 'DD/MM/YYYY') : '';
 
@@ -129,17 +142,13 @@ const Form  = ({
                     <div className='field--visit'>
                         <AsyncSelect
                             cacheOptions
-                            value ={visit.patient}
+                            value ={v.patient}
                             onChange={onSelectPatient}
                             loadOptions={getPatientOptions}
                             className='field--visit__select'/>
                     </div>
                 </label>
-                {
-                    visit.patient.errors ?
-                        <ErrorMessage msgs={visit.patient.errors} /> :
-                        null
-                }
+                <ErrorMessage msgs={v.patient.errors} />
             </div>
             <div className='form__field'>
                 <label
@@ -149,17 +158,13 @@ const Form  = ({
                     <div className='field--visit'>
                         <AsyncSelect
                             cacheOptions
-                            value ={visit.doctor}
+                            value ={v.doctor}
                             onChange={onSelectDoctor}
                             loadOptions={(input) => getDoctorOptions(input)}
                             className='field--visit__select'/>
                     </div>
                 </label>
-                {
-                    visit.doctor.errors ?
-                        <ErrorMessage msgs={visit.doctor.errors} /> :
-                        null
-                }
+                <ErrorMessage msgs={v.doctor.errors} />
             </div>
             <div className='form__field'>
                 <label
@@ -176,11 +181,7 @@ const Form  = ({
                             onChange={onSelectDate}/>
                     </div>
                 </label>
-                {/* {
-                    visit.date.errors ?
-                        <ErrorMessage msgs={visit.date.errors} /> :
-                        null
-                } */}
+                <ErrorMessage msgs={v.date.errors} />
             </div>
             <div className='form__field'>
                 <label
@@ -190,17 +191,13 @@ const Form  = ({
                     <div className='field--visit'>
                         <AsyncSelect
                             cacheOptions
-                            value ={visit.description}
+                            value ={v.description}
                             onChange={onSelectDescripion}
                             loadOptions={(input) => getDescriptionOptions(input)}
                             className='field--visit__select'/>
                     </div>
                 </label>
-                {
-                    visit.description.errors ?
-                        <ErrorMessage msgs={visit.description.errors} /> :
-                        null
-                }
+                <ErrorMessage msgs={v.description.errors} />
             </div>
         </form>
     );
@@ -215,20 +212,9 @@ Form.propTypes = {
     visit: PropTypes.object
 };
 
-const addProperty = (object, params) => {
-    const { key, value } = params;
-
-    return {
-        ...object,
-        [key]: value
-    };
-};
-
 export const FormVisit = compose(
     withState('visit', 'changeVisit', ({ visitE }) => {
-        const visit = visitE;
-
-        return mapCopy(visit, addProperty, { key:'errors', value: [] });
+        return  visitE;
     }),
     withHandlers(mapActionsToProps),
     observer)(Form);
