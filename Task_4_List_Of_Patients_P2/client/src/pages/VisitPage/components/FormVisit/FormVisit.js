@@ -1,68 +1,83 @@
 import React from 'react';
-// import DatePicker from 'react-datepicker';
+import DatePicker from 'react-datepicker';
 import { observer } from 'mobx-react';
 import { compose, withHandlers, withState } from 'recompose';
-// import moment from 'moment';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import AsyncSelect from 'react-select/lib/Async';
 import _ from 'lodash';
 
 import { visitStore } from '../../../../store';
 import { mapCopy } from '../../../../utils';
-import { Validator } from '../../../../utils';
-import { configVisit, types } from '../../../../store/data/data';
+// import { Validator } from '../../../../utils';
+// import { configVisit, types } from '../../../../store/data/data';
 import { ErrorMessage } from '../../../../components/ErrorMessage';
 
 import './FormVisit.scss';
 
-const validator = new Validator({ types, config: configVisit });
+// const validator = new Validator({ types, config: configVisit });
 
-// const validateVisit = ({  }) => {
-//     // const visitValidate = visit;
+const createValidatedVisit = (visit) => {
+    const visitValidated = {
+        patient: { value: '' },
+        doctor: { value: '' },
+        description: { value: '' },
+        date: new Date(),
+        id: visit.id.value
+    };
 
-//     // validator.validate(visitValidate);
-//     const errors = validator.listErrors;
+    for (const prop in visit) {
+        if (visit.hasOwnProperty(prop)) {
+            if (visit[prop].hasOwnProperty('label')) {
+                visitValidated[prop].value = visit[prop].label;
+            } else if (prop === 'date') {
+                visitValidated.date = new Date(visit[prop].value._i);
+            }
+        }
+    }
+    console.log(visitValidated);
+    return visitValidated;
 
-//     for (let i = 0; i < errors.length; i++) {
-//         const prop = errors[i].prop;
+    // for (const prop in visitValidated) {
+    //     if (visitValidated.hasOwnProperty(prop)) {
+    //         if (visitValidated[prop].hasOwnProperty('label')) {
+    //             visitValidated[prop].value = visitValidated[prop].label;
+    //         } else if (prop === 'date') {
+    //             visitValidated[prop].value = new Date(visitValidated[prop].value._i);
+    //         }
+    //     }
+    // }
+    // return visitValidated;
+};
 
-//         visitValidate[prop] = {
-//             ...visit[prop],
-//             errors: errors[i].msgs
-//         };
+// const mapAdiingErrorMsg = ({ changeVisit, visit }) => (errs) => {
+//     for (let i = 0; i < errs.length; i++) {
+//         const prop = errs[i].prop;
+
+//         changeVisit({ ...visit, ...[prop], errors: errs[i] });
 //     }
-//     changeVisit(visit);
-//     validator.cleanListErrors();
 // };
 
 const mapActionsToProps  = {
     onSelectPatient : ({ changeVisit, visit }) => (selected) => {
-        const selectedModified = { ...selected, errors: [] };
-
-        changeVisit({ ...visit, patient:selectedModified });
+        let selectedModified;
 
         if (selected.value) {
-            const visitValidated = { ...visit };
-
-            for (const prop in visit) {
-                if (visit.hasOwnProperty(prop)) {
-                    if (visit[prop].hasOwnProperty('label')) {
-                        visitValidated[prop].value = visitValidated[prop].label;
-                    } else if (prop === 'date') {
-                        visitValidated[prop].value = new Date(visitValidated[prop].value._i);
-                    }
-                }
-            }
-
-            validator.validate(visitValidated);
-            const errors = validator.listErrors;
-
-            for (let i = 0; i < errors.length; i++) {
-                const prop = errors[i].prop;
-
-                changeVisit({ ...visit, ...[prop], errors: errors[i].msgs });
-            }
+            selectedModified = { ...selected, errors: [] };
+        } else {
+            selectedModified = { ...selected, errors: [],  value: '' };
         }
+        changeVisit({ ...visit, patient:selectedModified });
+
+        const visitValidated = createValidatedVisit(visit);
+
+        // validator.validate(visitValidated);
+        // const errs = validator.listErrors;
+
+        console.log(visitValidated);
+
+        // mapAdiingErrorMsg(errs);
+        console.log(visit);
     },
     onSelectDoctor : ({ changeVisit, visit }) => (selected) => {
         const selectedModified = { ...selected, errors: [] };
@@ -93,11 +108,11 @@ const Form  = ({
     onSelectDate,
     onChangeDateRow,
     visit }) => {
-    // const dateSelected = visit.date.value || moment(new Date(), 'DD-MM-YYYY');
+    const dateSelected = visit.date.value || moment(new Date(), 'DD-MM-YYYY');
 
-    // const isValid = (date) => {
-    //     return date <= new Date() && date >= new Date('1870-09-27T16:19:06.879Z');
-    // };
+    const isValid = (date) => {
+        return date <= new Date() && date >= new Date('1870-09-27T16:19:06.879Z');
+    };
     // const dateValidated = visit.date.value ?
     //     moment(visit.date.value, 'DD/MM/YYYY') : '';
 
@@ -134,7 +149,7 @@ const Form  = ({
                     <div className='field--visit'>
                         <AsyncSelect
                             cacheOptions
-                            defaultValue ={visit.doctor}
+                            value ={visit.doctor}
                             onChange={onSelectDoctor}
                             loadOptions={(input) => getDoctorOptions(input)}
                             className='field--visit__select'/>
@@ -146,7 +161,7 @@ const Form  = ({
                         null
                 }
             </div>
-            {/* <div className='form__field'>
+            <div className='form__field'>
                 <label
                     className='field__label'>
                     Birth Date
@@ -161,12 +176,12 @@ const Form  = ({
                             onChange={onSelectDate}/>
                     </div>
                 </label>
-                {
+                {/* {
                     visit.date.errors ?
                         <ErrorMessage msgs={visit.date.errors} /> :
                         null
-                }
-            </div> */}
+                } */}
+            </div>
             <div className='form__field'>
                 <label
                     htmlFor='description'
@@ -175,7 +190,7 @@ const Form  = ({
                     <div className='field--visit'>
                         <AsyncSelect
                             cacheOptions
-                            defaultValue ={visit.description}
+                            value ={visit.description}
                             onChange={onSelectDescripion}
                             loadOptions={(input) => getDescriptionOptions(input)}
                             className='field--visit__select'/>
@@ -199,16 +214,6 @@ Form.propTypes = {
     onChangeDateRow: PropTypes.func,
     visit: PropTypes.object
 };
-// const changeVisitValidate = ( visit, prop, key) => {
-//     const v = visit;
-
-//     if (v[prop].hasOwnProperty('label')) {
-//         v[prop].value = visit[prop].label;
-//     } else if (prop === 'date') {
-//         v[prop].value = v[prop].value._i;
-//     }
-//     return v;
-// };
 
 const addProperty = (object, params) => {
     const { key, value } = params;
