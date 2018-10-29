@@ -2,7 +2,7 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import { observer } from 'mobx-react';
 import { compose, withHandlers, withState } from 'recompose';
-import moment from 'moment';
+// import moment from 'moment';
 import PropTypes from 'prop-types';
 import AsyncSelect from 'react-select/lib/Async';
 import _ from 'lodash';
@@ -11,6 +11,7 @@ import { visitStore } from '../../../../store';
 import { Validator } from '../../../../utils';
 import { configVisit, types } from '../../../../store/data/data';
 import { ErrorMessage } from '../../../../components/ErrorMessage';
+// import { regDate } from '../../../../constants';
 
 import './FormVisit.scss';
 
@@ -21,16 +22,19 @@ const createValidatedVisit = (visit) => {
         patient: { value: '' },
         doctor: { value: '' },
         description: { value: '' },
-        date: new Date(),
-        id: visit.id.value
+        date: { value: new Date() },
+        id: { value: visit.id.value }
     };
+
 
     for (const prop in visit) {
         if (visit.hasOwnProperty(prop)) {
             if (visit[prop].hasOwnProperty('label')) {
                 visitValidated[prop].value = visit[prop].label;
             } else if (prop === 'date') {
-                visitValidated.date = new Date(visit[prop].value._i);
+                const date = visit[prop].value;
+
+                visitValidated.date.value = date ? date._d : '';
             }
         }
     }
@@ -95,10 +99,17 @@ const mapActionsToProps  = {
         changeVisit({ ...visit, description:selectedModified });
     },
     onSelectDate: ({ changeVisit, visit }) => (selected) => {
-        changeVisit({ ...visit, date: { value: selected, errors: [] }  });
+        let selectedModified = selected;
+
+        selectedModified = selected ? selected : '';
+        changeVisit({ ...visit, date: { value: selectedModified }  });
     },
-    onChangeDateRow:({ changeVisit, visit }) => (date) => {
-        changeVisit({ ...visit, date: { value: date, errors: [] }  });
+    onChangeDateRow:() => (input) => {
+        // let date = input;
+
+        // selectedModified = selected ? selected : '';
+        // changeVisit({ ...visit, date: { value: selectedModified }  });
+        // date = regDate.test(input)? input :
     }
 };
 
@@ -113,7 +124,7 @@ const Form  = ({
     onSelectDate,
     onChangeDateRow,
     visit }) => {
-    const dateSelected = visit.date.value || moment(new Date(), 'DD-MM-YYYY');
+    const dateSelected = visit.date.value || '';
 
     const isValid = (date) => {
         return date <= new Date() && date >= new Date('1870-09-27T16:19:06.879Z');
@@ -125,10 +136,6 @@ const Form  = ({
     validator.validate(visitValidated);
     const errs = validator.listErrors;
     const v = mapAddingErrorMsg(errs, visit);
-
-    // const dateValidated = visit.date.value ?
-    //     moment(visit.date.value, 'DD/MM/YYYY') : '';
-
 
     return (
         <form
@@ -172,11 +179,11 @@ const Form  = ({
                     Birth Date
                     <div className='field'>
                         <DatePicker
-                            id='birthDate'
                             className='date'
                             selected={dateSelected}
                             isClearable
-                            onChangeRaw={onChangeDateRow}
+                            value={v.date.value}
+                            // onChangeRaw={onChangeDateRow}
                             filterDate={isValid}
                             onChange={onSelectDate}/>
                     </div>
