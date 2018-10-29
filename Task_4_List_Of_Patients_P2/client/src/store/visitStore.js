@@ -21,6 +21,8 @@ class VisitStore {
 
   @observable visit = emptyVisit;
 
+  @observable isInValidVisit = true;
+
   @action
   async getSelectedPatients(letters) {
       let patients;

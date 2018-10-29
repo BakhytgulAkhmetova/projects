@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { withHandlers, compose } from 'recompose';
 
 import { Button } from '../../../../components/Button';
-import { modalStore } from '../../../../store';
+import { modalStore, visitStore } from '../../../../store';
 // import { visit } from '../FormVisit';
 
 const mapActionsToProps = {
@@ -21,7 +21,7 @@ export const ButtonsModalEdit = compose(
         [<Button
             key={1}
             title='Edit'
-            // isDisable={patientStore.isInValidPatient}
+            isDisable={visitStore.isInValidVisit}
             onHandleOnClick={onHandleEditVisit}
             className='content__button' />]
     );
