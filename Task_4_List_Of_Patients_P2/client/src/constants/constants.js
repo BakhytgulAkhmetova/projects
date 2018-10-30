@@ -9,3 +9,4 @@ export const genders = {
 };
 export const viewitems = 4;
 export const maxVisibleButtons = 3;
+export const loadOptionTimeOut = 300;

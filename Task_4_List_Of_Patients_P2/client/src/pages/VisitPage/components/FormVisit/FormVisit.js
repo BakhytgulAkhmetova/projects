@@ -12,7 +12,7 @@ import { Validator } from '../../../../utils';
 import { configVisit, types } from '../../../../store/data/data';
 import { ErrorMessage } from '../../../../components/ErrorMessage';
 import { mapCopy } from '../../../../utils';
-// import { regDate } from '../../../../constants';
+import { loadOptionTimeOut } from '../../../../constants';
 
 import './FormVisit.scss';
 
@@ -81,9 +81,9 @@ const mapActionsToProps  = {
 
 };
 
-const getPatientOptions = _.debounce(visitStore.getSelectedPatients, 300);
-const getDoctorOptions = _.debounce(visitStore.getSelectedDoctors, 300);
-const getDescriptionOptions = _.debounce(visitStore.getSelectedDescriptions, 300);
+const getPatientOptions = _.debounce(visitStore.getSelectedPatients, loadOptionTimeOut);
+const getDoctorOptions = _.debounce(visitStore.getSelectedDoctors, loadOptionTimeOut);
+const getDescriptionOptions = _.debounce(visitStore.getSelectedDescriptions, loadOptionTimeOut);
 
 const Form  = ({
     onSelectPatient,
@@ -135,7 +135,7 @@ const Form  = ({
                     <div className='field'>
                         <DatePicker
                             className='date'
-                            selected={visit.date.value ? moment(visit.date.value, 'DD/MM/YYYY') : ''}
+                            selected={visit.date.value}
                             isClearable
                             onChangeRaw={onChangeDateRow}
                             onChange={onSelectDate}/>
