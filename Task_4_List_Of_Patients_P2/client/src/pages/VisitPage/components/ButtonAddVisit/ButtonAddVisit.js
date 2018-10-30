@@ -3,17 +3,17 @@ import { observer } from 'mobx-react';
 import { withHandlers, compose } from 'recompose';
 
 import { Button } from '../../../../components/Button';
-import { modalStore } from '../../../../store';
-import { ButtonsModalAdd } from '../ButtonsModalAdd';
-import { FormVisit } from '../FormVisit';
+import { modalStore, visitStore } from '../../../../store';
+import { ContentAddModal } from '../ContentAddModal';
+// import { ButtonsModalAdd } from '../ButtonsModalAdd';
+// import { FormVisit } from '../FormVisit';
 
 const mapActionsToProps = {
     onHandleOpenModalAdd: props => event => {
         event.preventDefault();
         modalStore.open({
             title: 'Add visit',
-            content: <FormVisit/>,
-            buttons: <ButtonsModalAdd/>
+            content: <ContentAddModal visitE={visitStore.visit}/>
         });
     }
 };

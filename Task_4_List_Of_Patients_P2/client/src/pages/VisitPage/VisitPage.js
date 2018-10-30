@@ -7,9 +7,9 @@ import { visitStore, modalStore } from '../../store';
 import { MenuNavigation } from '../../components/MenuNavigation';
 import { menuItems } from '../../store/data/data';
 import { ButtonAddVisit } from './components/ButtonAddVisit';
-import { FormVisit } from './components/FormVisit';
+// import { FormVisit } from './components/FormVisit';
 import { maxVisibleButtons, viewitems } from '../../constants';
-import { ButtonsModalEdit } from './components/ButtonsModalEdit';
+import { ContentEditModal } from './components/ContentEditModal';
 
 const columns = [
     {
@@ -41,8 +41,7 @@ export class VisitPage extends React.Component {
         await visitStore.getVisitById(event.currentTarget.id);
         modalStore.open({
             title: 'Edit visit',
-            content: <FormVisit visitE={visitStore.visit}/>,
-            buttons: <ButtonsModalEdit />
+            content: <ContentEditModal/>
         });
     }
 
