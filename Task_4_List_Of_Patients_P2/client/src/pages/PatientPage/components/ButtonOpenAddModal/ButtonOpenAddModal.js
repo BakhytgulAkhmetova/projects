@@ -3,8 +3,9 @@ import { observer } from 'mobx-react';
 import { withHandlers, compose } from 'recompose';
 
 import { Button } from '../../../../components/Button';
-import { FormPatient } from '../../components/FormPatient';
-import { ButtonListAddModal } from '../ButtonListAddModal';
+// import { FormPatient } from '../../components/FormPatient';
+// import { ButtonListAddModal } from '../ButtonListAddModal';
+import { ContentAddModal } from '../ContentAddModal';
 import { patientStore, modalStore } from '../../../../store';
 
 const mapActionsToProps = {
@@ -13,10 +14,10 @@ const mapActionsToProps = {
         patientStore.cleanPatientFields();
         modalStore.open({
             title: 'Add patient',
-            content: <FormPatient patient={patientStore.patient}/>,
-            buttons: <ButtonListAddModal
-                currentPage={props.currentPage}
-                maxViewPatients={4}/>
+            content: <ContentAddModal patient={patientStore.patient}/>
+            // buttons: <ButtonListAddModal
+            //     currentPage={props.currentPage}
+            //     maxViewPatients={4}/>
         });
     }
 };

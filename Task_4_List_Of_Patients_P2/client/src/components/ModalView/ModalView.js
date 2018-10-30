@@ -29,7 +29,6 @@ export class ModalView extends React.Component {
                         &times;
                     </span>
                     {modalStore.content}
-                    {modalStore.buttons}
                 </div>
             </div>
         );

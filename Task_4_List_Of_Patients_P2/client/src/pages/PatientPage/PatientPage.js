@@ -8,8 +8,8 @@ import { patientStore, modalStore } from '../../store';
 import { MenuNavigation } from '../../components/MenuNavigation';
 import { menuItems } from '../../store/data/data';
 import { maxVisibleButtons, viewitems } from '../../constants';
-import { FormPatient } from './components/FormPatient';
-import { ButtonListEditModal } from './components/ButtonListEditModal';
+// import { FormPatient } from './components/FormPatient';
+import { ContentEditModal } from './components/ContentEditModal';
 
 import './PatientPage.scss';
 
@@ -51,8 +51,7 @@ export class PatientPage extends React.Component {
         patientStore.getPatientById(event.currentTarget.id);
         modalStore.open({
             title: 'Edit patient',
-            content: <FormPatient patient={patientStore.patient}/>,
-            buttons: <ButtonListEditModal />
+            content: <ContentEditModal patient={patientStore.patient}/>
         });
     }
 

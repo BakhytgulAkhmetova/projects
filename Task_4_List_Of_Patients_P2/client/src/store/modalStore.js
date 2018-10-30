@@ -7,14 +7,11 @@ class ModalStore {
 
     @observable isOpen = false
 
-    @observable buttons = []
-
     @action
     open({ title, content, buttons }) {
         this.isOpen = true;
         this.title = title;
         this.content = content;
-        this.buttons = buttons;
     }
 
     @action
