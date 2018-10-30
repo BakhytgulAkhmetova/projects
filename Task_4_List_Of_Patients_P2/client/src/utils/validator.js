@@ -43,7 +43,11 @@ export class Validator {
     }
 
     hasErrors = () => {
-        return this.listErrors.length !== 0;
+        const errors = this.listErrors.filter(element => {
+            return element.msgs.length !== 0;
+        });
+
+        return errors.length !== 0;
     }
 
     cleanListErrors = () => {

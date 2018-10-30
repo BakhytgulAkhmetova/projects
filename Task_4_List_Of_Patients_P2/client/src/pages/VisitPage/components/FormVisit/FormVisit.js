@@ -1,85 +1,16 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import { observer } from 'mobx-react';
-import { compose, withHandlers, withState } from 'recompose';
-import moment from 'moment';
+import { compose } from 'recompose';
 import PropTypes from 'prop-types';
 import AsyncSelect from 'react-select/lib/Async';
 import _ from 'lodash';
 
 import { visitStore } from '../../../../store';
-import { Validator } from '../../../../utils';
-import { configVisit, types } from '../../../../store/data/data';
 import { ErrorMessage } from '../../../../components/ErrorMessage';
-import { mapCopy } from '../../../../utils';
 import { loadOptionTimeOut } from '../../../../constants';
 
 import './FormVisit.scss';
-
-const validator = new Validator({ types, config: configVisit });
-
-const validate = (field, selected) => {
-    validator.cleanListErrors();
-    const value = field === 'date' ? selected || '' : selected.label || '';
-
-    validator.validate({ [field]: { value } });
-
-    const valueSelected = field === 'date' ? {
-        ...selected, errors: validator.listErrors[0].msgs,
-        value: selected || '' } :
-        {
-            ...selected, errors: validator.listErrors[0].msgs,
-            value: selected.value || '',
-            label: selected.label || '' };
-
-    return valueSelected;
-};
-
-const mapActionsToProps  = {
-    onSelectPatient : ({ changeVisit, visit }) => (selected) => {
-        const field = 'patient';
-
-        const valueSelected = validate(field, selected);
-
-        changeVisit({ ...visit, [field]:valueSelected });
-    },
-    onSelectDoctor : ({ changeVisit, visit }) => (selected) => {
-        const field = 'doctor';
-
-        const valueSelected = validate(field, selected);
-
-        changeVisit({ ...visit, [field]:valueSelected });
-    },
-    onSelectDescripion : ({ changeVisit, visit }) => (selected) =>  {
-        const field = 'description';
-
-        const valueSelected = validate(field, selected);
-
-        changeVisit({ ...visit, [field]:valueSelected });
-    },
-    onSelectDate: ({ changeVisit, visit }) => (selected) => {
-        const field = 'date';
-
-        const valueSelected = validate(field, selected);
-
-        changeVisit({ ...visit, [field]:valueSelected });
-    },
-    onChangeDateRow:({ changeVisit, visit }) => (input) => {
-        const field = 'date';
-
-        validator.cleanListErrors();
-        const hasErrors = validator.validate({ [field]: { value: input } });
-
-        if (hasErrors) {
-            changeVisit({ ...visit, [field]:{ value: visit.value, errors: validator.listErrors[0].msgs } });
-        } else {
-            const valueSelected = { value:  moment(input, 'DD/MM/YYYY') };
-
-            changeVisit({ ...visit, [field]:valueSelected });
-        }
-    }
-
-};
 
 const getPatientOptions = _.debounce(visitStore.getSelectedPatients, loadOptionTimeOut);
 const getDoctorOptions = _.debounce(visitStore.getSelectedDoctors, loadOptionTimeOut);
@@ -172,20 +103,5 @@ Form.propTypes = {
     visit: PropTypes.object
 };
 
-const addProperty = (object, params) => {
-    const { key, value } = params;
-
-    return {
-        ...object,
-        [key]: value
-    };
-};
-
 export const FormVisit = compose(
-    withState('visit', 'changeVisit', ({ visitE }) => {
-        const visit = visitE;
-
-        return mapCopy(visit, addProperty, { key:'errors', value: [] });
-    }),
-    withHandlers(mapActionsToProps),
     observer)(Form);

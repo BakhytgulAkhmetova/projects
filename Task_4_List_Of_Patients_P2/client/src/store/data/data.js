@@ -47,7 +47,7 @@ export const emptyVisit = {
     patient: { value: '', label: '' },
     doctor: { value: '', label: '' },
     description: { value: '', label: '' },
-    date: { value: new Date() }
+    date: { value: moment(new Date())  }
 };
 
 export const menuItems = [
