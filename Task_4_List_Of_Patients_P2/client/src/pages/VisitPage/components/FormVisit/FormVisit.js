@@ -2,7 +2,7 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import { observer } from 'mobx-react';
 import { compose, withHandlers, withState } from 'recompose';
-// import moment from 'moment';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import AsyncSelect from 'react-select/lib/Async';
 import _ from 'lodash';
@@ -18,13 +18,19 @@ import './FormVisit.scss';
 
 const validator = new Validator({ types, config: configVisit });
 
-const checkField = (field, selected) => {
+const validate = (field, selected) => {
     validator.cleanListErrors();
-    validator.validate({ [field]: { value: selected.label || '' } });
-    const valueSelected = {
+    const value = field === 'date' ? selected || '' : selected.label || '';
+
+    validator.validate({ [field]: { value } });
+
+    const valueSelected = field === 'date' ? {
         ...selected, errors: validator.listErrors[0].msgs,
-        value: selected.value || '',
-        label: selected.label || '' };
+        value: selected || '' } :
+        {
+            ...selected, errors: validator.listErrors[0].msgs,
+            value: selected.value || '',
+            label: selected.label || '' };
 
     return valueSelected;
 };
@@ -33,42 +39,42 @@ const mapActionsToProps  = {
     onSelectPatient : ({ changeVisit, visit }) => (selected) => {
         const field = 'patient';
 
-        const valueSelected = checkField(field, selected);
+        const valueSelected = validate(field, selected);
 
         changeVisit({ ...visit, [field]:valueSelected });
     },
     onSelectDoctor : ({ changeVisit, visit }) => (selected) => {
         const field = 'doctor';
 
-        const valueSelected = checkField(field, selected);
+        const valueSelected = validate(field, selected);
 
         changeVisit({ ...visit, [field]:valueSelected });
     },
     onSelectDescripion : ({ changeVisit, visit }) => (selected) =>  {
         const field = 'description';
 
-        const valueSelected = checkField(field, selected);
+        const valueSelected = validate(field, selected);
 
         changeVisit({ ...visit, [field]:valueSelected });
     },
     onSelectDate: ({ changeVisit, visit }) => (selected) => {
         const field = 'date';
 
-        validator.cleanListErrors();
-        validator.validate({ [field]: { value: selected || '' } });
-        const valueSelected = {
-            ...selected, errors: validator.listErrors[0].msgs,
-            value: selected || '' };
+        const valueSelected = validate(field, selected);
 
         changeVisit({ ...visit, [field]:valueSelected });
     },
-    onChangeDateRow:() => (input) => {
-        // let date = input;
+    onChangeDateRow:({ changeVisit, visit }) => (input) => {
+        const field = 'date';
 
-        // selectedModified = selected ? selected : '';
-        // changeVisit({ ...visit, date: { value: selectedModified }  });
-        // date = regDate.test(input)? input :
+        validator.cleanListErrors();
+        validator.validate({ [field]: { value: input } });
+        const valueSelected = { errors: validator.listErrors[0].msgs,
+            value: moment(input, ['MM-DD-YYYY', 'DD-MM', 'DD-MM-YYYY']) };
+
+        changeVisit({ ...visit, [field]:valueSelected });
     }
+
 };
 
 const getPatientOptions = _.debounce(visitStore.getSelectedPatients, 300);
@@ -82,22 +88,6 @@ const Form  = ({
     onSelectDate,
     onChangeDateRow,
     visit }) => {
-    const dateSelected = visit.date.value || '';
-
-    const isValidDate = (date) => {
-        return date <= new Date() && date >= new Date('1870-09-27T16:19:06.879Z');
-    };
-
-    // validator.cleanListErrors();
-    // const visitValidated = createValidatedVisit(visit);
-
-    // const hasErrors =  validator.validate(visitValidated);
-    // const errs = validator.listErrors;
-    // const v = mapAddingErrorMsg(errs, visit);
-
-    // console.log(hasErrors);
-    // visitStore.isInValidVisit = false;
-
     return (
         <form
             key={visit.id}
@@ -141,11 +131,10 @@ const Form  = ({
                     <div className='field'>
                         <DatePicker
                             className='date'
-                            selected={dateSelected}
+                            selected={visit.date.value || ''}
                             isClearable
                             value={visit.date.value}
                             // onChangeRaw={onChangeDateRow}
-                            filterDate={isValidDate}
                             onChange={onSelectDate}/>
                     </div>
                 </label>

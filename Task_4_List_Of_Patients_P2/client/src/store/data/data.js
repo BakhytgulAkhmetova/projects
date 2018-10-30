@@ -62,7 +62,7 @@ export const menuItems = [
 export const configPatient = {
     firstName: ['isNotEmpty'],
     lastName: ['isNotEmpty'],
-    birthDate: ['isNotEmpty', 'isValidDate'],
+    birthDate: ['isNotEmpty', 'isValidDate', 'isValidFormat'],
     gender: [],
     id: [],
     age: [],
@@ -74,7 +74,7 @@ export const configVisit = {
     patient: ['isNotEmpty'],
     doctor: ['isNotEmpty'],
     description: ['isNotEmpty'],
-    date: ['isNotEmpty', 'isValidDate'],
+    date: ['isNotEmpty', 'isValidVisitDate'],
     id: []
 };
 
@@ -97,13 +97,23 @@ export const types = {
         },
         instructions: 'Invalid Email. Please try again (ex. email2090@mail.ru)'
     },
+    isValidDateFormat: {
+        validate: value => {
+            return (regDate.test(value));
+        },
+        instructions: 'Invalid date format. Please try again (ex. 13/12/2014)'
+    },
     isValidDate: {
         validate: value => {
-            return (
-                regDate.test(value) ||
-        (value <= new Date() && value >= new Date('1870-09-27T16:19:06.879Z'))
-            );
+            return ((value <= new Date() && value >= new Date('1870-09-27T16:19:06.879Z')));
         },
-        instructions: 'Invalid date. Please try again (ex. 13/12/2014)'
+        instructions: 'Incorect date. Please try again.'
+    },
+    isValidVisitDate: {
+        validate: value => {
+            return ((value <= new Date((new Date()).getTime() + (10 * 86400000))
+            && value >= new Date('1870-09-27T16:19:06.879Z')));
+        },
+        instructions: 'Incorect date. Please try again.'
     }
 };
