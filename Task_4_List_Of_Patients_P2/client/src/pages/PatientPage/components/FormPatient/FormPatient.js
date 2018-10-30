@@ -55,11 +55,7 @@ const Form = ({
                             className='field__input' />
                     </div>
                 </label>
-                {
-                    patient.firstName.errors ?
-                        <ErrorMessage msgs={patient.firstName.errors} /> :
-                        null
-                }
+                <ErrorMessage msgs={patient.firstName.errors} />
             </div>
             <div className='form__field'>
                 <label
@@ -75,11 +71,7 @@ const Form = ({
                             className='field__input' />
                     </div>
                 </label>
-                {
-                    patient.lastName.errors ?
-                        <ErrorMessage msgs={patient.lastName.errors} /> :
-                        null
-                }
+                <ErrorMessage msgs={patient.lastName.errors} />
             </div>
             <div className='form__field'>
                 <label
@@ -97,11 +89,7 @@ const Form = ({
                             onChange={handleOnChangeDate} />
                     </div>
                 </label>
-                {
-                    patient.birthDate.errors ?
-                        <ErrorMessage msgs={patient.birthDate.errors} /> :
-                        null
-                }
+                <ErrorMessage msgs={patient.birthDate.errors} />
             </div>
             <div className='form__field'>
                 <label
@@ -136,11 +124,7 @@ const Form = ({
                             className='field__input' />
                     </div>
                 </label>
-                {
-                    patient.phoneNumber.errors ?
-                        <ErrorMessage msgs={patient.phoneNumber.errors} /> :
-                        null
-                }
+                <ErrorMessage msgs={patient.phoneNumber.errors} />
             </div>
             <div className='form__field'>
                 <label
@@ -156,11 +140,7 @@ const Form = ({
                             className='field__input' />
                     </div>
                 </label>
-                {
-                    patient.email.errors ?
-                        <ErrorMessage msgs={patient.email.errors} /> :
-                        null
-                }
+                <ErrorMessage msgs={patient.email.errors}/>
             </div>
         </form>
     );
