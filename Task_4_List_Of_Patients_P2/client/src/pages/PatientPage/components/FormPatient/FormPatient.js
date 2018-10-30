@@ -152,17 +152,7 @@ export const FormPatient = compose(
 )(Form);
 
 Form.propTypes = {
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-    birthDate: PropTypes.object,
-    genderList: PropTypes.array,
-    phoneNumber: PropTypes.string,
-    dateSelected: PropTypes.object,
-    email: PropTypes.string,
     handleChange: PropTypes.func,
     handleOnChangeDate: PropTypes.func,
-    patient: PropTypes.object,
-    dateValidated: PropTypes.object,
-    handleChangeRaw: PropTypes.func,
-    gender: PropTypes.object
+    patient: PropTypes.object
 };
