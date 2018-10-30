@@ -22,6 +22,11 @@ class VisitStore {
   @observable visit = emptyVisit;
 
   @action
+  cleanVisitFields() {
+      this.visit = emptyVisit;
+  }
+
+  @action
   async getSelectedPatients(letters) {
       let patients;
       const result = await client.query({
@@ -53,17 +58,13 @@ class VisitStore {
 
   @action
   async addVisit(visit) {
-      this.visit.patient = visit.patient.value;
-      this.visit.doctor = visit.doctor.value;
-      this.visit.description = visit.description.value;
-      this.visit.date = visit.date;
       return await client.mutate({
           mutation: addVisit,
           variables: {
-              patientId: this.visit.patient,
-              doctorId: this.visit.doctor,
-              descriptionId: this.visit.description,
-              date: this.visit.date
+              patientId: visit.patient.value,
+              doctorId: visit.doctor.value,
+              descriptionId: visit.description.value,
+              date: visit.date.value._d
           },
           fetchPolicy: 'no-cache'
       });
@@ -71,18 +72,14 @@ class VisitStore {
 
   @action
   async editVisit(visit) {
-      this.visit.patient.value = visit.patient.value;
-      this.visit.doctor.value = visit.doctor.value;
-      this.visit.description.value = visit.description.value;
-      this.visit.date = visit.date;
       await client.mutate({
           mutation: editVisit,
           variables: {
-              patientId: this.visit.patient.value,
-              doctorId: this.visit.doctor.value,
-              descriptionId: this.visit.description.value,
-              date: this.visit.date,
-              id: this.visit.id
+              patientId: visit.patient.value,
+              doctorId: visit.doctor.value,
+              descriptionId: visit.description.value,
+              date: visit.date.value._d,
+              id: visit.id.value
           },
           fetchPolicy: 'no-cache'
       });

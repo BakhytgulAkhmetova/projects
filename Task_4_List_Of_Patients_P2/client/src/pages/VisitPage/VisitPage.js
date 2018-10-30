@@ -41,7 +41,7 @@ export class VisitPage extends React.Component {
         await visitStore.getVisitById(event.currentTarget.id);
         modalStore.open({
             title: 'Edit visit',
-            content: <ContentEditModal/>
+            content: <ContentEditModal visitE={visitStore.visit} />
         });
     }
 

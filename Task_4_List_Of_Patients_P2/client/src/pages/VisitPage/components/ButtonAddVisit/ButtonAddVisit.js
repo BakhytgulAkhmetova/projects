@@ -10,6 +10,7 @@ import { ContentAddModal } from '../ContentAddModal';
 
 const mapActionsToProps = {
     onHandleOpenModalAdd: props => event => {
+        visitStore.cleanVisitFields();
         event.preventDefault();
         modalStore.open({
             title: 'Add visit',

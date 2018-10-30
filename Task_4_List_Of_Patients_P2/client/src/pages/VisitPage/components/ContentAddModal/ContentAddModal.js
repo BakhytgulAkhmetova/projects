@@ -8,7 +8,7 @@ import { FormVisit } from '../../components/FormVisit';
 import { visitStore, modalStore } from '../../../../store';
 import { Validator } from '../../../../utils';
 import { configVisit, types } from '../../../../store/data/data';
-import { mapCopy } from '../../../../utils';
+import { mapCopy, addProperty } from '../../../../utils';
 
 const validator = new Validator({ types, config: configVisit });
 
@@ -31,11 +31,11 @@ const validate = (field, selected) => {
 
 
 const mapActionsToProps  = {
-    onHandleAddVisit: props => event => {
+    onHandleAddVisit: ({ visit }) => event => {
         event.preventDefault();
         modalStore.close();
-        // visitStore.addVisit(visit);
-        visitStore.getVisitPage(props.currentPage);
+        visitStore.addVisit(visit);
+        //  visitStore.getVisitPage(currentPage);
     },
     onSelectPatient : ({ changeVisit, visit }) => (selected) => {
         const field = 'patient';
@@ -76,15 +76,6 @@ const mapActionsToProps  = {
         }
     }
 
-};
-
-const addProperty = (object, params) => {
-    const { key, value } = params;
-
-    return {
-        ...object,
-        [key]: value
-    };
 };
 
 export const ContentAddModal = compose(
