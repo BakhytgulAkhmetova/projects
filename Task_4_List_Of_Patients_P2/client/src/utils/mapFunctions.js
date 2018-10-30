@@ -6,3 +6,12 @@ export const mapCopy = (object, callback, params) => {
         return output;
     }, {});
 };
+
+export const addProperty = (object, params) => {
+    const { key, value } = params;
+
+    return {
+        ...object,
+        [key]: value
+    };
+};

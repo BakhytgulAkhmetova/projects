@@ -28,11 +28,19 @@ const customTypes = `
         value: String!
     }
 
-    type Visit {
+    type VisitPageItem {
         id: String!,
         patient: String!,
         doctor: String!,
         description: String!,
+        date: Date!
+    }
+
+    type Visit {
+        id: String!,
+        patientId: String!,
+        doctorId: String!,
+        descriptionId: String!,
         date: Date!
     }
 
@@ -45,7 +53,7 @@ const customTypes = `
     }
 
     type VisitPage {
-        items: [Visit],
+        items: [VisitPageItem],
         total: Int!
     }
 
