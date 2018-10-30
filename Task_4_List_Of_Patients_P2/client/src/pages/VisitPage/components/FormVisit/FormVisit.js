@@ -68,11 +68,15 @@ const mapActionsToProps  = {
         const field = 'date';
 
         validator.cleanListErrors();
-        validator.validate({ [field]: { value: input } });
-        const valueSelected = { errors: validator.listErrors[0].msgs,
-            value: moment(input, ['MM-DD-YYYY', 'DD-MM', 'DD-MM-YYYY']) };
+        const hasErrors = validator.validate({ [field]: { value: input } });
 
-        changeVisit({ ...visit, [field]:valueSelected });
+        if (hasErrors) {
+            changeVisit({ ...visit, [field]:{ value: visit.value, errors: validator.listErrors[0].msgs } });
+        } else {
+            const valueSelected = { value:  moment(input, 'DD/MM/YYYY') };
+
+            changeVisit({ ...visit, [field]:valueSelected });
+        }
     }
 
 };
@@ -131,10 +135,9 @@ const Form  = ({
                     <div className='field'>
                         <DatePicker
                             className='date'
-                            selected={visit.date.value || ''}
+                            selected={visit.date.value ? moment(visit.date.value, 'DD/MM/YYYY') : ''}
                             isClearable
-                            value={visit.date.value}
-                            // onChangeRaw={onChangeDateRow}
+                            onChangeRaw={onChangeDateRow}
                             onChange={onSelectDate}/>
                     </div>
                 </label>

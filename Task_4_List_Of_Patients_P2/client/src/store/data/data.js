@@ -5,6 +5,8 @@ import {
     regDate
 } from '../../constants';
 
+import moment from 'moment';
+
 export const emptyPatient = {
     firstName: {
         value: '',
@@ -62,7 +64,7 @@ export const menuItems = [
 export const configPatient = {
     firstName: ['isNotEmpty'],
     lastName: ['isNotEmpty'],
-    birthDate: ['isNotEmpty', 'isValidDate', 'isValidFormat'],
+    birthDate: ['isNotEmpty', 'isValidDateFormat', 'isValidDate'],
     gender: [],
     id: [],
     age: [],
@@ -74,7 +76,7 @@ export const configVisit = {
     patient: ['isNotEmpty'],
     doctor: ['isNotEmpty'],
     description: ['isNotEmpty'],
-    date: ['isNotEmpty', 'isValidVisitDate'],
+    date: ['isNotEmpty', 'isValidDateFormat', 'isValidVisitDate'],
     id: []
 };
 
@@ -99,7 +101,9 @@ export const types = {
     },
     isValidDateFormat: {
         validate: value => {
-            return (regDate.test(value));
+            const date = moment(value).format('DD/MM/YYYY').toString();
+
+            return (regDate.test(date));
         },
         instructions: 'Invalid date format. Please try again (ex. 13/12/2014)'
     },
@@ -110,10 +114,10 @@ export const types = {
         instructions: 'Incorect date. Please try again.'
     },
     isValidVisitDate: {
-        validate: value => {
+        validate:  value => {
             return ((value <= new Date((new Date()).getTime() + (10 * 86400000))
             && value >= new Date('1870-09-27T16:19:06.879Z')));
         },
-        instructions: 'Incorect date. Please try again.'
+        instructions: 'Incorect date. Choose date for closer 10 days Please try again.'
     }
 };
