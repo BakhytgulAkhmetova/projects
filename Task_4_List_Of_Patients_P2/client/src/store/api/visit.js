@@ -28,8 +28,8 @@ export const getVisitsPage = gql`
        `;
 
 export const getSelectedPatients = gql`
-         query($letters: String!) {
-          getSelectedPatients(letters: $letters) {
+         query($letters: String!, $skip: Int!, $limit: Int!) {
+          getSelectedPatients(letters: $letters, skip: $skip, limit: $limit) {
                value
                label
            }
@@ -37,8 +37,8 @@ export const getSelectedPatients = gql`
        `;
 
 export const getSelectedDoctors = gql`
-       query($letters: String!) {
-        getSelectedDoctors(letters: $letters) {
+       query($letters: String!, $skip: Int!, $limit: Int!) {
+        getSelectedDoctors(letters: $letters, skip: $skip, limit: $limit) {
           value
           label
          }
@@ -46,8 +46,8 @@ export const getSelectedDoctors = gql`
      `;
 
 export const getSelectedDescriptions = gql`
-     query($letters: String!) {
-      getSelectedDescriptions(letters: $letters) {
+     query($letters: String!, $skip: Int!, $limit: Int!) {
+      getSelectedDescriptions(letters: $letters, skip: $skip, limit: $limit) {
         value
         label
        }

@@ -31,7 +31,10 @@ class VisitStore {
       let patients;
       const result = await client.query({
           query: getSelectedPatients,
-          variables: { letters },
+          variables: {
+              letters,
+              skip: 0,
+              limit: viewitems },
           fetchPolicy: 'no-cache'
       });
 
@@ -46,7 +49,10 @@ class VisitStore {
       let doctors;
       const result = await client.query({
           query: getSelectedDoctors,
-          variables: { letters },
+          variables: {
+              letters,
+              skip: 0,
+              limit: viewitems },
           fetchPolicy: 'no-cache'
       });
 
@@ -112,7 +118,10 @@ class VisitStore {
       let descriptions;
       const result = await client.query({
           query: getSelectedDescriptions,
-          variables: { letters },
+          variables: {
+              letters,
+              skip: 0,
+              limit: viewitems },
           fetchPolicy: 'no-cache'
       });
 

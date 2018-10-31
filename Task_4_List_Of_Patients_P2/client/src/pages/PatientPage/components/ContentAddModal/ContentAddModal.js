@@ -4,7 +4,6 @@ import { withHandlers, compose } from 'recompose';
 
 import { Button } from '../../../../components/Button';
 import { FormPatient } from '../../components/FormPatient';
-// import { ButtonListAddModal } from '../ButtonListAddModal';
 import { patientStore, modalStore } from '../../../../store';
 
 const mapActionsToProps = {

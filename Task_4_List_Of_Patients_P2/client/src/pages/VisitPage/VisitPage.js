@@ -7,7 +7,6 @@ import { visitStore, modalStore } from '../../store';
 import { MenuNavigation } from '../../components/MenuNavigation';
 import { menuItems } from '../../store/data/data';
 import { ButtonAddVisit } from './components/ButtonAddVisit';
-// import { FormVisit } from './components/FormVisit';
 import { maxVisibleButtons, viewitems } from '../../constants';
 import { ContentEditModal } from './components/ContentEditModal';
 
@@ -33,7 +32,7 @@ const columns = [
 @observer
 export class VisitPage extends React.Component {
     handleOpenPageTable = page => {
-        visitStore.getVisitPage(visitStore.currentPage);
+        visitStore.getVisitPage(page);
     }
 
     handlerOpenModalEdit = async event => {

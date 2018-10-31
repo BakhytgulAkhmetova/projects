@@ -1,7 +1,7 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import { observer } from 'mobx-react';
-import { compose, withHandlers } from 'recompose';
+import { compose, withHandlers, withState } from 'recompose';
 import PropTypes from 'prop-types';
 import AsyncSelect from 'react-select/lib/Async';
 import _ from 'lodash';
@@ -33,6 +33,22 @@ const validate = (field, selected) => {
 
     return valueSelected;
 };
+
+const getPatientOptions = async (input, callback) => {
+    const res = await visitStore.getSelectedPatients(input);
+
+    callback(res);
+};
+const getDoctorOptions = async (input, callback) => {
+    callback(await visitStore.getSelectedDoctors(input));
+};
+const getDescriptionOptions = async (input, callback) => {
+    callback(await visitStore.getSelectedDescriptions(input));
+};
+
+// const loadOptionsPatient = _.debounce(getPatientOptions, loadOptionTimeOut);
+// const loadOptionsDoctor = _.debounce(getDoctorOptions, loadOptionTimeOut);
+// const loadOptionsDescription = _.debounce(getDescriptionOptions, loadOptionTimeOut);
 
 
 const mapActionsToProps  = {
@@ -73,13 +89,27 @@ const mapActionsToProps  = {
 
             changeVisit({ ...visit, [field]:valueSelected });
         }
-    }
+    },
+    onPatientChange: ({ loadOptions, changeOptions }) => () => {
+        const field = 'patients';
 
+        changeOptions({ ...loadOptions, [field]: _.debounce(getPatientOptions, loadOptionTimeOut) });
+    },
+    onDoctorChange: ({ loadOptions, changeOptions }) => () => {
+        const field = 'doctors';
+
+        changeOptions({ ...loadOptions, [field]: _.debounce(getDoctorOptions, loadOptionTimeOut) });
+    },
+    onDescriptionChange: ({ loadOptions, changeOptions }) => () => {
+        const field = 'descriptions';
+
+        changeOptions({ ...loadOptions, [field]: _.debounce(getDescriptionOptions, loadOptionTimeOut) });
+    }
 };
 
-const getPatientOptions = _.debounce(visitStore.getSelectedPatients, loadOptionTimeOut);
-const getDoctorOptions = _.debounce(visitStore.getSelectedDoctors, loadOptionTimeOut);
-const getDescriptionOptions = _.debounce(visitStore.getSelectedDescriptions, loadOptionTimeOut);
+// const getPatientOptions = _.debounce(visitStore.getSelectedPatients, loadOptionTimeOut);
+// const getDoctorOptions = _.debounce(visitStore.getSelectedDoctors, loadOptionTimeOut);
+// const getDescriptionOptions = _.debounce(visitStore.getSelectedDescriptions, loadOptionTimeOut);
 
 const Form  = ({
     onSelectPatient,
@@ -88,6 +118,10 @@ const Form  = ({
     onSelectDate,
     onChangeDateRow,
     updateIsValidForm,
+    loadOptions,
+    onPatientChange,
+    onDoctorChange,
+    onDescriptionChange,
     visit }) => {
     validator.cleanListErrors();
     const isValid = !!validator.validate(visit);
@@ -107,7 +141,9 @@ const Form  = ({
                             cacheOptions
                             value ={visit.patient}
                             onChange={onSelectPatient}
-                            loadOptions={getPatientOptions}
+                            loadOptions={loadOptions.patients}
+                            onInputChange={onPatientChange}
+                            defaultOptions
                             className='field--visit__select'/>
                     </div>
                 </label>
@@ -123,7 +159,9 @@ const Form  = ({
                             cacheOptions
                             value ={visit.doctor}
                             onChange={onSelectDoctor}
-                            loadOptions={(input) => getDoctorOptions(input)}
+                            loadOptions={loadOptions.doctors}
+                            onInputChange={onDoctorChange}
+                            defaultOptions
                             className='field--visit__select'/>
                     </div>
                 </label>
@@ -154,7 +192,9 @@ const Form  = ({
                             cacheOptions
                             value ={visit.description}
                             onChange={onSelectDescripion}
-                            loadOptions={(input) => getDescriptionOptions(input)}
+                            loadOptions={loadOptions.descriptions}
+                            onInputChange={onDescriptionChange}
+                            defaultOptions
                             className='field--visit__select'/>
                     </div>
                 </label>
@@ -165,6 +205,10 @@ const Form  = ({
 };
 
 Form.propTypes = {
+    loadOptions: PropTypes.object,
+    onPatientChange: PropTypes.func,
+    onDoctorChange: PropTypes.func,
+    onDescriptionChange: PropTypes.func,
     onSelectPatient: PropTypes.func,
     onSelectDoctor: PropTypes.func,
     onSelectDescripion: PropTypes.func,
@@ -175,5 +219,10 @@ Form.propTypes = {
 };
 
 export const FormVisit = compose(
+    withState('loadOptions', 'changeOptions', {
+        patients:  _.debounce(getPatientOptions, loadOptionTimeOut),
+        doctors: _.debounce(getDoctorOptions, loadOptionTimeOut),
+        descriptions: _.debounce(getDescriptionOptions, loadOptionTimeOut)
+    }),
     withHandlers(mapActionsToProps),
     observer)(Form);

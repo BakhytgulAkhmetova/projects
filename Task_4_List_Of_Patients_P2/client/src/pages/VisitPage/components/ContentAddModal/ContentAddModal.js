@@ -12,7 +12,7 @@ const mapActionsToProps  = {
         event.preventDefault();
         modalStore.close();
         visitStore.addVisit(visit);
-        //  visitStore.getVisitPage(currentPage);
+        visitStore.getVisitPage(visitStore.currentPage);
     }
 };
 

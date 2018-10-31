@@ -44,8 +44,9 @@ async function getVisitsPage({ skip, limit }) {
 }
 
 /* asynchronous function to get selected patients from storage*/
-async function getSelectedPatients({ letters }) {
-    let patients = await Patient.find({ firstName: { $regex: `^${  letters }`, $options: 'i' } });
+async function getSelectedPatients({ letters, skip, limit }) {
+    let patients = letters ? await Patient.find({ firstName: { $regex: `^${  letters }`, $options: 'i' } }) :
+        await Patient.find().skip(skip).limit(limit);
 
     patients = patients.map((p) => {
         return {
@@ -58,8 +59,9 @@ async function getSelectedPatients({ letters }) {
 }
 
 /* asynchronous function to get selected doctors from storage*/
-async function getSelectedDoctors({ letters }) {
-    let doctors = await Doctor.find({ firstName: { $regex: `^${  letters }`, $options: 'i' } });
+async function getSelectedDoctors({ letters, skip, limit }) {
+    let doctors = letters ? await Doctor.find({ firstName: { $regex: `^${  letters }`, $options: 'i' } }) :
+        await Doctor.find().skip(skip).limit(limit);
 
     doctors = doctors.map((d) => {
         return {
@@ -72,8 +74,9 @@ async function getSelectedDoctors({ letters }) {
 }
 
 /* asynchronous function to get selected descriptions from storage*/
-async function getSelectedDescriptions({ letters }) {
-    let descriptions = await Description.find({ value: { $regex: `^${  letters }`, $options: 'i' } });
+async function getSelectedDescriptions({ letters, skip, limit }) {
+    let descriptions = letters ? await Description.find({ value: { $regex: `^${  letters }`, $options: 'i' } }) :
+        await Description.find().skip(skip).limit(limit);
 
     descriptions = descriptions.map((d) => {
         return {

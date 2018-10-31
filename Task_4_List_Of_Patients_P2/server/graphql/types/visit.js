@@ -1,13 +1,19 @@
 const queryTypeVisit = `
     type Query {
         getSelectedPatients (
-            letters: String!
+            letters: String!,
+            skip: Int!,
+            limit: Int!
         ): [Selected]
         getSelectedDoctors(
-            letters: String!
+            letters: String!,
+            skip: Int!,
+            limit: Int!
         ): [Selected]
         getSelectedDescriptions(
-            letters: String!
+            letters: String!,
+            skip: Int!,
+            limit: Int!
         ): [Selected]
         getVisitById(
             id: String!

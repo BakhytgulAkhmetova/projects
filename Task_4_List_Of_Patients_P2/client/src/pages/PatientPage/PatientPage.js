@@ -47,7 +47,6 @@ export class PatientPage extends React.Component {
     }
 
     handlerOpenModalEdit = event => {
-        event.preventDefault();
         patientStore.getPatientById(event.currentTarget.id);
         modalStore.open({
             title: 'Edit patient',
