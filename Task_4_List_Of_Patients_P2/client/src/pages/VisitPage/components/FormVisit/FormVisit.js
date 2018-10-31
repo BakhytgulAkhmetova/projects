@@ -107,10 +107,6 @@ const mapActionsToProps  = {
     }
 };
 
-// const getPatientOptions = _.debounce(visitStore.getSelectedPatients, loadOptionTimeOut);
-// const getDoctorOptions = _.debounce(visitStore.getSelectedDoctors, loadOptionTimeOut);
-// const getDescriptionOptions = _.debounce(visitStore.getSelectedDescriptions, loadOptionTimeOut);
-
 const Form  = ({
     onSelectPatient,
     onSelectDoctor,
