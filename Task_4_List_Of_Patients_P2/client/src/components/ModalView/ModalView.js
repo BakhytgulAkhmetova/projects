@@ -8,8 +8,7 @@ import './ModalView.scss';
 
 @observer
 export class ModalView extends React.Component {
-    handleCloseModal = (e) => {
-        e.preventDefault();
+    handleCloseModal = () => {
         modalStore.close();
     }
 

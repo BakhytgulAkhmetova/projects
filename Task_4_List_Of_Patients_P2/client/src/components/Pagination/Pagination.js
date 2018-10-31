@@ -14,8 +14,7 @@ export class Pagination extends React.Component {
         onChange: PropTypes.func,
         maxVisibleButtons: PropTypes.number,
         totalItemsCount: PropTypes.number,
-        pageSize: PropTypes.number,
-        currentPage: PropTypes.number
+        pageSize: PropTypes.number
     }
 
     componentDidMount() {
