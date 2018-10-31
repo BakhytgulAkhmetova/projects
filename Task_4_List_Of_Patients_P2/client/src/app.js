@@ -15,13 +15,13 @@ export const App = () => {
                         exact path='/'
                         component={PatientPage} />
                     <Route
-                        exact path='/patients'
+                        path='/patients'
                         component={PatientPage} />
                     <Route
-                        exact path='/visits'
+                        path='/visits'
                         component={VisitPage} />
                     <Route
-                        exact path='*'
+                        path='*'
                         component={NotFound} />
 
                 </Switch>

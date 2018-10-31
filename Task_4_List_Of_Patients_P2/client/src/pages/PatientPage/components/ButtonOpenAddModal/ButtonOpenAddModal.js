@@ -8,11 +8,12 @@ import { patientStore, modalStore } from '../../../../store';
 
 const mapActionsToProps = {
     onHandleOpenModalAdd: props => event => {
-        event.preventDefault();
         patientStore.cleanPatientFields();
         modalStore.open({
             title: 'Add patient',
-            content: <ContentAddModal patient={patientStore.patient}/>
+            content: <ContentAddModal
+                currentPage={props.currentPage}
+                patient={patientStore.patient}/>
             // buttons: <ButtonListAddModal
             //     currentPage={props.currentPage}
             //     maxViewPatients={4}/>

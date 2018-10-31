@@ -8,6 +8,8 @@ class PaginationStore {
 
   min = 1;
 
+  pageNumber = 1;
+
   @observable
   pagesCount = 0;
 
@@ -16,6 +18,11 @@ class PaginationStore {
 
   @observable
   interval = 0;
+
+  @action
+  setPageNumber(number) {
+      this.pageNumber = number;
+  }
 
   @action
   setCurrentPage(current) {
@@ -61,14 +68,19 @@ class PaginationStore {
   }
 
   @action
-  setBaseValues(maxVisibleButtons, totalItemsCount, pageSize) {
+  setBaseValues(maxVisibleButtons, totalItemsCount, pageSize, id) {
       this.maxVisibleButtons = maxVisibleButtons;
       this.interval = (maxVisibleButtons - 1) / 2;
       const pagesCount = setButtonsCount(totalItemsCount, pageSize);
 
       if (this.pagesCount !== pagesCount) {
-          this.pagesCount = pagesCount;
-          this.setCurrentPage(this.currentPage);
+          if (this.pageNumber !== id) {
+              this.currentPage = 1;
+              this.pageNumber = id;
+          } else {
+              this.pagesCount = pagesCount;
+              this.setCurrentPage(this.currentPage);
+          }
       }
   }
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
+import PropTypes from 'prop-types';
 
 import { ButtonAddPatient } from './components/ButtonOpenAddModal';
 import { Grid } from '../../components/Grid';
@@ -41,6 +42,10 @@ const columns = [
 
 @observer
 export class PatientPage extends React.Component {
+    static propTypes = {
+        currentPage: PropTypes.number
+    }
+
     handleOpenPageTable = page => {
         patientStore.getPatientsPage(page);
     }
@@ -49,7 +54,9 @@ export class PatientPage extends React.Component {
         patientStore.getPatientById(event.currentTarget.id);
         modalStore.open({
             title: 'Edit patient',
-            content: <ContentEditModal patient={patientStore.patient}/>
+            content: <ContentEditModal
+                currentPage={patientStore.currentPage}
+                patient={patientStore.patient}/>
         });
     }
 
@@ -69,6 +76,7 @@ export class PatientPage extends React.Component {
                             handlerOpenModalEdit={this.handlerOpenModalEdit}
                             listItems={patientStore.patientList}/>
                         <Pagination
+                            id={1}
                             maxVisibleButtons={maxVisibleButtons}
                             totalItemsCount={patientStore.count}
                             pageSize={viewitems}

@@ -14,21 +14,26 @@ export class Pagination extends React.Component {
         onChange: PropTypes.func,
         maxVisibleButtons: PropTypes.number,
         totalItemsCount: PropTypes.number,
-        pageSize: PropTypes.number
+        pageSize: PropTypes.number,
+        id: PropTypes.number
     }
 
     componentDidMount() {
         this.props.onChange(paginationStore.currentPage);
+        const { maxVisibleButtons, totalItemsCount, pageSize, id } = this.props;
+
+        paginationStore.setPageNumber(id);
+
+        paginationStore.setBaseValues(maxVisibleButtons, totalItemsCount, pageSize, id);
     }
 
     componentDidUpdate() {
-        const { maxVisibleButtons, totalItemsCount, pageSize } = this.props;
+        const { maxVisibleButtons, totalItemsCount, pageSize, id } = this.props;
 
-        paginationStore.setBaseValues(maxVisibleButtons, totalItemsCount, pageSize);
+        paginationStore.setBaseValues(maxVisibleButtons, totalItemsCount, pageSize, id);
     }
 
     handleButtonClick = event => {
-        event.preventDefault();
         paginationStore.setCurrentPage(+event.target.id);
         this.props.onChange(paginationStore.currentPage);
     }

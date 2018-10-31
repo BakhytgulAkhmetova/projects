@@ -8,10 +8,9 @@ import { visitStore, modalStore } from '../../../../store';
 import { mapCopy, addProperty } from '../../../../utils';
 
 const mapActionsToProps  = {
-    onHandleAddVisit: ({ visit }) => event => {
-        event.preventDefault();
+    onHandleAddVisit: ({ visit }) => async event => {
         modalStore.close();
-        visitStore.addVisit(visit);
+        await visitStore.addVisit(visit);
         visitStore.getVisitPage(visitStore.currentPage);
     }
 };

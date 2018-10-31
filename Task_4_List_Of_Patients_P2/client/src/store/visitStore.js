@@ -132,6 +132,7 @@ class VisitStore {
   }
   @action
   async getVisitPage(pageNumber) {
+      debugger;
       const skip = (pageNumber - 1) * viewitems;
       const result = await client.query({
           query: getVisitsPage,

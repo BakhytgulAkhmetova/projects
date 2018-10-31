@@ -8,10 +8,10 @@ import { modalStore, visitStore } from '../../../../store';
 import { mapCopy, addProperty } from '../../../../utils';
 
 const mapActionsToProps  = {
-    onHandleEditVisit: ({ visit }) => event => {
-        event.preventDefault();
+    onHandleEditVisit: ({ visit }) => async event => {
         modalStore.close();
-        visitStore.editVisit(visit);
+        await visitStore.editVisit(visit);
+        visitStore.getVisitPage(visitStore.currentPage);
     }
 };
 
@@ -43,6 +43,3 @@ export const ContentEditModal = compose(
         </div>
     );
 });
-// <ButtonListAddModal
-//     currentPage={props.currentPage}
-//     maxViewPatients={4}/>

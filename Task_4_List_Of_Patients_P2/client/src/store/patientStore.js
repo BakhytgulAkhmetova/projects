@@ -128,6 +128,7 @@ class PatientStore {
 
     @action
     async getPatientsPage(pageNumber) {
+        debugger;
         const skip = (pageNumber - 1) * viewitems;
         const result = await client.query({
             query: getPatientsPage,

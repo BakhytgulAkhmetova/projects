@@ -4,15 +4,14 @@ import { withHandlers, compose } from 'recompose';
 
 import { Button } from '../../../../components/Button';
 import { FormPatient } from '../../components/FormPatient';
-// import { ButtonListAddModal } from '../ButtonListAddModal';
 import { patientStore, modalStore } from '../../../../store';
 
 const mapActionsToProps = {
-    onHandleEditPatient: props => event => {
+    onHandleEditPatient: props => async event => {
         event.preventDefault();
         modalStore.close();
-        patientStore.editPatient();
-        // patientStore.getPatientsPage();
+        await patientStore.editPatient();
+        patientStore.getPatientsPage(props.currentPage);
         patientStore.cleanPatientFields();
     }
 };
@@ -24,16 +23,10 @@ export const ContentEditModal = compose(
         <div>
             <FormPatient patient={patient}/>
             <Button
-                key={1}
                 title='Edit'
                 isDisable={patientStore.isInValidPatient}
                 onHandleOnClick={onHandleEditPatient}
                 className='content__button' />
-
-
         </div>
     );
 });
-// <ButtonListAddModal
-//     currentPage={props.currentPage}
-//     maxViewPatients={4}/>

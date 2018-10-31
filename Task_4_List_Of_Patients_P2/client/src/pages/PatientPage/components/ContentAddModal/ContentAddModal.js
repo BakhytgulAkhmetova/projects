@@ -7,11 +7,12 @@ import { FormPatient } from '../../components/FormPatient';
 import { patientStore, modalStore } from '../../../../store';
 
 const mapActionsToProps = {
-    onHandleAddPatient: props => event => {
+    onHandleAddPatient:  props => async event => {
         event.preventDefault();
         modalStore.close();
-        patientStore.addPatient();
+        await patientStore.addPatient();
         patientStore.getPatientsPage(props.currentPage);
+        patientStore.cleanPatientFields();
     }
 };
 
@@ -22,7 +23,6 @@ export const ContentAddModal = compose(
         <div>
             <FormPatient patient={patient}/>
             <Button
-                key={1}
                 title='Add'
                 isDisable={patientStore.isInValidPatient}
                 onHandleOnClick={onHandleAddPatient}

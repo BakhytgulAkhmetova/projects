@@ -60,6 +60,7 @@ export class VisitPage extends React.Component {
                             handlerOpenModalEdit={this.handlerOpenModalEdit}
                             listItems={visitStore.visitList} />
                         <Pagination
+                            id={2}
                             maxVisibleButtons={maxVisibleButtons}
                             totalItemsCount={visitStore.count}
                             pageSize={viewitems}
