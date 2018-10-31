@@ -3,8 +3,6 @@ import { observer } from 'mobx-react';
 import { withHandlers, compose } from 'recompose';
 
 import { Button } from '../../../../components/Button';
-// import { FormPatient } from '../../components/FormPatient';
-// import { ButtonListAddModal } from '../ButtonListAddModal';
 import { ContentAddModal } from '../ContentAddModal';
 import { patientStore, modalStore } from '../../../../store';
 

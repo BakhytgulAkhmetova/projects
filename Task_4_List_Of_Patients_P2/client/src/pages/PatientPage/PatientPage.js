@@ -8,7 +8,6 @@ import { patientStore, modalStore } from '../../store';
 import { MenuNavigation } from '../../components/MenuNavigation';
 import { menuItems } from '../../store/data/data';
 import { maxVisibleButtons, viewitems } from '../../constants';
-// import { FormPatient } from './components/FormPatient';
 import { ContentEditModal } from './components/ContentEditModal';
 
 import './PatientPage.scss';
