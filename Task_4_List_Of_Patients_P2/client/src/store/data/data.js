@@ -8,38 +8,14 @@ import {
 import moment from 'moment';
 
 export const emptyPatient = {
-    firstName: {
-        value: '',
-        errors: []
-    },
-    id: {
-        value: -1,
-        errors: []
-    },
-    age: {
-        value: 0,
-        errors: []
-    },
-    lastName: {
-        value: '',
-        errors: []
-    },
-    birthDate: {
-        value: new Date(),
-        errors: []
-    },
-    gender: {
-        value: genders.male,
-        errors: []
-    },
-    phoneNumber: {
-        value: '',
-        errors: []
-    },
-    email: {
-        value: '',
-        errors: []
-    }
+    firstName: { value: '' },
+    id: { value: -1 },
+    age: { value: 0 },
+    lastName: { value: '' },
+    birthDate: { value: moment(new Date()) },
+    gender: { value: genders.male },
+    phoneNumber: { value: '' },
+    email: { value: '' }
 };
 
 export const emptyVisit = {

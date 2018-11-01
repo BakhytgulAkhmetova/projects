@@ -36,7 +36,6 @@ export class VisitPage extends React.Component {
     }
 
     handlerOpenModalEdit = async event => {
-        event.preventDefault();
         await visitStore.getVisitById(event.currentTarget.id);
         modalStore.open({
             title: 'Edit visit',

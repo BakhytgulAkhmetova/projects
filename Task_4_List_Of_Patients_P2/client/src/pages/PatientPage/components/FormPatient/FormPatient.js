@@ -7,87 +7,74 @@ import moment from 'moment';
 
 import { ErrorMessage } from '../../../../components/ErrorMessage';
 import { genders } from '../../../../constants';
-// import { patientStore } from '../../../../store';
 import { Validator } from '../../../../utils';
-import { configVisit, types } from '../../../../store/data/data';
+import { configPatient, types } from '../../../../store/data/data';
 
 import './FormPatient.scss';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const validator = new Validator({ types, config: configVisit });
+const validator = new Validator({ types, config: configPatient });
 
 const validate = (field, input) => {
     validator.cleanListErrors();
-    const value = field === 'date' ? selected || '' : selected.label || '';
 
-    validator.validate({ [field]: { value } });
+    validator.validate({ [field]: { value: input } });
 
-    const valueSelected = field === 'date' ? {
-        ...selected, errors: validator.listErrors[0].msgs,
-        value: selected || '' } :
-        {
-            ...selected, errors: validator.listErrors[0].msgs,
-            value: selected.value || '',
-            label: selected.label || '' };
-
-    return valueSelected;
+    return { errors: validator.listErrors[0].msgs, value: input || '' };
 };
 
 const genderList = [genders.male, genders.female];
 
 const mapActionsToProps  = {
-    onFirstNameChange : ({ changePatient, patient }) => (input) => {
+    onFirstNameChange : ({ changePatient, patient }) => event => {
         const field = 'firstName';
-        const firstName = validate(field, input);
+        const firstName = validate(field, event.target.value);
 
         changePatient({ ...patient, [field]:firstName });
     },
-    onSelectDoctor : ({ changeVisit, visit }) => (selected) => {
-        const field = 'doctor';
+    onLastNameChange : ({ changePatient, patient }) => event => {
+        const field = 'lastName';
+        const lastName = validate(field, event.target.value);
+
+        changePatient({ ...patient, [field]:lastName });
+    },
+    onGenderChange : ({ changePatient, patient }) => event => {
+        const field = 'gender';
+        const gender = validate(field, event.target.value);
+
+        changePatient({ ...patient, [field]:gender });
+    },
+    onPhoneChange : ({ changePatient, patient }) => event => {
+        const field = 'phoneNumber';
+        const phone = validate(field, event.target.value);
+
+        changePatient({ ...patient, [field]:phone });
+    },
+    onEmailChange : ({ changePatient, patient }) => event => {
+        const field = 'email';
+        const email = validate(field, event.target.value);
+
+        changePatient({ ...patient, [field]:email });
+    },
+    onSelectDate: ({ changePatient, patient }) => (selected) => {
+        const field = 'birthDate';
         const valueSelected = validate(field, selected);
 
-        changeVisit({ ...visit, [field]:valueSelected });
+        changePatient({ ...patient, [field]:valueSelected });
     },
-    onSelectDescripion : ({ changeVisit, visit }) => (selected) =>  {
-        const field = 'description';
-        const valueSelected = validate(field, selected);
-
-        changeVisit({ ...visit, [field]:valueSelected });
-    },
-    onSelectDate: ({ changeVisit, visit }) => (selected) => {
-        const field = 'date';
-        const valueSelected = validate(field, selected);
-
-        changeVisit({ ...visit, [field]:valueSelected });
-    },
-    onChangeDateRow:({ changeVisit, visit }) => (input) => {
-        const field = 'date';
+    onChangeDateRow:({ changePatient, patient }) => (input) => {
+        const field = 'birthDate';
 
         validator.cleanListErrors();
         const hasErrors = validator.validate({ [field]: { value: input } });
 
         if (hasErrors) {
-            changeVisit({ ...visit, [field]:{ value: visit.value, errors: validator.listErrors[0].msgs } });
+            changePatient({ ...patient, [field]:{ value: patient.value, errors: validator.listErrors[0].msgs } });
         } else {
             const valueSelected = { value:  moment(input, 'DD/MM/YYYY') };
 
-            changeVisit({ ...visit, [field]:valueSelected });
+            changePatient({ ...patient, [field]:valueSelected });
         }
-    },
-    onPatientChange: ({ loadOptions, changeOptions }) => () => {
-        const field = 'patients';
-
-        changeOptions({ ...loadOptions, [field]: _.debounce(getPatientOptions, loadOptionTimeOut) });
-    },
-    onDoctorChange: ({ loadOptions, changeOptions }) => () => {
-        const field = 'doctors';
-
-        changeOptions({ ...loadOptions, [field]: _.debounce(getDoctorOptions, loadOptionTimeOut) });
-    },
-    onDescriptionChange: ({ loadOptions, changeOptions }) => () => {
-        const field = 'descriptions';
-
-        changeOptions({ ...loadOptions, [field]: _.debounce(getDescriptionOptions, loadOptionTimeOut) });
     }
 };
 
@@ -105,13 +92,6 @@ const Form = ({
     const isValid = !!validator.validate(patient);
 
     updateIsValidForm(isValid);
-    const dateSelected = moment(patient.birthDate.value || new Date(), 'DD-MM-YYYY');
-
-    // const isValid = (date) => {
-    //     return date <= new Date() && date >= new Date('1870-09-27T16:19:06.879Z');
-    // };
-    // const dateValidated = patient.birthDate.value ?
-    //     moment(patient.birthDate.value, 'DD/MM/YYYY') : '';
 
     return (
         <form className='form'>
@@ -155,11 +135,9 @@ const Form = ({
                         <DatePicker
                             id='birthDate'
                             className='date'
-                            selected={dateSelected}
+                            selected={patient.birthDate.value}
                             onChangeRaw={onChangeDateRow}
-                            filterDate={isValid}
                             isClearable
-                            value={dateValidated}
                             onChange={onSelectDate} />
                     </div>
                 </label>

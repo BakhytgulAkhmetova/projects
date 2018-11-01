@@ -1,4 +1,5 @@
 import { observable, action, runInAction } from 'mobx';
+import moment from 'moment';
 
 import { emptyPatient, configPatient, types } from './data/data';
 import { addPatient, getPatientById, getPatientsPage, editPatient } from './api/patient';
@@ -42,13 +43,11 @@ class PatientStore {
 
             this.patient.firstName.value = patientFound.firstName;
             this.patient.lastName.value = patientFound.lastName;
-            this.patient.birthDate.value = new Date(patientFound.birthDate);
+            this.patient.birthDate.value = moment(patientFound.birthDate);
             this.patient.phoneNumber.value = patientFound.phoneNumber;
             this.patient.email.value = patientFound.email;
             this.patient.gender.value = patientFound.gender;
             this.patient.id.value = id;
-
-            this.isInValidPatient = false;
         });
     }
 

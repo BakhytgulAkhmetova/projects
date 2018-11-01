@@ -94,21 +94,6 @@ const mapActionsToProps  = {
             changeVisit({ ...visit, [field]:valueSelected });
         }
     }
-    // onPatientChange: ({ loadOptions, changeOptions }) => () => {
-    //     const field = 'patients';
-
-    //     changeOptions({ ...loadOptions, [field]: _.debounce(getPatientOptions, loadOptionTimeOut) });
-    // },
-    // onDoctorChange: ({ loadOptions, changeOptions }) => () => {
-    //     const field = 'doctors';
-
-    //     changeOptions({ ...loadOptions, [field]: _.debounce(getDoctorOptions, loadOptionTimeOut) });
-    // },
-    // onDescriptionChange: ({ loadOptions, changeOptions }) => () => {
-    //     const field = 'descriptions';
-
-    //     changeOptions({ ...loadOptions, [field]: _.debounce(getDescriptionOptions, loadOptionTimeOut) });
-    // }
 };
 
 const Form  = ({

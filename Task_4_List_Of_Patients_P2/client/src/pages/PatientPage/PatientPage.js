@@ -50,13 +50,13 @@ export class PatientPage extends React.Component {
         patientStore.getPatientsPage(page);
     }
 
-    handlerOpenModalEdit = event => {
-        patientStore.getPatientById(event.currentTarget.id);
+    handlerOpenModalEdit = async event => {
+        await patientStore.getPatientById(event.currentTarget.id);
         modalStore.open({
             title: 'Edit patient',
             content: <ContentEditModal
                 currentPage={patientStore.currentPage}
-                patient={patientStore.patient}/>
+                patientModal={patientStore.patient}/>
         });
     }
 

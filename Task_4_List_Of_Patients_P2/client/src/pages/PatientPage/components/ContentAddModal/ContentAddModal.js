@@ -8,12 +8,14 @@ import { patientStore, modalStore } from '../../../../store';
 import { mapCopy, addProperty } from '../../../../utils';
 
 const mapActionsToProps = {
-    onHandleAddPatient:  props => async event => {
-        event.preventDefault();
-        modalStore.close();
-        await patientStore.addPatient();
-        patientStore.getPatientsPage(props.currentPage);
-        patientStore.cleanPatientFields();
+    onHandleAddPatient:  ({ patient }) => {
+        return async (event) => {
+            event.preventDefault();
+            modalStore.close();
+            await patientStore.addPatient(patient);
+            patientStore.getPatientsPage(patientStore.currentPage);
+            patientStore.cleanPatientFields();
+        };
     }
 };
 

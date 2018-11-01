@@ -13,10 +13,7 @@ const mapActionsToProps = {
             title: 'Add patient',
             content: <ContentAddModal
                 currentPage={props.currentPage}
-                patient={patientStore.patient}/>
-            // buttons: <ButtonListAddModal
-            //     currentPage={props.currentPage}
-            //     maxViewPatients={4}/>
+                patientModal={patientStore.patient}/>
         });
     }
 };
