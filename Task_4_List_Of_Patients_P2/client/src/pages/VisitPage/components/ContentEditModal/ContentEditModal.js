@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { withHandlers, compose, withState } from 'recompose';
+import { withHandlers, compose, withState, lifecycle } from 'recompose';
 
 import { Button } from '../../../../components/Button';
 import { FormVisit } from '../FormVisit';
@@ -20,6 +20,15 @@ export const ContentEditModal = compose(
         const visit = visitE;
 
         return mapCopy(visit, addProperty, { key:'errors', value: [] });
+    }),
+    lifecycle({
+        componentWillUpdate(nextProps) {
+            if (this.props.visit.id.value !== nextProps.visitE.id.value) {
+                const visit = mapCopy(nextProps.visitE, addProperty, { key:'errors', value: [] });
+
+                this.props.changeVisit(visit);
+            }
+        }
     }),
     withState('isValidForm', 'updateIsValidForm', false),
     withHandlers(mapActionsToProps),

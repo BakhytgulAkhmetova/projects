@@ -39,7 +39,9 @@ export class VisitPage extends React.Component {
         await visitStore.getVisitById(event.currentTarget.id);
         modalStore.open({
             title: 'Edit visit',
-            content: <ContentEditModal visitE={visitStore.visit} />
+            content: <ContentEditModal
+                currentPage={visitStore.currentPage}
+                visitE={visitStore.visit} />
         });
     }
 
@@ -55,6 +57,7 @@ export class VisitPage extends React.Component {
                         <ButtonAddVisit
                             currentPage={visitStore.currentPage}/>
                         <Grid
+                            path={'visits'}
                             columns={columns}
                             handlerOpenModalEdit={this.handlerOpenModalEdit}
                             listItems={visitStore.visitList} />

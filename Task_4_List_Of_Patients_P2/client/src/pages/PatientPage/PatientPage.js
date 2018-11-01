@@ -51,6 +51,7 @@ export class PatientPage extends React.Component {
     }
 
     handlerOpenModalEdit = async event => {
+        debugger;
         await patientStore.getPatientById(event.currentTarget.id);
         modalStore.open({
             title: 'Edit patient',
@@ -72,6 +73,7 @@ export class PatientPage extends React.Component {
                         <ButtonAddPatient
                             currentPage={patientStore.currentPage}/>
                         <Grid
+                            path={'patients'}
                             columns={columns}
                             handlerOpenModalEdit={this.handlerOpenModalEdit}
                             listItems={patientStore.patientList}/>

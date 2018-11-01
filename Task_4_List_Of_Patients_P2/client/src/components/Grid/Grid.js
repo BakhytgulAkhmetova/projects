@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import './Grid.scss';
 
-export const Grid = ({ columns, listItems, handlerOpenModalEdit }) => (
+export const Grid = ({ columns, listItems, handlerOpenModalEdit, path }) => (
     <table cellSpacing='0' className='table-info'>
         <thead>
             <tr className='table-info__row thead'>
@@ -22,7 +22,7 @@ export const Grid = ({ columns, listItems, handlerOpenModalEdit }) => (
                 <td className='table-info__row__cell'>
                     <Link
                         onClick={handlerOpenModalEdit}
-                        id={item.id} to='/'
+                        id={item.id} to={`/${path}`}
                         className='table-info__row__cell__link'>
                     Edit
                     </Link>
@@ -41,5 +41,6 @@ export const Grid = ({ columns, listItems, handlerOpenModalEdit }) => (
 Grid.propTypes = {
     columns: PropTypes.array,
     listItems: PropTypes.array,
-    handlerOpenModalEdit: PropTypes.func
+    handlerOpenModalEdit: PropTypes.func,
+    path: PropTypes.string
 };
