@@ -76,7 +76,6 @@ export class PatientPage extends React.Component {
                             handlerOpenModalEdit={this.handlerOpenModalEdit}
                             listItems={patientStore.patientList}/>
                         <Pagination
-                            id={1}
                             maxVisibleButtons={maxVisibleButtons}
                             totalItemsCount={patientStore.count}
                             pageSize={viewitems}

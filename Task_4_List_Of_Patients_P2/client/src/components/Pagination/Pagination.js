@@ -19,10 +19,9 @@ export class Pagination extends React.Component {
     }
 
     componentDidMount() {
+        paginationStore.setCurrentPage(1);
         this.props.onChange(paginationStore.currentPage);
         const { maxVisibleButtons, totalItemsCount, pageSize, id } = this.props;
-
-        paginationStore.setPageNumber(id);
 
         paginationStore.setBaseValues(maxVisibleButtons, totalItemsCount, pageSize, id);
     }

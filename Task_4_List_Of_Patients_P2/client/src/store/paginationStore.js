@@ -68,19 +68,14 @@ class PaginationStore {
   }
 
   @action
-  setBaseValues(maxVisibleButtons, totalItemsCount, pageSize, id) {
+  setBaseValues(maxVisibleButtons, totalItemsCount, pageSize) {
       this.maxVisibleButtons = maxVisibleButtons;
       this.interval = (maxVisibleButtons - 1) / 2;
       const pagesCount = setButtonsCount(totalItemsCount, pageSize);
 
       if (this.pagesCount !== pagesCount) {
-          if (this.pageNumber !== id) {
-              this.currentPage = 1;
-              this.pageNumber = id;
-          } else {
-              this.pagesCount = pagesCount;
-              this.setCurrentPage(this.currentPage);
-          }
+          this.pagesCount = pagesCount;
+          this.setCurrentPage(this.currentPage);
       }
   }
 }
