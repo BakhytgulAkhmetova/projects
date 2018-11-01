@@ -22,33 +22,11 @@ class PatientStore {
 
     @observable currentPage = 1;
 
-    @observable errorsPatient = [];
-
-    @observable isInValidPatient = true;
-
     @observable patient = emptyPatient
 
     @action
     cleanPatientFields() {
         this.patient = emptyPatient;
-    }
-
-    @action
-    setIsValid() {
-        for (const prop in this.patient) {
-            if (this.patient.hasOwnProperty(prop) && typeof this.patient[prop] === 'object') {
-                if (this.patient[prop].errors.length) {
-                    this.errorsPatient.push(this.patient[prop].errors);
-                }
-            }
-        }
-
-        if (this.errorsPatient.length) {
-            this.isInValidPatient = true;
-        } else {
-            this.isInValidPatient = false;
-        }
-        this.errorsPatient = [];
     }
 
     @action
@@ -75,55 +53,36 @@ class PatientStore {
     }
 
     @action
-    async addPatient() {
-        this.isInValidPatient = true;
+    async addPatient(patient) {
         return await client.mutate({
             mutation: addPatient,
             variables: {
-                firstName: this.patient.firstName.value,
-                lastName: this.patient.lastName.value,
-                birthDate: this.patient.birthDate.value,
-                phoneNumber: this.patient.phoneNumber.value,
-                email: this.patient.email.value,
-                gender: this.patient.gender.value
+                firstName: patient.firstName.value,
+                lastName: patient.lastName.value,
+                birthDate: patient.birthDate.value,
+                phoneNumber: patient.phoneNumber.value,
+                email: patient.email.value,
+                gender: patient.gender.value
             },
             fetchPolicy: 'no-cache'
         });
     }
 
     @action
-    async editPatient() {
+    async editPatient(patient) {
         await client.mutate({
             mutation: editPatient,
             variables: {
-                firstName: this.patient.firstName.value,
-                lastName: this.patient.lastName.value,
-                birthDate: this.patient.birthDate.value,
-                phoneNumber: this.patient.phoneNumber.value,
-                email: this.patient.email.value,
-                gender: this.patient.gender.value,
-                id: this.patient.id.value
+                firstName: patient.firstName.value,
+                lastName: patient.lastName.value,
+                birthDate: patient.birthDate.value,
+                phoneNumber: patient.phoneNumber.value,
+                email: patient.email.value,
+                gender: patient.gender.value,
+                id: patient.id.value
             },
             fetchPolicy: 'no-cache'
         });
-    }
-
-    @action
-    changePatientField(key, value) {
-        this.patient[key].value = value;
-        this.validator.validate(this.patient);
-        const errors = this.validator.listErrors;
-
-        for (let i = 0; i < errors.length; i++) {
-            const prop = errors[i].prop;
-
-            this.patient[prop] = {
-                ...this.patient[prop],
-                errors: errors[i].msgs
-            };
-        }
-        this.setIsValid();
-        this.validator.cleanListErrors();
     }
 
     @action

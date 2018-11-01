@@ -1,10 +1,11 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { withHandlers, compose } from 'recompose';
+import { withHandlers, compose, withState } from 'recompose';
 
 import { Button } from '../../../../components/Button';
 import { FormPatient } from '../../components/FormPatient';
 import { patientStore, modalStore } from '../../../../store';
+import { mapCopy, addProperty } from '../../../../utils';
 
 const mapActionsToProps = {
     onHandleAddPatient:  props => async event => {
@@ -17,21 +18,30 @@ const mapActionsToProps = {
 };
 
 export const ContentAddModal = compose(
+    withState('patient', 'changePatient', ({ patientModal }) => {
+        const patient = patientModal;
+
+        return mapCopy(patient, addProperty, { key:'errors', value: [] });
+    }),
+    withState('isValidForm', 'updateIsValidForm', false),
     withHandlers(mapActionsToProps),
-    observer)(({ onHandleAddPatient, patient }) => {
+    observer)(({
+    onHandleAddPatient,
+    isValidForm,
+    changePatient,
+    updateIsValidForm,
+    patient }) => {
     return (
         <div>
-            <FormPatient patient={patient}/>
+            <FormPatient
+                changePatient={changePatient}
+                updateIsValidForm={updateIsValidForm}
+                patient={patient}/>
             <Button
                 title='Add'
-                isDisable={patientStore.isInValidPatient}
+                isDisable={isValidForm}
                 onHandleOnClick={onHandleAddPatient}
                 className='content__button' />
-
-
         </div>
     );
 });
-// <ButtonListAddModal
-//     currentPage={props.currentPage}
-//     maxViewPatients={4}/>
