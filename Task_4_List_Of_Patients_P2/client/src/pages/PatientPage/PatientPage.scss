@@ -1,4 +1,5 @@
 @import "src/styles/variables";
+@import "src/styles/colors";
 
 .content__general {
   width: 90%;
@@ -6,8 +7,8 @@
 }
 
 .btn-add {
-  background-color: #0079d3;
-  color: #ffffff;
+  background-color: $lochmara;
+  color: $white;
   width: 100px;
   height: 40px;
   border: 0;
@@ -20,13 +21,13 @@
   text-align: center;
   height: 100px;
   font-size: 60px;
-  background-color: rgba(194, 214, 177, 0.863);
-  color: #385980;
+  background-color: $light-green-middle;
+  color: $chambray;
 }
 
 .page {
   &__menu {
-    border-right: 2px solid #385980;;
+    border-right: 2px solid $chambray;;
     margin-right: 0;
     position: absolute;
     width: 150px;

@@ -7,7 +7,7 @@
     &__btn-move {
         height: 60px;
         width: 55px;
-        color: $lochmara;
+        color:  $lochmara;
         border-radius: 5px;
         font-size: $font-size-low-middle;
         background-color: $white;
@@ -21,7 +21,7 @@
 }
 
 .current {
-    background-color: aqua;
+    background-color: $spray;
 }
 
 .display {
