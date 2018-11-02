@@ -33,9 +33,9 @@ const customTypes = `
 
     type Visit {
         _id: String!,
-        patientId: String!,
-        doctorId: String!,
-        descriptionId: String!,
+        patient: String!,
+        doctor: String!,
+        description: String!,
         date: Date!
     }
 

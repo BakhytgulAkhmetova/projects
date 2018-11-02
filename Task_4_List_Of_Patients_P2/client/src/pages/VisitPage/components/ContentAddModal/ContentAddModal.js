@@ -8,10 +8,13 @@ import { visitStore, modalStore } from '../../../../store';
 import { mapCopy, addProperty } from '../../../../utils';
 
 const mapActionsToProps  = {
-    addVisit: ({ visit }) => async event => {
-        modalStore.close();
-        await visitStore.addVisit(visit);
-        visitStore.getVisitPage(visitStore.currentPage);
+    addVisit: ({ visit }) =>  {
+        return async () => {
+            modalStore.close();
+            await visitStore.addVisit(visit);
+            visitStore.getVisitPage(visitStore.currentPage);
+            visitStore.cleanVisitFields();
+        };
     }
 };
 

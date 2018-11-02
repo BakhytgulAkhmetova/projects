@@ -3,26 +3,17 @@ import { observable, action, computed } from 'mobx';
 import { setButtonsCount } from '../utils';
 
 class PaginationStore {
-  @observable
-  maxVisibleButtons = 1;
+  @observable maxVisibleButtons = 1;
 
   min = 1;
 
   pageNumber = 1;
 
-  @observable
-  pagesCount = 0;
+  @observable pagesCount = 0;
 
-  @observable
-  currentPage = 1;
+  @observable currentPage = 1;
 
-  @observable
-  interval = 0;
-
-  @action
-  setPageNumber(number) {
-      this.pageNumber = number;
-  }
+  @observable interval = 0;
 
   @action
   setCurrentPage(current) {

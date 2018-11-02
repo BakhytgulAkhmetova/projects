@@ -1,31 +1,25 @@
 import gql from 'graphql-tag';
 
 export const addVisit = gql`
-         mutation(
-           $patientId: String!, $doctorId: String!, $descriptionId: String!, $date: Date!) {
+         mutation( $patientId: String!, $doctorId: String!, $descriptionId: String!, $date: Date!) {
            addVisit(patientId: $patientId, doctorId: $doctorId, descriptionId: $descriptionId, date: $date) {
-              patientId
-              doctorId
-              descriptionId
-              date
-           }
-         }
-       `;
+              patient
+              doctor
+              description
+              date }
+         }`;
 
 export const getVisitsPage = gql`
          query($skip: Int!, $limit: Int!) {
           getVisitsPage(skip: $skip, limit: $limit) {
-            items{
+            items {
               patient
               doctor
               description
               date
-              _id
-            }
-            total
-           }
-         }
-       `;
+              _id }
+            total }
+         }`;
 
 export const getSelectedPatients = gql`
          query($letters: String!, $skip: Int!, $limit: Int!) {
@@ -33,8 +27,7 @@ export const getSelectedPatients = gql`
                value
                label
            }
-         }
-       `;
+         } `;
 
 export const getSelectedDoctors = gql`
        query($letters: String!, $skip: Int!, $limit: Int!) {
@@ -42,8 +35,7 @@ export const getSelectedDoctors = gql`
           value
           label
          }
-       }
-     `;
+       }`;
 
 export const getSelectedDescriptions = gql`
      query($letters: String!, $skip: Int!, $limit: Int!) {
@@ -51,42 +43,26 @@ export const getSelectedDescriptions = gql`
         value
         label
        }
-     }
-   `;
+     }`;
 export const getVisitById = gql`
          query($id: String!) {
            getVisitById(id: $id) {
-            doctor{
-              firstName
-              lastName
-              _id
-            }
-            patient{
-              firstName
-              lastName
-              _id
-            }
-            description{
-              value
-              _id
-            }
+            doctor {firstName, lastName, _id }
+            patient {firstName, lastName, _id }
+            description {value, _id }
              date
-             _id
-           }
-         }
-       `;
+             _id }
+         } `;
 
 
 export const editVisit = gql`
-         mutation(
-          $patientId: String!, $doctorId: String!, $descriptionId: String!, $date: Date!, $id: String!) {
+         mutation ($patientId: String!, $doctorId: String!, $descriptionId: String!, $date: Date!, $id: String!) {
             updateVisit (patientId: $patientId, doctorId: $doctorId,
              descriptionId: $descriptionId, date: $date, id: $id) {
-              patientId
-              doctorId
-              descriptionId
+              patient
+              doctor
+              description
               date
-              id
+              _id
            }
-         }
-       `;
+         }`;

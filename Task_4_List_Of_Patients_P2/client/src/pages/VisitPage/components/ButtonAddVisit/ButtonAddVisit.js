@@ -11,7 +11,9 @@ const mapActionsToProps = {
         visitStore.cleanVisitFields();
         modalStore.open({
             title: 'Add visit',
-            content: <ContentAddModal visitModal={visitStore.visit}/>
+            content: <ContentAddModal
+                currentPage={visitStore.currentPage}
+                visitModal={visitStore.visit}/>
         });
     }
 };

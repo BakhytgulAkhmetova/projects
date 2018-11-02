@@ -11,7 +11,5 @@ export const addProperty = (object, params) => {
     const { key, value } = params;
 
     return {
-        ...object,
-        [key]: value
-    };
+        ...object, [key]: value };
 };

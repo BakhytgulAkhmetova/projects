@@ -1,9 +1,10 @@
-import {
-    genders,
+import { genders,
     regEmail,
     regPhoneNumber,
-    regDate
-} from '../../constants';
+    regDate,
+    dayLimit,
+    dateformat,
+    dateStart } from '../../constants';
 
 import moment from 'moment';
 
@@ -26,16 +27,12 @@ export const emptyVisit = {
     date: { value: moment(new Date())  }
 };
 
-export const menuItems = [
-    {
-        name: 'Patients',
-        path: '/patients'
-    },
-    {
-        name: 'Visits',
-        path: '/visits'
-    }
-];
+export const menuItems = [{
+    name: 'Patients',
+    path: '/patients' }, {
+    name: 'Visits',
+    path: '/visits'
+}];
 
 export const configPatient = {
     firstName: ['isNotEmpty'],
@@ -77,7 +74,7 @@ export const types = {
     },
     isValidDateFormat: {
         validate: value => {
-            const date = moment(value).format('DD/MM/YYYY').toString();
+            const date = moment(value).format(dateformat).toString();
 
             return (regDate.test(date));
         },
@@ -85,14 +82,14 @@ export const types = {
     },
     isValidDate: {
         validate: value => {
-            return ((value <= new Date() && value >= new Date('1870-09-27T16:19:06.879Z')));
+            return ((value <= new Date() && value >= new Date(dateStart)));
         },
         instructions: 'Incorect date. Please try again.'
     },
     isValidVisitDate: {
         validate:  value => {
-            return ((value <= new Date((new Date()).getTime() + (10 * 86400000))
-            && value >= new Date('1870-09-27T16:19:06.879Z')));
+            return ((value <= new Date((new Date()).getTime() + (dayLimit * 86400000))
+            && value >= new Date(dateStart)));
         },
         instructions: 'Incorect date. Choose date for closer 10 days Please try again.'
     }

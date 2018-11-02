@@ -12,6 +12,7 @@ const mapActionsToProps  = {
         modalStore.close();
         await visitStore.editVisit(visit);
         visitStore.getVisitPage(visitStore.currentPage);
+        visitStore.cleanVisitFields();
     }
 };
 

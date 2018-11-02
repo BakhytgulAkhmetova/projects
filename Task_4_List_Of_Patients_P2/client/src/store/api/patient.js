@@ -1,21 +1,17 @@
 import gql from 'graphql-tag';
 
 export const addPatient = gql`
-         mutation(
-             $firstName: String!, $lastName: String!, $birthDate: String!,
+         mutation($firstName: String!, $lastName: String!, $birthDate: String!,
              $phoneNumber: String!, $email: String!, $gender: String!) {
-           addPatient(
-            firstName: $firstName, lastName: $lastName, birthDate: $birthDate, 
+           addPatient(firstName: $firstName, lastName: $lastName, birthDate: $birthDate, 
             phoneNumber: $phoneNumber, email: $email, gender: $gender) {
              firstName
              lastName
              birthDate
              phoneNumber
              email
-             gender
-           }
-         }
-       `;
+             gender }
+         }`;
 
 
 export const getPatientsPage = gql`
@@ -29,12 +25,10 @@ export const getPatientsPage = gql`
                phoneNumber
                email
                gender
-               age
-             }
+               age }
              total
            }
-         }
-       `;
+         }`;
 
 
 export const getPatientById = gql`
@@ -46,18 +40,14 @@ export const getPatientById = gql`
              birthDate
              phoneNumber
              email
-             gender
-           }
-         }
-       `;
+             gender }
+         }`;
 
 
 export const editPatient = gql`
-         mutation(
-             $firstName: String!, $id: String!, $lastName: String!, $birthDate: String!,
+         mutation($firstName: String!, $id: String!, $lastName: String!, $birthDate: String!,
              $phoneNumber: String!, $email: String!, $gender: String!) {
-           updatePatient(
-             firstName: $firstName, lastName: $lastName, id: $id, birthDate: $birthDate,
+           updatePatient(firstName: $firstName, lastName: $lastName, id: $id, birthDate: $birthDate,
              phoneNumber: $phoneNumber, email: $email, gender: $gender) {
              firstName
              lastName
@@ -66,6 +56,5 @@ export const editPatient = gql`
              email
              gender
            }
-         }
-       `;
+         }`;
 

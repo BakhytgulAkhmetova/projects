@@ -9,6 +9,9 @@ export const genders = {
 };
 export const pathPatient = '/patients';
 export const pathVisit = '/visits';
+export const dateformat = 'DD/MM/YYYY';
+export const dateStart = '1870-09-27T16:19:06.879Z';
+export const dayLimit = 10;
 export const firstPage = 1;
 export const viewitems = 4;
 export const maxVisibleButtons = 3;
