@@ -1,10 +1,9 @@
-const {
-    addDoctor,
+const { addDoctor,
     getAllDoctors,
     getDoctorById,
     deleteAllDoctors } = require('../../BLL/doctor');
 
-/* Definition resolve functions for getting data from mongoDB*/
+/* Definition resolve functions to get data from mongoDB*/
 const queryDoctorResolvers = {
     getDoctorById(parent, args) {
         return getDoctorById(args.id);
@@ -13,7 +12,7 @@ const queryDoctorResolvers = {
         return getAllDoctors();
     }
 };
-/* Definition resolve functions for changing data in mongoDB*/
+/* Definition resolve functions to modify data in mongoDB*/
 const mutationDoctorResolvers = {
     addDoctor(parent, args) {
         return addDoctor(args);

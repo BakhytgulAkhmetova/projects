@@ -1,10 +1,9 @@
-const {
-    addDescription,
+const { addDescription,
     getAllDescriptions,
     getDescriptionById,
     deleteAllDescriptions } = require('../../BLL/description');
 
-/* Definition resolve functions for getting data from mongoDB*/
+/* Definition resolve functions to get data from mongoDB*/
 const queryDescriptionResolvers = {
     getDescriptionById(parent, args) {
         return getDescriptionById(args.id);
@@ -13,7 +12,7 @@ const queryDescriptionResolvers = {
         return getAllDescriptions();
     }
 };
-/* Definition resolve functions for changing data in mongoDB*/
+/* Definition resolve functions to modify data in mongoDB*/
 const mutationDescriptionResolvers = {
     addDescription(parent, args) {
         return addDescription(args);

@@ -1,16 +1,12 @@
 const queryTypeDescription = `
     type Query {
         getAllDescriptions: [Description]
-        getDescriptionById(
-            id: String!
-            ): Description!
+        getDescriptionById( id: String! ): Description!
     }`;
 
 const mutationTypeDescription = `
     type Mutation {
-        addDescription(
-            value: String!
-        ): Description
+        addDescription( value: String! ): Description
         deleteAllDescrioptions: Int
     }
     `;

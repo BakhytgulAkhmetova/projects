@@ -1,12 +1,15 @@
-/* Including types into schema */
+/* Merge types and defs modules */
 const { mergeTypes, mergeResolvers } = require('merge-graphql-schemas');
 const { makeExecutableSchema } = require('graphql-tools');
 
+/* Types for schema */
 const { queryTypePatient, mutationTypePatient } = require('../graphql/types/patient');
 const { queryTypeVisit, mutationTypeVisit } = require('../graphql/types/visit');
 const { queryTypeDoctor, mutationTypeDoctor } = require('../graphql/types/doctor');
 const { queryTypeDescription, mutationTypeDescription } = require('../graphql/types/description');
 const { customTypes } = require('../graphql/types/customTypes');
+
+/* Resolvers for schema */
 const { queryPatientResolvers,  mutationPatientResolvers } = require('../graphql/resolvers/patient');
 const { queryVisitResolvers,  mutationVisitResolvers } = require('../graphql/resolvers/visit');
 const { queryDoctorResolvers,  mutationDoctorResolvers } = require('../graphql/resolvers/doctor');
@@ -23,7 +26,7 @@ const typeDefs = mergeTypes([
     mutationTypeDescription,
     mutationTypeVisit,
     customTypes
-], { all: true });
+]);
 
 const schema = makeExecutableSchema({
     typeDefs,

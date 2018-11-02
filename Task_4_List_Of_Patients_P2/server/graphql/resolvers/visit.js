@@ -1,5 +1,4 @@
-const {
-    addVisit,
+const { addVisit,
     getSelectedPatients,
     getSelectedDoctors,
     getSelectedDescriptions,
@@ -8,7 +7,7 @@ const {
     getVisitsPage,
     updateVisit } = require('../../BLL/visit');
 
-/* Definition resolve functions for getting data from mongoDB*/
+/* Definition resolve functions to get data from mongoDB*/
 const queryVisitResolvers = {
     getVisitById(parent, args) {
         return getVisitById(args.id);
@@ -26,7 +25,8 @@ const queryVisitResolvers = {
         return getVisitsPage(args);
     }
 };
-/* Definition resolve functions for changing data in mongoDB*/
+
+/* Definition resolve functions to modify data in mongoDB*/
 const mutationVisitResolvers = {
     addVisit(parent, args) {
         return addVisit(args);

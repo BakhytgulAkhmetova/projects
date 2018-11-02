@@ -12,11 +12,6 @@ const customTypes = `
         age: Int
     }
 
-    type Selected {
-        label: String!,
-        value: String!,
-    }
-
     type Doctor {
         id: String!,
         firstName: String!,
@@ -50,6 +45,11 @@ const customTypes = `
         doctor: Doctor!,
         description: Description!,
         date: Date!
+    }
+    
+    type Option {
+        label: String!,
+        value: String!,
     }
 
     type VisitPage {
