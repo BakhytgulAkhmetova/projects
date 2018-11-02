@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import { ButtonAddPatient } from './components/ButtonOpenAddModal';
 import { Grid } from '../../components/Grid';
 import { Pagination } from '../../components/Pagination';
-import { patientStore, modalStore } from '../../store';
+import { patientStore, modalStore, maskStore } from '../../store';
 import { MenuNavigation } from '../../components/MenuNavigation';
 import { menuItems } from '../../store/data/data';
 import { maxVisibleButtons, viewitems, pathPatient } from '../../constants';
@@ -42,11 +42,15 @@ const columns = [
 @observer
 export class PatientPage extends React.Component {
     handleOpenPageTable = page => {
+        maskStore.open();
         patientStore.getPatientsPage(page);
+        maskStore.close();
     }
 
     openModalEdit = async event => {
+        maskStore.open();
         await patientStore.getPatientById(event.currentTarget.id);
+        maskStore.close();
         modalStore.open({
             title: 'Edit patient',
             content: <ContentEditModal

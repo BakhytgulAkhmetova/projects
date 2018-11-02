@@ -5,6 +5,7 @@ import { PatientPage } from './pages/PatientPage';
 import { VisitPage } from './pages/VisitPage';
 import { NotFound } from './pages/NotFound/NotFound';
 import { ModalView } from './components/ModalView';
+import { Mask } from './components/Mask';
 
 export const App = () => {
     return (
@@ -27,6 +28,7 @@ export const App = () => {
                 </Switch>
             </BrowserRouter>
             <ModalView />
+            <Mask/>
         </div>
     );
 };
