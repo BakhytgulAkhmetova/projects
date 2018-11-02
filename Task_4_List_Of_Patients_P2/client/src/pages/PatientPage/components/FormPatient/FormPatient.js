@@ -135,7 +135,7 @@ const Form = ({
                         <DatePicker
                             id='birthDate'
                             className='date'
-                            selected={patient.birthDate.value}
+                            selected={patient.birthDate.value ? patient.birthDate.value : null}
                             onChangeRaw={onChangeDateRow}
                             isClearable
                             onChange={onSelectDate} />

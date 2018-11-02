@@ -15,11 +15,11 @@ export const ErrorMessage = ({ msgs }) => {
 
     return (
         getErrors().map(m =>
-            (<span
+            (<div
                 key={m.key}
                 className='error'>
                 {m.value}
-            </span>)
+            </div>)
         )
     );
 };

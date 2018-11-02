@@ -151,8 +151,8 @@ const Form  = ({
                     <div className='field'>
                         <DatePicker
                             className='date'
-                            selected={visit.date.value}
                             isClearable
+                            selected={visit.date.value ? visit.date.value : null}
                             onChangeRaw={onChangeDateRow}
                             onChange={onSelectDate}/>
                     </div>

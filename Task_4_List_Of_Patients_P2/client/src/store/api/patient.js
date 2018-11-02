@@ -13,7 +13,6 @@ export const addPatient = gql`
              gender }
          }`;
 
-
 export const getPatientsPage = gql`
          query($skip: Int!, $limit: Int!) {
            getPatientsPage(skip: $skip, limit: $limit) {
@@ -30,7 +29,6 @@ export const getPatientsPage = gql`
            }
          }`;
 
-
 export const getPatientById = gql`
          query($id: String!) {
            getPatientById(id: $id) {
@@ -42,7 +40,6 @@ export const getPatientById = gql`
              email
              gender }
          }`;
-
 
 export const editPatient = gql`
          mutation($firstName: String!, $id: String!, $lastName: String!, $birthDate: String!,
@@ -57,4 +54,3 @@ export const editPatient = gql`
              gender
            }
          }`;
-
