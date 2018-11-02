@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
 
+/* import models from database */
 const Visit  = require('../mongo/models/visit');
 const Patient = require('../mongo/models/patient');
 const Description = require('../mongo/models/description');
 const Doctor = require('../mongo/models/doctor');
 
-/* asynchronous function to add new patient in storage */
+/* add visit to dataBase */
 async function addVisit({ date, patientId, doctorId, descriptionId }) {
     const visit = new Visit({
         _id: new mongoose.Types.ObjectId(),
@@ -19,7 +20,7 @@ async function addVisit({ date, patientId, doctorId, descriptionId }) {
     return await visit.save();
 }
 
-/* asynchronous function to get all patients from storage*/
+/* get visits from dataBase */
 async function getVisitsPage({ skip, limit }) {
     const total = await Visit.find().estimatedDocumentCount();
 
@@ -42,37 +43,31 @@ async function getVisitsPage({ skip, limit }) {
     return { items, total };
 }
 
-/* asynchronous function to get selected patients from storage*/
+/* get selected patients from dataBase */
 async function getSelectedPatients({ letters, skip, limit }) {
     let patients = letters ? await Patient.find({ firstName: { $regex: `^${  letters }`, $options: 'i' } }) :
         await Patient.find().skip(skip).limit(limit);
 
     patients = patients.map((p) => {
-        return {
-            label: `${p.firstName  }${  p.lastName}`,
-            value: p._id
-        };
+        return { label: `${p.firstName  }${  p.lastName}`, value: p._id };
     });
 
     return patients;
 }
 
-/* asynchronous function to get selected doctors from storage*/
+/* get selected doctors from dataBase*/
 async function getSelectedDoctors({ letters, skip, limit }) {
     let doctors = letters ? await Doctor.find({ firstName: { $regex: `^${  letters }`, $options: 'i' } }) :
         await Doctor.find().skip(skip).limit(limit);
 
     doctors = doctors.map((d) => {
-        return {
-            label: `${d.firstName  }${  d.lastName}`,
-            value: d._id
-        };
+        return { label: `${d.firstName  }${  d.lastName}`, value: d._id };
     });
 
     return doctors;
 }
 
-/* asynchronous function to get selected descriptions from storage*/
+/* get selected descriptions from dataBase*/
 async function getSelectedDescriptions({ letters, skip, limit }) {
     let descriptions = letters ? await Description.find({ value: { $regex: `^${  letters }`, $options: 'i' } }) :
         await Description.find().skip(skip).limit(limit);
@@ -87,12 +82,12 @@ async function getSelectedDescriptions({ letters, skip, limit }) {
     return descriptions;
 }
 
-/* asynchronous function to delete all visits*/
+/* delete visits from dataBase*/
 async function deleteAllVisits() {
     return await Visit.deleteMany();
 }
 
-/* asynchronous function to get one visit from storage by id */
+/* get one visit from dataBase by id */
 async function getVisitById(id) {
     const visit =  await Visit.findById(id)
         .populate('patient')
@@ -118,7 +113,7 @@ async function getVisitById(id) {
     };
 }
 
-/* asynchronous function to update info about patient in storage by id */
+/* update visit in dataBase */
 async function updateVisit({ id, date, patientId, doctorId, descriptionId }) {
     const visit = new Visit({
         patient: patientId,

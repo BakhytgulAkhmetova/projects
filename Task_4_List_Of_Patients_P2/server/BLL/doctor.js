@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Doctor  = require('../mongo/models/doctor');
 
-/* asynchronous function to add new doctor in storage */
+/* add new doctor in dataBase */
 async function addDoctor({ firstName, lastName }) {
     const doctor = new Doctor({
         _id: new mongoose.Types.ObjectId(),
@@ -13,25 +13,23 @@ async function addDoctor({ firstName, lastName }) {
     return await doctor.save();
 }
 
-/* asynchronous function to get all doctors from the storage */
+/* get all doctors from the dataBase */
 async function getAllDoctors() {
     let items = await Doctor.find();
 
     items = items.map((d) => {
-        return {
-            ...d.toObject()
-        };
+        return { ...d.toObject() };
     });
 
     return items;
 }
 
-/* asynchronous function to delete all doctors from the storage */
+/* delete all doctors from the dataBase */
 async function deleteAllDoctors() {
     return await Doctor.deleteMany();
 }
 
-/* asynchronous function to get one doctor from the storage by id */
+/* get one doctor from the dataBase by id */
 async function getDoctorById(id) {
     return await Doctor.findById(id);
 }

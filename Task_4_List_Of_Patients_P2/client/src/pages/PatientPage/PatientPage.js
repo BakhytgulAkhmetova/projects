@@ -1,6 +1,5 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import PropTypes from 'prop-types';
 
 import { ButtonAddPatient } from './components/ButtonOpenAddModal';
 import { Grid } from '../../components/Grid';
@@ -8,7 +7,7 @@ import { Pagination } from '../../components/Pagination';
 import { patientStore, modalStore } from '../../store';
 import { MenuNavigation } from '../../components/MenuNavigation';
 import { menuItems } from '../../store/data/data';
-import { maxVisibleButtons, viewitems } from '../../constants';
+import { maxVisibleButtons, viewitems, pathPatient } from '../../constants';
 import { ContentEditModal } from './components/ContentEditModal';
 
 import './PatientPage.scss';
@@ -42,16 +41,11 @@ const columns = [
 
 @observer
 export class PatientPage extends React.Component {
-    static propTypes = {
-        currentPage: PropTypes.number
-    }
-
     handleOpenPageTable = page => {
         patientStore.getPatientsPage(page);
     }
 
-    handlerOpenModalEdit = async event => {
-        debugger;
+    openModalEdit = async event => {
         await patientStore.getPatientById(event.currentTarget.id);
         modalStore.open({
             title: 'Edit patient',
@@ -73,9 +67,9 @@ export class PatientPage extends React.Component {
                         <ButtonAddPatient
                             currentPage={patientStore.currentPage}/>
                         <Grid
-                            path={'patients'}
+                            path={pathPatient}
                             columns={columns}
-                            handlerOpenModalEdit={this.handlerOpenModalEdit}
+                            handlerOpenModalEdit={this.openModalEdit}
                             listItems={patientStore.patientList}/>
                         <Pagination
                             maxVisibleButtons={maxVisibleButtons}

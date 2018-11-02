@@ -1,11 +1,11 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
+import AsyncSelect from 'react-select/lib/Async';
+import moment from 'moment';
+import _ from 'lodash';
+import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import { compose, withHandlers } from 'recompose';
-import PropTypes from 'prop-types';
-import AsyncSelect from 'react-select/lib/Async';
-import _ from 'lodash';
-import moment from 'moment';
 
 import { visitStore } from '../../../../store';
 import { ErrorMessage } from '../../../../components/ErrorMessage';
@@ -109,9 +109,7 @@ const Form  = ({
 
     updateIsValidForm(isValid);
     return (
-        <form
-            key={visit.id}
-            className='form'>
+        <form className='form'>
             <div className='form__field'>
                 <label
                     htmlFor='patient'
@@ -124,7 +122,7 @@ const Form  = ({
                             onChange={onSelectPatient}
                             loadOptions={loadOptionsPatient}
                             defaultOptions
-                            className='field--visit__select asd'/>
+                            className='field--visit__select'/>
                     </div>
                 </label>
                 <ErrorMessage msgs={visit.patient.errors} />

@@ -7,6 +7,9 @@ export const genders = {
     male:'Male',
     female:'Female'
 };
+export const pathPatient = '/patients';
+export const pathVisit = '/visits';
+export const firstPage = 1;
 export const viewitems = 4;
 export const maxVisibleButtons = 3;
 export const loadOptionTimeOut = 300;

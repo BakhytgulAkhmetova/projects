@@ -7,7 +7,7 @@ import { ContentAddModal } from '../ContentAddModal';
 import { patientStore, modalStore } from '../../../../store';
 
 const mapActionsToProps = {
-    onHandleOpenModalAdd: props => event => {
+    onOpenModalAdd: props => event => {
         patientStore.cleanPatientFields();
         modalStore.open({
             title: 'Add patient',
@@ -20,11 +20,9 @@ const mapActionsToProps = {
 
 export const ButtonAddPatient = compose(
     withHandlers(mapActionsToProps),
-    observer)(({ onHandleOpenModalAdd }) => {
-    return (
-        <Button
-            onHandleOnClick={onHandleOpenModalAdd}
-            className='btn-add'
-            title='Add' />
-    );
+    observer)(({ onOpenModalAdd }) => {
+    return (<Button
+        onClick={onOpenModalAdd}
+        className='btn-add'
+        title='Add' />);
 });

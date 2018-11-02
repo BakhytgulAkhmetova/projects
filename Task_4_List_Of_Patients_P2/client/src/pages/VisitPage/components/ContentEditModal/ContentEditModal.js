@@ -8,7 +8,7 @@ import { modalStore, visitStore } from '../../../../store';
 import { mapCopy, addProperty } from '../../../../utils';
 
 const mapActionsToProps  = {
-    onHandleEditVisit: ({ visit }) => async event => {
+    editVisit: ({ visit }) => async event => {
         modalStore.close();
         await visitStore.editVisit(visit);
         visitStore.getVisitPage(visitStore.currentPage);
@@ -16,15 +16,15 @@ const mapActionsToProps  = {
 };
 
 export const ContentEditModal = compose(
-    withState('visit', 'changeVisit', ({ visitE }) => {
-        const visit = visitE;
+    withState('visit', 'changeVisit', ({ visitModal }) => {
+        const visit = visitModal;
 
         return mapCopy(visit, addProperty, { key:'errors', value: [] });
     }),
     lifecycle({
         componentWillUpdate(nextProps) {
-            if (this.props.visit.id.value !== nextProps.visitE.id.value) {
-                const visit = mapCopy(nextProps.visitE, addProperty, { key:'errors', value: [] });
+            if (this.props.visit.id.value !== nextProps.visitModal.id.value) {
+                const visit = mapCopy(nextProps.visitModal, addProperty, { key:'errors', value: [] });
 
                 this.props.changeVisit(visit);
             }
@@ -33,7 +33,7 @@ export const ContentEditModal = compose(
     withState('isValidForm', 'updateIsValidForm', false),
     withHandlers(mapActionsToProps),
     observer)(({
-    onHandleEditVisit,
+    editVisit,
     changeVisit,
     isValidForm,
     updateIsValidForm,
@@ -47,7 +47,7 @@ export const ContentEditModal = compose(
             <Button
                 title='Edit'
                 isDisable={isValidForm}
-                onHandleOnClick={onHandleEditVisit}
+                onClick={editVisit}
                 className='content__button' />
         </div>
     );

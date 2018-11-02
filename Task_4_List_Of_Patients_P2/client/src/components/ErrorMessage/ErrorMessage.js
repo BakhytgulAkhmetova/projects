@@ -24,6 +24,4 @@ export const ErrorMessage = ({ msgs }) => {
     );
 };
 
-ErrorMessage.propTypes = {
-    msgs: PropTypes.arrayOf(PropTypes.string)
-};
+ErrorMessage.propTypes = { msgs: PropTypes.arrayOf(PropTypes.string) };

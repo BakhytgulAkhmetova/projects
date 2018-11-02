@@ -8,8 +8,7 @@ import { patientStore, modalStore } from '../../../../store';
 import { mapCopy, addProperty } from '../../../../utils';
 
 const mapActionsToProps = {
-    onHandleEditPatient: ({ patient }) => async event => {
-        event.preventDefault();
+    editPatient: ({ patient }) => async event => {
         modalStore.close();
         await patientStore.editPatient(patient);
         patientStore.getPatientsPage(patientStore.currentPage);
@@ -38,7 +37,7 @@ export const ContentEditModal = compose(
     isValidForm,
     changePatient,
     updateIsValidForm,
-    onHandleEditPatient,
+    editPatient,
     patient }) => {
     return (
         <div>
@@ -49,7 +48,7 @@ export const ContentEditModal = compose(
             <Button
                 title='Edit'
                 isDisable={isValidForm}
-                onHandleOnClick={onHandleEditPatient}
+                onClick={editPatient}
                 className='content__button' />
         </div>
     );

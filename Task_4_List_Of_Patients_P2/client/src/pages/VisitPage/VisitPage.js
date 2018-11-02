@@ -7,7 +7,7 @@ import { visitStore, modalStore } from '../../store';
 import { MenuNavigation } from '../../components/MenuNavigation';
 import { menuItems } from '../../store/data/data';
 import { ButtonAddVisit } from './components/ButtonAddVisit';
-import { maxVisibleButtons, viewitems } from '../../constants';
+import { maxVisibleButtons, viewitems, pathVisit } from '../../constants';
 import { ContentEditModal } from './components/ContentEditModal';
 
 const columns = [
@@ -35,13 +35,13 @@ export class VisitPage extends React.Component {
         visitStore.getVisitPage(page);
     }
 
-    handlerOpenModalEdit = async event => {
+    openModalEdit = async event => {
         await visitStore.getVisitById(event.currentTarget.id);
         modalStore.open({
             title: 'Edit visit',
             content: <ContentEditModal
                 currentPage={visitStore.currentPage}
-                visitE={visitStore.visit} />
+                visitModal={visitStore.visit} />
         });
     }
 
@@ -57,9 +57,9 @@ export class VisitPage extends React.Component {
                         <ButtonAddVisit
                             currentPage={visitStore.currentPage}/>
                         <Grid
-                            path={'visits'}
+                            path={pathVisit}
                             columns={columns}
-                            handlerOpenModalEdit={this.handlerOpenModalEdit}
+                            handlerOpenModalEdit={this.openModalEdit}
                             listItems={visitStore.visitList} />
                         <Pagination
                             maxVisibleButtons={maxVisibleButtons}

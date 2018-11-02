@@ -7,21 +7,21 @@ import { modalStore, visitStore } from '../../../../store';
 import { ContentAddModal } from '../ContentAddModal';
 
 const mapActionsToProps = {
-    onHandleOpenModalAdd: props => event => {
+    openModalAdd: props => event => {
         visitStore.cleanVisitFields();
         modalStore.open({
             title: 'Add visit',
-            content: <ContentAddModal visitE={visitStore.visit}/>
+            content: <ContentAddModal visitModal={visitStore.visit}/>
         });
     }
 };
 
 export const ButtonAddVisit = compose(
     withHandlers(mapActionsToProps),
-    observer)(({ onHandleOpenModalAdd }) => {
+    observer)(({ openModalAdd }) => {
     return (
         <Button
-            onHandleOnClick={onHandleOpenModalAdd}
+            onClick={openModalAdd}
             className='btn-add'
             title='Add' />
     );

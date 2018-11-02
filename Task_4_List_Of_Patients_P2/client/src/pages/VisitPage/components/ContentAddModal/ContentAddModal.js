@@ -8,7 +8,7 @@ import { visitStore, modalStore } from '../../../../store';
 import { mapCopy, addProperty } from '../../../../utils';
 
 const mapActionsToProps  = {
-    onHandleAddVisit: ({ visit }) => async event => {
+    addVisit: ({ visit }) => async event => {
         modalStore.close();
         await visitStore.addVisit(visit);
         visitStore.getVisitPage(visitStore.currentPage);
@@ -16,8 +16,8 @@ const mapActionsToProps  = {
 };
 
 export const ContentAddModal = compose(
-    withState('visit', 'changeVisit', ({ visitE }) => {
-        const visit = visitE;
+    withState('visit', 'changeVisit', ({ visitModal }) => {
+        const visit = visitModal;
 
         return mapCopy(visit, addProperty, { key:'errors', value: [] });
     }),
@@ -25,7 +25,7 @@ export const ContentAddModal = compose(
     withHandlers(mapActionsToProps),
 
     observer)(({
-    onHandleAddVisit,
+    addVisit,
     isValidForm,
     changeVisit,
     updateIsValidForm,
@@ -39,7 +39,7 @@ export const ContentAddModal = compose(
             <Button
                 title='Add'
                 isDisable={isValidForm}
-                onHandleOnClick={onHandleAddVisit}
+                onClick={addVisit}
                 className='content__button'/>
         </div>
     );

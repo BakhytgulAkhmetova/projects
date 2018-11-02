@@ -8,9 +8,8 @@ import { patientStore, modalStore } from '../../../../store';
 import { mapCopy, addProperty } from '../../../../utils';
 
 const mapActionsToProps = {
-    onHandleAddPatient:  ({ patient }) => {
-        return async (event) => {
-            event.preventDefault();
+    addPatient:  ({ patient }) => {
+        return async () => {
             modalStore.close();
             await patientStore.addPatient(patient);
             patientStore.getPatientsPage(patientStore.currentPage);
@@ -28,22 +27,20 @@ export const ContentAddModal = compose(
     withState('isValidForm', 'updateIsValidForm', false),
     withHandlers(mapActionsToProps),
     observer)(({
-    onHandleAddPatient,
+    addPatient,
     isValidForm,
     changePatient,
     updateIsValidForm,
     patient }) => {
-    return (
-        <div>
-            <FormPatient
-                changePatient={changePatient}
-                updateIsValidForm={updateIsValidForm}
-                patient={patient}/>
-            <Button
-                title='Add'
-                isDisable={isValidForm}
-                onHandleOnClick={onHandleAddPatient}
-                className='content__button' />
-        </div>
-    );
+    return (<div>
+        <FormPatient
+            changePatient={changePatient}
+            updateIsValidForm={updateIsValidForm}
+            patient={patient}/>
+        <Button
+            title='Add'
+            isDisable={isValidForm}
+            onClick={addPatient}
+            className='content__button' />
+    </div>);
 });

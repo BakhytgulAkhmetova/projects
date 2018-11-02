@@ -5,6 +5,7 @@ import classNames from 'classnames';
 
 import { Button } from '../Button';
 import { paginationStore } from '../../store';
+import { firstPage } from '../../constants';
 
 import './Pagination.scss';
 
@@ -19,11 +20,11 @@ export class Pagination extends React.Component {
     }
 
     componentDidMount() {
-        paginationStore.setCurrentPage(1);
-        this.props.onChange(paginationStore.currentPage);
-        const { maxVisibleButtons, totalItemsCount, pageSize, id } = this.props;
+        const { maxVisibleButtons, totalItemsCount, pageSize, id, onChange } = this.props;
 
+        paginationStore.setCurrentPage(firstPage);
         paginationStore.setBaseValues(maxVisibleButtons, totalItemsCount, pageSize, id);
+        onChange(paginationStore.currentPage);
     }
 
     componentDidUpdate() {
@@ -33,8 +34,10 @@ export class Pagination extends React.Component {
     }
 
     handleButtonClick = event => {
+        const { onChange } = this.props;
+
         paginationStore.setCurrentPage(+event.target.id);
-        this.props.onChange(paginationStore.currentPage);
+        onChange(paginationStore.currentPage);
     }
 
     getButtons = () => {
@@ -52,7 +55,7 @@ export class Pagination extends React.Component {
 
             buttons.push(
                 <Button
-                    onHandleOnClick={this.handleButtonClick}
+                    onClick={this.handleButtonClick}
                     id={i}
                     key={i}
                     className={paginationBtn}
@@ -73,13 +76,13 @@ export class Pagination extends React.Component {
         return (
             <div className='pagination'>
                 <Button
-                    onHandleOnClick={this.handleButtonClick}
+                    onClick={this.handleButtonClick}
                     id={currentPage - 1}
                     className={moveButtonsClass}
                     title='«' />
                 {buttons}
                 <Button
-                    onHandleOnClick={this.handleButtonClick}
+                    onClick={this.handleButtonClick}
                     id={currentPage + 1}
                     className={moveButtonsClass}
                     title='»'/>
