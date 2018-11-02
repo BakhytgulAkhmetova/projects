@@ -20,7 +20,7 @@ export const getVisitsPage = gql`
               doctor
               description
               date
-              id
+              _id
             }
             total
            }
@@ -59,19 +59,19 @@ export const getVisitById = gql`
             doctor{
               firstName
               lastName
-              id
+              _id
             }
             patient{
               firstName
               lastName
-              id
+              _id
             }
             description{
               value
-              id
+              _id
             }
              date
-             id
+             _id
            }
          }
        `;

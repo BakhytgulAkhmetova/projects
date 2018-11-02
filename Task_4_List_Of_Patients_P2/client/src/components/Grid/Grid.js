@@ -18,11 +18,11 @@ export const Grid = ({ columns, listItems, handlerOpenModalEdit, path }) => (
             </tr>
         </thead>
         <tbody className='table-info-tbody'>{listItems.map((item) => {
-            return (<tr key={item.id} className='table-info__row'>
+            return (<tr key={item._id} className='table-info__row'>
                 <td className='table-info__row__cell'>
                     <Link
                         onClick={handlerOpenModalEdit}
-                        id={item.id} to={`/${path}`}
+                        id={item._id} to={`/${path}`}
                         className='table-info__row__cell__link'>
                     Edit
                     </Link>

@@ -19,8 +19,8 @@ async function getAllDoctors() {
 
     items = items.map((d) => {
         return {
-            ...d.toObject(),
-            id: d._id };
+            ...d.toObject()
+        };
     });
 
     return items;

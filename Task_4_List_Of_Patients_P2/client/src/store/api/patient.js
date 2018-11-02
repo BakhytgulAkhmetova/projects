@@ -24,7 +24,7 @@ export const getPatientsPage = gql`
              items {
                firstName
                lastName
-               id
+               _id
                birthDate
                phoneNumber
                email
@@ -42,7 +42,7 @@ export const getPatientById = gql`
            getPatientById(id: $id) {
              firstName
              lastName
-             id
+             _id
              birthDate
              phoneNumber
              email

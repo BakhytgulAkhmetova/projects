@@ -32,7 +32,6 @@ async function getVisitsPage({ skip, limit }) {
     items = items.map((item) => {
         return {
             ...item.toObject(),
-            id: item._id,
             patient: item.patient.firstName + item.patient.lastName,
             doctor: item.doctor.firstName + item.doctor.lastName,
             description: item.description.value,
@@ -102,19 +101,18 @@ async function getVisitById(id) {
 
     return  {
         ...visit.toObject(),
-        id: visit._id,
         patient: {
-            id: visit.patient._id,
+            _id: visit.patient._id,
             firstName: visit.patient.firstName,
             lastName: visit.patient.lastName
         },
         doctor: {
-            id: visit.doctor._id,
+            _id: visit.doctor._id,
             firstName: visit.doctor.firstName,
             lastName: visit.doctor.lastName
         },
         description: {
-            id: visit.description._id,
+            _id: visit.description._id,
             value: visit.description.value
         }
     };

@@ -2,7 +2,7 @@ const customTypes = `
     scalar Date
 
     type Patient {
-        id: String!,
+        _id: String!,
         firstName: String!,
         lastName: String!,
         birthDate: Date!,
@@ -13,18 +13,18 @@ const customTypes = `
     }
 
     type Doctor {
-        id: String!,
+        _id: String!,
         firstName: String!,
         lastName: String!
     }
 
     type Description {
-        id: String!,
+        _id: String!,
         value: String!
     }
 
     type VisitPageItem {
-        id: String!,
+        _id: String!,
         patient: String!,
         doctor: String!,
         description: String!,
@@ -32,7 +32,7 @@ const customTypes = `
     }
 
     type Visit {
-        id: String!,
+        _id: String!,
         patientId: String!,
         doctorId: String!,
         descriptionId: String!,
@@ -40,7 +40,7 @@ const customTypes = `
     }
 
     type VisitModal {
-        id: String!,
+        _id: String!,
         patient: Patient!,
         doctor: Doctor!,
         description: Description!,

@@ -18,8 +18,8 @@ async function getAllDescriptions() {
 
     descriptions = descriptions.map((d) => {
         return {
-            ...d.toObject(),
-            id: d._id };
+            ...d.toObject()
+        };
     });
 
     return descriptions;
