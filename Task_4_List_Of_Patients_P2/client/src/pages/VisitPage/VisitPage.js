@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 
 import { Grid } from '../../components/Grid';
 import { Pagination } from '../../components/Pagination';
-import { visitStore, modalStore } from '../../store';
+import { visitStore, modalStore, maskStore } from '../../store';
 import { MenuNavigation } from '../../components/MenuNavigation';
 import { menuItems } from '../../store/data/data';
 import { ButtonAddVisit } from './components/ButtonAddVisit';
@@ -31,12 +31,16 @@ const columns = [
 
 @observer
 export class VisitPage extends React.Component {
-    handleOpenPageTable = page => {
-        visitStore.getVisitPage(page);
+    handleOpenPageTable = async page => {
+        maskStore.open();
+        await visitStore.getVisitPage(page);
+        maskStore.close();
     }
 
     openModalEdit = async event => {
+        maskStore.open();
         await visitStore.getVisitById(event.currentTarget.id);
+        maskStore.close();
         modalStore.open({
             title: 'Edit visit',
             content: <ContentEditModal

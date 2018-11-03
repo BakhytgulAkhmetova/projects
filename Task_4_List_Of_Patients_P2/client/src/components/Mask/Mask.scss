@@ -1,6 +1,4 @@
 @import 'src/styles/colors';
-@import 'src/styles/fonts';
-@import 'src/styles/variables';
 
 .mask {
     &--display {
@@ -9,7 +7,8 @@
 
     display: none;
     position: fixed;
-    background-color: black;
+    background-color: rgb(73, 62, 62);
+    opacity: 0.8;
     overflow: auto;
     top: 0;
     bottom: 0;
@@ -18,11 +17,17 @@
 }
 
 .loader {
-    border: 16px solid #f3f3f3; 
-    border-top: 16px solid #3498db; 
+    border: 34px solid $white; 
+    border-top: 34px solid $viridian; 
     border-radius: 50%;
-    width: 120px;
-    height: 120px;
+    width: 300px;
+    height: 300px;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     animation: spin 2s linear infinite;
 }
 

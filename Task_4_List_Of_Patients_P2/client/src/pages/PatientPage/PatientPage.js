@@ -41,9 +41,9 @@ const columns = [
 
 @observer
 export class PatientPage extends React.Component {
-    handleOpenPageTable = page => {
+    handleOpenPageTable = async page => {
         maskStore.open();
-        patientStore.getPatientsPage(page);
+        await patientStore.getPatientsPage(page);
         maskStore.close();
     }
 

@@ -4,14 +4,16 @@ import { withHandlers, compose, withState, lifecycle } from 'recompose';
 
 import { Button } from '../../../../components/Button';
 import { FormVisit } from '../FormVisit';
-import { modalStore, visitStore } from '../../../../store';
+import { modalStore, visitStore, maskStore } from '../../../../store';
 import { mapCopy, addProperty } from '../../../../utils';
 
 const mapActionsToProps  = {
     editVisit: ({ visit }) => async event => {
         modalStore.close();
+        maskStore.open();
         await visitStore.editVisit(visit);
-        visitStore.getVisitPage(visitStore.currentPage);
+        await visitStore.getVisitPage(visitStore.currentPage);
+        maskStore.close();
         visitStore.cleanVisitFields();
     }
 };

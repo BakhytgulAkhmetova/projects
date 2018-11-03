@@ -3,12 +3,14 @@ import { observer } from 'mobx-react';
 import { withHandlers, compose } from 'recompose';
 
 import { Button } from '../../../../components/Button';
-import { modalStore, visitStore } from '../../../../store';
+import { modalStore, visitStore, maskStore } from '../../../../store';
 import { ContentAddModal } from '../ContentAddModal';
 
 const mapActionsToProps = {
-    openModalAdd: props => event => {
-        visitStore.cleanVisitFields();
+    openModalAdd: props => async event => {
+        maskStore.open();
+        await visitStore.cleanVisitFields();
+        maskStore.close();
         modalStore.open({
             title: 'Add visit',
             content: <ContentAddModal

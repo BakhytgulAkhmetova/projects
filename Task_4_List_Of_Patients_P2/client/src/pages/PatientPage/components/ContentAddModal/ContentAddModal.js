@@ -4,15 +4,17 @@ import { withHandlers, compose, withState } from 'recompose';
 
 import { Button } from '../../../../components/Button';
 import { FormPatient } from '../../components/FormPatient';
-import { patientStore, modalStore } from '../../../../store';
+import { patientStore, modalStore, maskStore } from '../../../../store';
 import { mapCopy, addProperty } from '../../../../utils';
 
 const mapActionsToProps = {
     addPatient:  ({ patient }) => {
         return async () => {
             modalStore.close();
+            maskStore.open();
             await patientStore.addPatient(patient);
-            patientStore.getPatientsPage(patientStore.currentPage);
+            await patientStore.getPatientsPage(patientStore.currentPage);
+            maskStore.close();
             patientStore.cleanPatientFields();
         };
     }
