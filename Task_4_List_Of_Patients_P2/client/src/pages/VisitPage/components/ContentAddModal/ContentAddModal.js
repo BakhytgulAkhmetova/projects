@@ -6,16 +6,23 @@ import { Button } from '../../../../components/Button';
 import { FormVisit } from '../../components/FormVisit';
 import { visitStore, modalStore, maskStore } from '../../../../store';
 import { mapCopy, addProperty } from '../../../../utils';
+import { emptyVisit } from '../../../../store/data/data';
+
+const getEmptyVisit = (v) => {
+    const visit = v;
+
+    return mapCopy(visit, addProperty, { key:'errors', value: [] });
+};
 
 const mapActionsToProps  = {
-    addVisit: ({ visit }) =>  {
+    addVisit: ({ visit, changeVisit }) =>  {
         return async () => {
             modalStore.close();
             maskStore.open();
             await visitStore.addVisit(visit);
             await visitStore.getVisitPage(visitStore.currentPage);
             maskStore.close();
-            visitStore.cleanVisitFields();
+            changeVisit(getEmptyVisit(emptyVisit));
         };
     }
 };

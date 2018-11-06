@@ -6,16 +6,23 @@ import { Button } from '../../../../components/Button';
 import { FormPatient } from '../../components/FormPatient';
 import { patientStore, modalStore, maskStore } from '../../../../store';
 import { mapCopy, addProperty } from '../../../../utils';
+import { emptyPatient } from '../../../../store/data/data';
+
+const getEmptyPatient = (p) => {
+    const patient = p;
+
+    return mapCopy(patient, addProperty, { key:'errors', value: [] });
+};
 
 const mapActionsToProps = {
-    addPatient:  ({ patient }) => {
+    addPatient:  ({ patient, changePatient }) => {
         return async () => {
             modalStore.close();
             maskStore.open();
             await patientStore.addPatient(patient);
             await patientStore.getPatientsPage(patientStore.currentPage);
             maskStore.close();
-            patientStore.cleanPatientFields();
+            changePatient(getEmptyPatient(emptyPatient));
         };
     }
 };
