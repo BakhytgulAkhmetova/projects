@@ -89,7 +89,7 @@ export const types = {
     isValidVisitDate: {
         validate:  value => {
             return ((value <= new Date((new Date()).getTime() + (dayLimit * 86400000))
-            && value >= new Date(dateStart)));
+            && value >= new Date()));
         },
         instructions: 'Incorect date. Choose date for closer 10 days Please try again.'
     }
